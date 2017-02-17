@@ -8,12 +8,11 @@ const auth = inject.service('auth');
 function model() {
   const { flags } = this.get('auth');
 
-  if(flags.guest) {
-    return this.replaceWith('login');
+  if(flags.guest === false) {
+    return this.replaceWith('about');
   }
 
   return auth;
 }
 
-export default Ember.Route.extend(AuthenticatedRoute, { auth, model });
-
+export default Ember.Route.extend(AuthenticatedRoute, { model });

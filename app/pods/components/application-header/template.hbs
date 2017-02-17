@@ -2,6 +2,11 @@
   <section class="oc clearfix">
     <div class="float-right">
       <div class="display-table display-table--fixed">
+        {{#if user}}
+          <div class="display-table-cell v-align-middle padding-right-10">
+            <a href="/api/logout">{{t 'logout'}}</a>
+          </div>
+        {{/if}}
         <div class="display-table-cell v-align-middle padding-right-10">
           {{#link-to 'about'}}{{t 'about'}}{{/link-to}}
         </div>

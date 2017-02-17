@@ -27,7 +27,7 @@ module.exports = function(environment) {
   };
 
   if (environment === 'development') {
-    ENV.API_HOME = '/v2';
+    ENV.API_HOME = '/api';
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
     // ENV.APP.LOG_TRANSITIONS = true;

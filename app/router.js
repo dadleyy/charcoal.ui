@@ -8,6 +8,13 @@ const Router = Ember.Router.extend({
 
 Router.map(function() {
   this.route('about');
+  this.route('login');
+
+  this.route('auth', function() {
+    this.route('callbacks', function() {
+      this.route('google');
+    });
+  });
 });
 
 export default Router;
