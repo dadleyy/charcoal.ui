@@ -1,0 +1,18 @@
+{{#hoc-menu as |menu|}}
+  {{#menu.button}}
+    <i class="icon ion-navicon bg-0"></i>
+  {{/menu.button}}
+
+  {{#menu.body}}
+    <div class="clearfix">
+      {{#if membership.owner}}
+        <div class="padding-tb-3 padding-lr-5">
+          <a href="#" onClick={{action 'destroy'}}>{{t 'delete_game'}}</a>
+        </div>
+      {{/if}}
+      <div class="padding-tb-3 padding-lr-5">
+        {{#link-to 'index' game=membership.game_id}}{{t 'view_game'}}{{/link-to}}
+      </div>
+    </div>
+  {{/menu.body}}
+{{/hoc-menu}}

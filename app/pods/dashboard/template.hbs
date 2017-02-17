@@ -2,4 +2,21 @@
   <div class="margin-bottom-10">
     <h1>{{t 'welcome_name' name=model.user.first_name}}</h1>
   </div>
+  <div class="clearfix">
+    <div class="width-25 float-left">
+      <div class="margin-bottom-5 clearfix">
+        <div class="float-right">
+          <a onClick={{action 'createGame'}} class="button">{{t 'create_game'}}</a>
+        </div>
+        <div class="overflow-hidden">
+          <h5 class="input-padding">{{t 'your_games'}}</h5>
+        </div>
+      </div>
+      <div class="clearfix">
+        {{game-membership-table delegate=model.table_delegate pagination=model.pagination sorting=model.sorting}}
+      </div>
+    </div>
+    <div class="width-25 float-left">
+    </div>
+  </div>
 </div>

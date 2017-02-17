@@ -13,4 +13,10 @@ const promise = computed('delegate.{filters}', 'pagination', 'sorting', function
   return this.get('delegate').rows({ sorting, pagination });
 });
 
-export default Ember.Component.extend({ layout, columns, promise });
+function init() {
+  this._super(...arguments);
+  this.sorting = this.sorting || { };
+  this.pagination = this.pagination || { };
+}
+
+export default Ember.Component.extend({ init, layout, columns, promise });
