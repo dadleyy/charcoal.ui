@@ -16,7 +16,7 @@ function beforeModel(transition) {
   }
 
   function success() {
-    return replace('about');
+    return replace('dashboard');
   }
 
   const { token } = params;

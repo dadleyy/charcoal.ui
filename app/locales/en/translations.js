@@ -26,4 +26,5 @@ export default {
   'thumbnail'          : 'Thumbnail',
   'title'              : 'Title',
   'unknown'            : 'Unknown',
+  'welcome_name'       : 'Welcome, {{name}}',
 };

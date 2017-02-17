@@ -9,7 +9,7 @@ function model() {
   const { flags } = this.get('auth');
 
   if(flags.guest === false) {
-    return this.replaceWith('about');
+    return this.replaceWith('index');
   }
 
   return auth;
