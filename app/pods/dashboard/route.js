@@ -6,7 +6,7 @@ const { inject } = Ember;
 function model() {
   const user = this.get('auth.user');
   const table_delegate = this.get('table_delegate');
-  const pagination = { };
+  const pagination = { size: 5 };
   const sorting = { };
   return this.get('deferred').resolve({ user, table_delegate, pagination, sorting });
 }

@@ -26,6 +26,8 @@
   "devDependencies": {
     "bower": "^1.8.0",
     "broccoli-asset-rev": "^2.4.5",
+    "commander": "^2.9.0",
+    "connect-redis": "^3.2.0",
     "dotenv": "^4.0.0",
     "ember-ajax": "2.5.5",
     "ember-cli": "2.11.0",
@@ -56,10 +58,13 @@
     "ember-welcome-page": "^2.0.2",
     "express": "^4.14.1",
     "express-http-proxy": "^0.11.0",
+    "express-session": "^1.15.1",
     "karma": "^1.4.1",
     "karma-phantomjs-launcher": "^1.0.2",
     "loader.js": "^4.0.10",
     "phantomjs": "^2.1.7",
+    "redis": "^2.6.5",
+    "request": "^2.79.0",
     "rimraf": "^2.5.4"
   },
   "engines": {
