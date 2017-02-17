@@ -1,0 +1,121 @@
+#!/usr/bin/env node
+
+"use strict";
+
+const path    = require("path");
+const dotenv  = require("dotenv");
+const express = require("express");
+const program = require("commander");
+const session = require("express-session");
+const request = require("request");
+const connect = require("connect-redis");
+const redis   = require("redis");
+const fs      = require("fs");
+const proxy   = require("express-http-proxy");
+const loc     = require("../locations");
+
+function btoa(str) {
+  return new Buffer(str).toString("base64");
+}
+
+function sessionMiddleware(secret, options) {
+  let {prefix, logErrors} = options || {logErrors: false, prefix: "miritos"};
+  let client   = redis.createClient();
+  let Store    = connect(session);
+  let store    = new Store({client, prefix, logErrors});
+  return session({secret, store});
+}
+
+class Logger {
+
+  constructor(format) {
+    this.format = format;
+  }
+
+  error(...parts) {
+    let header = this.format.replace(/\$\{level\}/g, "ERROR");
+    console.error(`${header}: ${parts.join(" ")}`);
+  }
+
+  info(...parts) {
+    let header = this.format.replace(/\$\{level\}/g, "INFO");
+    console.error(`${header}: ${parts.join(" ")}`);
+  }
+
+}
+
+(function() {
+
+  dotenv.config();
+
+  program
+    .option("-p, --port <port>", "the port for express to listen on, defaults to 8080")
+    .parse(process.argv);
+
+  let port         = program.port || 8888;
+  let app          = express();
+  let assets       = loc.dist.app;
+  let index        = path.join(loc.dist.app, "index.html");
+
+  let client_id     = process.env["API_CLIENT_ID"];
+  let client_secret = process.env["API_CLIENT_SECRET"];
+  let api_url       = process.env["API_REAL_HOME"];
+  let logger        = new Logger("${level}");
+  let auth_header   = btoa([client_id, client_secret].join(":"));
+
+  function sessionError({message, code}) {
+    logger.error(`${code}: ${message}`);
+  }
+
+  app.use(sessionMiddleware(process.env["SESSION_SECRET"], {logErrors: sessionError}));
+
+  // serve the js, css from the assets dir
+  app.use(express.static(assets));
+
+  function decorateRequest(request, original) {
+    let query       = original.query;
+    let { session } = original;
+
+    if(!session) {
+      logger.error(`attempted to access request session before initialization`);
+      return request;
+    }
+
+    if(query && query.token) {
+      logger.info(`found auth token: ${query.token}`);
+      session.bearer_token = btoa(query.token);
+    }
+
+    if(session.bearer_token)
+      request.headers["X-CLIENT-BEARER-TOKEN"] = session.bearer_token;
+
+    logger.info(`setting auth header: ${auth_header}`);
+    request.headers["X-CLIENT-AUTH"] = auth_header;
+
+    return request;
+  }
+
+  app.get("/api/login/google", function(req, res) {
+    let url = `${api_url}/auth/google/redirect?client_id=${client_id}`;
+    return res.redirect(url);
+  });
+
+  app.get("/api/logout", function(req, res) {
+    let {session} = req;
+    session.bearer_token = null;
+    return res.redirect("/");
+  });
+
+  app.use("/api", proxy(api_url, {decorateRequest}));
+
+  // send the same index html for every request - this is a single
+  // page application
+  app.get("*", function(req, res, next) {
+    if(/png|gif|css|js|ttf|jpeg|svg/i.test(req.path)) return next();
+    res.sendFile(index);
+  });
+
+  app.listen(port);
+  logger.info(`listening on port ${port}\n`);
+
+})();
