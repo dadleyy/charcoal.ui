@@ -1,0 +1,15 @@
+{{#hoc-table delegate=delegate sorting=sorting pagination=pagination as |table|}}
+  {{#table.pending}}
+    <tr>
+      <td colspan="3">{{t 'loading_games'}}</td>
+    </tr>
+  {{/table.pending}}
+
+  {{#table.row as |row|}}
+    {{#if row.empty}}
+      <tbody><tr><td colspan="3">{{t 'no_games'}}</td></tr></tbody>
+    {{else}}
+      {{game-membership-table/row row=row}}
+    {{/if}}
+  {{/table.row}}
+{{/hoc-table}}

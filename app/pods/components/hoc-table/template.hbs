@@ -9,13 +9,13 @@
       <thead>
         <tr>
           {{#each columns as |column|}}
-          {{component 'hoc-table/column-header' column=column sorting=(mut sorting)}}
+            {{component 'hoc-table/column-header' column=column sorting=(mut sorting)}}
           {{/each}}
         </tr>
       </thead>
       {{yield (hash 
         row=(component 'hoc-table/body' promise=promise)
-        pending=(component 'deferred/pending-placeholder' promise=promise)
+        pending=(component 'deferred/pending-placeholder' promise=promise class='hoc-table__pending')
       )}}
     </table>
   </div>
