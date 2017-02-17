@@ -29,7 +29,8 @@ function rows({ pagination, sorting }) {
     return deferred.resolve({ rows, count });
   }
 
-  return this.get('ajax').request(`${API_HOME}/game_memberships`).then(finish);
+  const data = { page, sort: sorting.rel };
+  return this.get('ajax').request(`${API_HOME}/game_memberships`, { data }).then(finish);
 }
 
 function sizes() {
