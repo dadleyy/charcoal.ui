@@ -16,6 +16,7 @@
   "scripts": {
     "g": "ember g",
     "build": "ember build",
+    "build:watch": "ember build -w",
     "start": "npm run dev:api",
     "dev:api": "node bin/server.js",
     "vendor:install": "bower i",
