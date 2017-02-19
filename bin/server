@@ -83,20 +83,19 @@ class Logger {
 
     if(query && query.token) {
       logger.info(`found auth token: ${query.token}`);
-      session.bearer_token = btoa(query.token);
+      session.bearer_token = query.token;
     }
 
     if(session.bearer_token)
       request.headers["X-CLIENT-BEARER-TOKEN"] = session.bearer_token;
 
-    logger.info(`setting auth header: ${auth_header}`);
     request.headers["X-CLIENT-AUTH"] = auth_header;
 
     return request;
   }
 
   app.get("/api/login/google", function(req, res) {
-    let url = `${api_url}/auth/google/redirect?client_id=${client_id}`;
+    let url = `${api_url}/oauth/google/prompt?client_id=${client_id}`;
     return res.redirect(url);
   });
 
