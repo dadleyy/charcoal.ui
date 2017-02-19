@@ -18,7 +18,7 @@
     "build": "ember build",
     "build:watch": "ember build -w",
     "start": "npm run dev:api",
-    "dev:api": "node bin/server.js",
+    "dev:api": "node bin/server",
     "vendor:install": "bower i",
     "bower:clean": "rimraf bower_components && bower cache clean && bower i",
     "test": "ember test"
