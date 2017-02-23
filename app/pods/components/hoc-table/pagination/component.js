@@ -14,13 +14,13 @@ const promise = computed('promise', 'delegate', {
 
     function receive(result) {
       const { count } = result;
-      const { page, size } = get('pagination') || {};
+      const { page, size } = get('pagination') || { page: 0 };
 
       if(!count || get('isDestroyed') === true) {
         return;
       }
 
-      const start = page * size;
+      const start = page ? page * size : 0;
       const end = start + size;
 
       set('display', { total: count, size });
@@ -60,7 +60,7 @@ const actions = {
 
   move(amount) {
     const { size, page } = this.get('pagination');
-    this.set('pagination', { size, page: page + amount });
+    this.set('pagination', { size, page: (page || 0) + amount });
   }
 
 };

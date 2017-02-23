@@ -5,13 +5,16 @@
 
   {{#menu.body}}
     <div class="clearfix">
-      {{#if membership.owner}}
-        <div class="padding-tb-3 padding-lr-5">
-          <a href="#" onClick={{action 'destroy'}}>{{t 'delete_game'}}</a>
+      {{#if canDelete}}
+        <div class="select-item">
+          <a class="fg-black" onClick={{action 'destroy'}}>{{t 'end_game'}}</a>
         </div>
       {{/if}}
-      <div class="padding-tb-3 padding-lr-5">
-        {{#link-to 'index' game=membership.game_id}}{{t 'view_game'}}{{/link-to}}
+      <div class="select-item">
+        <a class="fg-black" onClick={{action 'leave'}}>{{t 'leave_game'}}</a>
+      </div>
+      <div class="select-item">
+        {{#link-to 'index' game=membership.game_id class="fg-black"}}{{t 'view_game'}}{{/link-to}}
       </div>
     </div>
   {{/menu.body}}
