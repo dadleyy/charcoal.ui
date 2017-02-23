@@ -7,7 +7,7 @@ const columns = computed('delegate', function() {
   return delegate.columns();
 });
 
-const promise = computed('delegate.{filters}', 'pagination', 'sorting', function() {
+const promise = computed('delegate.{state,store}', 'pagination', 'sorting', function() {
   const sorting = this.get('sorting');
   const pagination = this.get('pagination');
   return this.get('delegate').rows({ sorting, pagination });

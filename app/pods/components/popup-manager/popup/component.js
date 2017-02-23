@@ -16,7 +16,7 @@ const style = computed('display', function() {
     return safe(`display: none;`);
   }
 
-  return safe(`position: fixed; left: ${left}px; top: ${top}px;`);
+  return safe(`position: absolute; left: ${left}px; top: ${top}px;`);
 });
 
 export default Component.extend({

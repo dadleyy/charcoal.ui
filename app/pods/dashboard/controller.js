@@ -7,12 +7,12 @@ const { inject } = Ember;
 const actions = {
 
   createGame() {
+    const delegate = this.get('model.table_delegate');
     const route = `${API_HOME}/games`;
     const method = 'POST';
-    const set = this.set.bind(this);
 
     function move() {
-      set('count', Date.now());
+      delegate.set('state', { updated: Date.now() });
     }
 
     return this.get('ajax').request(route, { method }).then(move);
