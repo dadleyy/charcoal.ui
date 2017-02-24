@@ -1,0 +1,22 @@
+<div class="clearfix">
+  <div class="clearfix margin-bottom-10">
+    <div class="vert-hack__table">
+      <div class="vert-hack__cell">
+        <h4>{{t 'leaderboard'}}</h4>
+      </div>
+      <div class="vert-hack__cell">
+        <div class="float-right clearfix">
+          <div class="float-right margin-left-10">
+            <a class="button" onClick={{action 'newRound'}}>{{t 'new_round'}}</a>
+          </div>
+          <div class="float-right">
+            <a class="button" onClick={{action 'addPlayer'}}>{{t 'add_player'}}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="clearfix">
+    {{game-display-table delegate=model.table_delegate pagination=model.pagination sorting=model.sorting}}
+  </div>
+</div>

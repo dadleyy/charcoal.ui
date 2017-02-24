@@ -1,0 +1,37 @@
+<tr>
+  <td data-column="round.id" class="align-center">
+    <div class="align-center">
+      <p>{{row.round.id}}</p>
+    </div>
+  </td>
+  {{#each userColumns as |c|}}
+    <td data-column="status" class="align-center border-left-1">
+      <div class="vert-hack__table">
+        {{#if c.asshole}}
+          <div class="vert-hack__cell"><i class="icon ion-close fg-1"></i></div>
+        {{/if}}
+        {{#if c.president}}
+          <div class="vert-hack__cell"><i class="icon ion-ios-circle-filled fg-0"></i></div>
+        {{/if}}
+        {{#if c.vice_president}}
+          <div class="vert-hack__cell"><i class="icon ion-ios-circle-outline fg-0"></i></div>
+        {{/if}}
+        {{#unless row.round.asshole_id}}
+        <div class="vert-hack__cell">
+          <a class="button" onClick={{action 'asshole' c.user}}><i class="icon ion-close"></i></a>
+        </div>
+        {{/unless}}
+        {{#unless row.round.president_id}}
+          <div class="vert-hack__cell">
+            <a class="button" onClick={{action 'president' c.user}}><i class="icon ion-ios-circle-filled"></i></a>
+          </div>
+        {{/unless}}
+        {{#unless row.round.vice_president_id}}
+          <div class="vert-hack__cell">
+            <a class="button" onClick={{action 'vp' c.user}}><i class="icon ion-ios-circle-outline"></i></a>
+          </div>
+        {{/unless}}
+      </div>
+    </td>
+  {{/each}}
+</tr>

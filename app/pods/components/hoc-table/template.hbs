@@ -9,7 +9,7 @@
       <thead>
         <tr>
           {{#each columns as |column|}}
-            {{component 'hoc-table/column-header' column=column sorting=(mut sorting)}}
+            {{component 'hoc-table/column-header' column=column sorting=(mut sorting) style=column.style}}
           {{/each}}
         </tr>
       </thead>

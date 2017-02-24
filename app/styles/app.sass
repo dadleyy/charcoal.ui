@@ -1,6 +1,7 @@
 a
   @extend .fg-0.char.darken-3
   @extend .no-underline
+  @extend .pointer
 
 @import "bases"
 @import "base-4392f1"
@@ -43,6 +44,13 @@ a.button[href]
 
 strong, b
   font-weight: 400
+
+@for $i from 1 through 6
+  $inc: 2.75 - ($i * 0.2)
+
+  h#{$i}
+    @extend strong
+    font-size: $inc + unquote("rem")
 
 html, body
   width: 100%
