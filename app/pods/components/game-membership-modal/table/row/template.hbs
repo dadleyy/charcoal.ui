@@ -1,0 +1,13 @@
+<tr>
+  <td data-column="user.id"><p>{{row.user.id}}</p></td>
+  <td data-column="user.name"><p>{{row.user.name}}</p></td>
+  <td data-column="actions" class="align-center">
+    {{#if addable}}
+    <a class="button" onClick={{action 'add'}}><i class="icon ion-plus"></i></a>
+    {{else}}
+    <div class="input-padding">
+      <p class="fg-white-darken-15">{{t 'already_added'}}</p>
+    </div>
+    {{/if}}
+  </td>
+</tr>

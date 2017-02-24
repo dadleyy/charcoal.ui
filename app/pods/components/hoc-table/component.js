@@ -2,7 +2,7 @@ import Ember from 'ember';
 import layout from 'charcoal/pods/components/hoc-table/template';
 const { computed } = Ember;
 
-const columns = computed('delegate', function() {
+const columns = computed('delegate.{state,store}', function() {
   const delegate = this.get('delegate');
   return delegate.columns();
 });

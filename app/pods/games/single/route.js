@@ -4,38 +4,42 @@ const { inject, Route } = Ember;
 
 function model({ game_id }) {
   const table_delegate = this.get('table_delegate');
+  const membership_manager = this.get('membership_manager');
   const deferred = this.get('deferred');
   const sorting = { };
   const pagination = { size: 5 };
-  const resolution = { table_delegate, sorting, pagination };
-  const users = this.get('users_resource');
+  const resolution = { table_delegate, sorting, pagination, membership_manager };
 
   function resolve(response) {
     resolution.users = response.results;
     let { table_delegate, ...others } = resolution;
+
+    // give our manager + delegate context
     table_delegate.setProperties(others);
+    membership_manager.setProperties({ game: resolution.game });
+
     return deferred.resolve(resolution);
   }
 
-  function loadUsers(response) {
-    let [ games_result, members_result ] = response;
+  function loadUsers(games_result) {
     [ resolution.game ] = games_result.results;
-    resolution.members = members_result.results;
-    let user_ids = resolution.members.map(function({ user_id }) { return user_id; });
-    return users.query({ where: { id: user_ids }}).then(resolve);
+    membership_manager.set('game', resolution.game);
+    return membership_manager.refresh().then(resolve);
   }
 
-  return deferred.all([
-    this.get('game_resource').query({ where: { id: game_id } }),
-    this.get('membership_resource').query({ where: { game_id } })
-  ]).then(loadUsers);
+  membership_manager.on('updated', () => { table_delegate.set('state', { updated: Date.now() }); });
+
+  return this.get('game_resource').query({ where: { id: game_id } }).then(loadUsers);
+}
+
+function deactivate() {
+  this._super(...arguments);
 }
 
 export default Route.extend({ 
-  deferred: inject.service(),
-  game_resource: inject.service('games/resource'),
-  membership_resource: inject.service('game-memberships/resource'),
-  users_resource: inject.service('users/resource'),
-  table_delegate: inject.service('delegates/game-display-table'),
-  model 
+  deferred           : inject.service(),
+  game_resource      : inject.service('games/resource'),
+  membership_manager : inject.service('game-memberships/manager'),
+  table_delegate     : inject.service('delegates/game-display-table'),
+  model, deactivate
 });

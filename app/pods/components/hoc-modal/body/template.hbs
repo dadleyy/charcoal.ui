@@ -1,0 +1,8 @@
+{{#popup-manager/popup handle=handle}}
+  <div class="hoc-modal__innards">
+    {{yield (hash
+      content=(component 'hoc-modal/content' handle=handle)
+      title=(component 'hoc-modal/title' handle=handle)
+    )}}
+  </div>
+{{/popup-manager/popup}}
