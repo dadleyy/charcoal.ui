@@ -1,8 +1,6 @@
 import Ember from 'ember';
-import ENV from 'charcoal/config/environment';
 
 const { inject, run } = Ember;
-const { API_HOME } = ENV;
 
 function columns() {
   const i18n = this.get('i18n');
@@ -17,10 +15,12 @@ function columns() {
 
 function rows({ pagination, sorting }) {
   const { size: limit, page } = pagination;
-
-  const ajax = this.get('ajax');
   const deferred = this.get('deferred');
   const { games, memberships, users } = this.get('cache');
+
+  const game_resource = this.get('games');
+  const membership_resource = this.get('memberships');
+  const users_resource = this.get('users');
 
   let count = 0;
 
@@ -43,8 +43,7 @@ function rows({ pagination, sorting }) {
   function loadOwners({ results }) {
     games.replace(0, games.length, results);
     let owners = games.map(function({ owner_id }) { return owner_id; }).uniq();
-    let data = { "filter[id]": `in(${owners.join()})` };
-    return ajax.request(`${API_HOME}/users`, { data }).then(finish);
+    return users_resource.query({ where: { id: owners } }).then(finish);
   }
 
   function loadGames(result) {
@@ -57,13 +56,13 @@ function rows({ pagination, sorting }) {
 
     memberships.replace(0, memberships.length, result.results);
     let game_ids = memberships.map(function({ game_id }) { return game_id; });
-    let data = { "filter[id]": `in(${game_ids.join()})` };
-
-    return ajax.request(`${API_HOME}/games`, { data }).then(loadOwners);
+    return game_resource.query({ where: { id: game_ids } }).then(loadOwners);
   }
 
-  let data = { limit, page, sort: sorting.rel };
-  return ajax.request(`${API_HOME}/game-memberships`, { data }).then(loadGames);
+  let user_id = this.get('auth.user.id');
+  let where = { user_id };
+  let payload = { limit, page, sort: sorting.rel, where };
+  return membership_resource.query(payload).then(loadGames);
 }
 
 function init() {
@@ -76,7 +75,10 @@ function sizes() {
 
 export default Ember.Service.extend({
   i18n: inject.service(),
-  ajax: inject.service(),
+  memberships: inject.service('game-memberships/resource'),
+  users: inject.service('users/resource'),
+  games: inject.service('games/resource'),
+  auth: inject.service(),
   deferred: inject.service(),
   columns, rows, sizes, init
 });

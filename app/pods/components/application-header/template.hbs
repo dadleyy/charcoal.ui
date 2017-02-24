@@ -1,24 +1,28 @@
 <header class="application-header__inner">
   <section class="oc clearfix">
-    <div class="float-right">
-      <div class="display-table display-table--fixed">
-        {{#if user}}
-          <div class="display-table-cell v-align-middle padding-right-10">
-            <a href="/api/logout">{{t 'logout'}}</a>
+    <div class="vert-hack__table">
+      <div class="vert-hack__cell">
+        <div class="float-left">{{#link-to 'index'}}<b>{{t 'charcoal'}}</b>{{/link-to}}</div>
+      </div>
+      <div class="vert-hack__cell">
+        <div class="float-right">
+          <div class="display-table display-table--fixed">
+            {{#if user}}
+              <div class="display-table-cell v-align-middle padding-right-10">
+                <a href="/api/logout">{{t 'logout'}}</a>
+              </div>
+            {{/if}}
+            <div class="display-table-cell v-align-middle padding-right-10">
+              {{#link-to 'about'}}{{t 'about'}}{{/link-to}}
+            </div>
+            <div class="display-table-cell v-align-middle">
+              <a href="https://github.com/dadleyy/charcoal">
+                <i class="icon fs-5 ion-social-github fg-0" />
+              </a>
+            </div>
           </div>
-        {{/if}}
-        <div class="display-table-cell v-align-middle padding-right-10">
-          {{#link-to 'about'}}{{t 'about'}}{{/link-to}}
-        </div>
-        <div class="display-table-cell v-align-middle">
-          <a href="https://github.com/dadleyy/charcoal">
-            <i class="icon fs-5 ion-social-github fg-0" />
-          </a>
         </div>
       </div>
-    </div>
-    <div class="float-left">
-      <div class="float-left">{{#link-to 'index'}}<b>{{t 'charcoal'}}</b>{{/link-to}}</div>
     </div>
   </section>
 </header>

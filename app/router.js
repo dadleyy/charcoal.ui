@@ -16,6 +16,10 @@ Router.map(function() {
     });
   });
   this.route('dashboard');
+
+  this.route('games', function() {
+    this.route('single', { path: ':game_id' });
+  });
 });
 
 export default Router;
