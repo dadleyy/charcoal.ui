@@ -4,7 +4,7 @@ const { inject, Service } = Ember;
 
 function columns() {
   const i18n = this.get('i18n');
-  let users = this.get('users');
+  let users = this.get('membership_manager.users');
   let width = users && users.length ? (100 / users.length) : 0;
 
   function toColumn(user) {
@@ -20,7 +20,7 @@ function rows({ pagination }) {
   const { id: game_id } = this.get('game');
   const deferred = this.get('deferred');
   const round_resource = this.get('rounds');
-  const users = this.get('users');
+  const users = this.get('membership_manager.users');
 
   const { size: limit, page } = pagination;
 

@@ -3,16 +3,20 @@ import Ember from 'ember';
 const { Component, inject } = Ember;
 
 const ELEMENT_NODE_TYPE = 1;
+const ESCAPE = 27;
 
 function willDestroyElement() {
   const mouse = this.get('mouse');
-  const { mouse: id } = this.get('listeners');
-  mouse.off(id);
+  const keyboard = this.get('keyboard');
+  const { mouse: mouse_id, keyboard: keyboard_id } = this.get('listeners');
+  mouse.off(mouse_id);
+  keyboard.off(keyboard_id);
 }
 
 function init() {
   this._super(...arguments);
   const mouse = this.get('mouse');
+  const keyboard = this.get('keyboard');
 
   const check = (evt) => {
     const popups = this.get('popups');
@@ -51,7 +55,28 @@ function init() {
     }
   };
 
-  const listeners = { mouse: mouse.click(check) };
+  const escape = (evt) => {
+    const { keyCode: code } = evt;
+    const popups = this.get('popups');
+    const { active } = popups.get('pool');
+
+    if(code !== ESCAPE) {
+      return;
+    }
+
+    let c = 0;
+
+    while(active.length && ++c < 100) {
+      let [{ handle }] = active;
+      popups.close(handle);
+    }
+  };
+
+  const listeners = { 
+    mouse: mouse.click(check), 
+    keyboard: keyboard.keyup(escape)
+  };
+
   this.set('listeners', listeners);
 }
 
@@ -65,5 +90,6 @@ export default Component.extend({
   classNames: ['popup-manager'],
   willDestroyElement, didRender, init,
   mouse: inject.service(), 
+  keyboard: inject.service(), 
   popups: inject.service(), 
 });

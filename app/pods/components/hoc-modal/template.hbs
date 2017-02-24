@@ -1,0 +1,6 @@
+<div class="hoc-modal__container">
+  {{yield (hash
+    body=(component 'hoc-modal/body' handle=handle)
+    button=(component 'hoc-modal/button' handle=handle)
+  )}}
+</div>

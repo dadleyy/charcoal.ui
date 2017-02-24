@@ -9,8 +9,24 @@
           <div class="float-right margin-left-10">
             <a class="button" onClick={{action 'newRound'}}>{{t 'new_round'}}</a>
           </div>
+          <div class="float-right margin-left-10">
+            <a class="button" onClick={{action 'refresh'}}>{{t 'refresh'}}</a>
+          </div>
           <div class="float-right">
-            <a class="button" onClick={{action 'addPlayer'}}>{{t 'add_player'}}</a>
+            {{#hoc-modal as |modal|}}
+              {{#modal.button}}
+                <p class="button">{{t 'add_player'}}</p>
+              {{/modal.button}}
+              {{#modal.body as |modal_body|}}
+                {{#modal_body.title}}
+                  <h5><b>{{t 'add_player'}}</b></h5>
+                {{/modal_body.title}}
+
+                {{#modal_body.content}}
+                  {{game-membership-modal game=model.game manager=model.membership_manager}}
+                {{/modal_body.content}}
+              {{/modal.body}}
+            {{/hoc-modal}}
           </div>
         </div>
       </div>

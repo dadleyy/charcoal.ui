@@ -1,5 +1,6 @@
 import Ember from 'ember';
 
+const NUMERIC_RE = /^[\d\.]+$/i;
 const { computed, Component, inject } = Ember;
 const { htmlSafe: safe } = Ember.String;
 
@@ -10,13 +11,23 @@ const display = computed('popups.active', 'popups.{active}', function() {
 const style = computed('display', function() {
   const popups = this.get('popups');
   const handle = this.get('handle');
-  const { top, left } = popups.bounding(handle) || { };
+  let { top, left, width, height } = popups.bounding(handle) || { };
 
   if(!top || !left) {
     return safe(`display: none;`);
   }
 
-  return safe(`position: absolute; left: ${left}px; top: ${top}px;`);
+  if(!height) {
+    height = 'auto';
+  }
+
+  if(!width) {
+    width = 'auto';
+  }
+
+  left = NUMERIC_RE.test(left) ? `${left}px` : left;
+  top = NUMERIC_RE.test(top) ? `${top}px` : top;
+  return safe(`position: absolute; left: ${left}; top: ${top}; height: ${height}; width: ${width};`);
 });
 
 export default Component.extend({
