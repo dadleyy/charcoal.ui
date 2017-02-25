@@ -16,21 +16,24 @@
         {{#if c.vice_president}}
           <div class="vert-hack__cell"><i class="icon ion-ios-circle-outline fg-0"></i></div>
         {{/if}}
-        {{#unless row.round.asshole_id}}
-        <div class="vert-hack__cell">
-          <a class="button" onClick={{action 'asshole' c.user}}><i class="icon ion-close"></i></a>
-        </div>
-        {{/unless}}
-        {{#unless row.round.president_id}}
+
+        {{#if c.unranked}}
+          {{#unless row.round.asshole_id}}
           <div class="vert-hack__cell">
-            <a class="button" onClick={{action 'president' c.user}}><i class="icon ion-ios-circle-filled"></i></a>
+            <a class="button" onClick={{action 'asshole' c.user}}><i class="icon ion-close"></i></a>
           </div>
-        {{/unless}}
-        {{#unless row.round.vice_president_id}}
-          <div class="vert-hack__cell">
-            <a class="button" onClick={{action 'vp' c.user}}><i class="icon ion-ios-circle-outline"></i></a>
-          </div>
-        {{/unless}}
+          {{/unless}}
+          {{#unless row.round.president_id}}
+            <div class="vert-hack__cell">
+              <a class="button" onClick={{action 'president' c.user}}><i class="icon ion-ios-circle-filled"></i></a>
+            </div>
+          {{/unless}}
+          {{#unless row.round.vice_president_id}}
+            <div class="vert-hack__cell">
+              <a class="button" onClick={{action 'vp' c.user}}><i class="icon ion-ios-circle-outline"></i></a>
+            </div>
+          {{/unless}}
+        {{/if}}
       </div>
     </td>
   {{/each}}

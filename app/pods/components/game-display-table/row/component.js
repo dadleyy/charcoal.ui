@@ -13,7 +13,8 @@ const userColumns = computed(function() {
     let asshole = user.id === round.asshole_id;
     let president = user.id === round.president_id;
     let vice_president = user.id === round.vice_president_id;
-    result.push({ asshole, president, vice_president, user });
+    let unranked = !asshole && !president && !vice_president;
+    result.push({ unranked, asshole, president, vice_president, user });
   }
 
   return result;
