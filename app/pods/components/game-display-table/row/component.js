@@ -5,7 +5,7 @@ const tagName = 'tbody';
 
 const userColumns = computed(function() {
   let { round } = this.get('row');
-  let columns = this.get('row.columns').slice(1);
+  let columns = this.get('row.columns').filter(function({ user }) { return !!user; });
   let result = [ ];
 
   for(let i = 0, c = columns.length; i < c; i++) {

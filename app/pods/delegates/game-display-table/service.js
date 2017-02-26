@@ -12,8 +12,9 @@ function columns() {
     return { text: user.name, rel: `user-${user.id}`, sortable: false, user, style, align: 'center' };
   }
 
+  const id_column = { text: i18n.t('round_id'), rel: 'id', style: 'width: 120px', align: 'center'};
   let result = users.map(toColumn);
-  return [{ text: i18n.t('round_id'), rel: 'id', style: 'width: 120px', align: 'center'}].concat(result);
+  return [ id_column ].concat(result).concat([ id_column ]);
 }
 
 function rows({ pagination }) {
@@ -58,7 +59,7 @@ function init() {
   this.set('cache', { rounds: [ ] });
 }
 
-function sizes() { return [5,10,20]; }
+function sizes() { return [ 5, 10, 20 ]; }
 
 export default Service.extend({ 
   deferred: inject.service(),

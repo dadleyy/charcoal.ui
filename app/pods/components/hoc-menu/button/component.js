@@ -9,7 +9,7 @@ const actions = {
     const handle = this.get('handle');
     let { top, left, height } = element.getBoundingClientRect();
 
-    top += height;
+    top += height + window.scrollY;
 
     popups.open(handle, { top, left });
   }
