@@ -5,16 +5,16 @@
     </div>
   </td>
   {{#each userColumns as |c|}}
-    <td data-column="status" class="align-center border-left-1">
+    <td data-column="status" class="align-center border-left-1 v-align-middle">
       <div class="vert-hack__table">
         {{#if c.asshole}}
-          <div class="vert-hack__cell"><i class="icon ion-close fg-1"></i></div>
+          <div class="vert-hack__cell"><i class="icon fs-4 ion-close char fg-black-lighten-20"></i></div>
         {{/if}}
         {{#if c.president}}
-          <div class="vert-hack__cell"><i class="icon ion-ios-circle-filled fg-0"></i></div>
+          <div class="vert-hack__cell"><i class="icon fs-4 ion-ios-circle-filled fg-black-lighten-20"></i></div>
         {{/if}}
         {{#if c.vice_president}}
-          <div class="vert-hack__cell"><i class="icon ion-ios-circle-outline fg-0"></i></div>
+          <div class="vert-hack__cell"><i class="icon fs-4 ion-ios-circle-outline fg-black-lighten-20"></i></div>
         {{/if}}
 
         {{#if c.unranked}}
