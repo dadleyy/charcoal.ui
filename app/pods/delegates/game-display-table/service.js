@@ -21,7 +21,7 @@ function rows({ pagination }) {
   const { id: game_id } = this.get('game');
   const deferred = this.get('deferred');
   const round_resource = this.get('rounds');
-  const users = this.get('membership_manager.users');
+  const { membership_manager, round_manager } = this;
 
   const { size: limit, page } = pagination;
 
@@ -34,10 +34,11 @@ function rows({ pagination }) {
   }.bind(this);
 
   function toRow(round) {
+    let { users } = membership_manager;
     let [ asshole ] = users.filter(function({ id }) { return id === round.asshole_id; });
     let [ president ] = users.filter(function({ id }) { return id === round.president_id; });
     let [ vice_president ] = users.filter(function({ id }) { return id === round.vice_president_id; });
-    return { round, asshole, president, vice_president, columns: c, signals };
+    return { round_manager, round, asshole, president, vice_president, columns: c, signals };
   }
 
   function resolve({ results, meta }) {

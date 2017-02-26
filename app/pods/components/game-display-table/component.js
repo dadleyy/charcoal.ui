@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { inject } = Ember;
+const { computed, inject } = Ember;
 
 const actions = {
 
@@ -20,7 +20,11 @@ const actions = {
 
 };
 
+const columns = computed('delegate.{state}', function() {
+  return this.get('delegate').columns();
+});
+
 export default Ember.Component.extend({
   rounds: inject.service('game-rounds/resource'),
-  actions
+  actions, columns
 });
