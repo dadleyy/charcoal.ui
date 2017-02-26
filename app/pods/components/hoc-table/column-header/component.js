@@ -5,15 +5,15 @@ const { Component, computed } = Ember;
 const tagName = 'th';
 
 const ascending = computed('sorting', 'column', function() {
-  const sorting = this.get('sorting');
+  const { rel, order } = this.get('sorting') || { };
   const column = this.get('column');
-  return column.rel === sorting.rel && sorting.order;
+  return rel && column.rel === rel && order;
 });
 
 const descending = computed('sorting', 'column', function() {
-  const sorting = this.get('sorting');
+  const { rel, order } = this.get('sorting') || { };
   const column = this.get('column');
-  return column.rel === sorting.rel && !sorting.order;
+  return rel && column.rel === rel && !order;
 });
 
 const active = computed.or('descending', 'ascending');

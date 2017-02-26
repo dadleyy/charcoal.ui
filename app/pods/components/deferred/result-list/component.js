@@ -1,5 +1,5 @@
 import Ember from 'ember';
-const { computed, RSVP: deferred } = Ember;
+const { run, computed, merge } = Ember;
 const { not } = computed;
 
 const tagName = '';
@@ -10,59 +10,53 @@ function uuid() {
   return `-${++id_pool}-`;
 }
 
+function empty() {
+  return { complete: null, result: null, failed: null, ready: false, error: null };
+}
+
 const promise = computed({
   set(key, target_promise) {
-    const set = this.set.bind(this);
     const get = this.get.bind(this);
-    const id = uuid();
+    const current_request = uuid();
+    const update = this.setProperties.bind(this);
 
-    set('current_request', id);
-
-    set('complete', null);
-    set('result', null);
-    set('failed', null);
-    set('ready', false);
+    update(merge(empty(), { current_request }));
 
     function success(result) {
       const current = get('current_request');
 
-      if(get('isDestroyed') === true || current !== id) {
+      if(get('isDestroyed') === true || current !== current_request) {
         return false;
       }
 
-      set('failed', false);
-      set('ready', true);
-
-      set('result', result);
-      return deferred.resolve(result);
+      run.next(null, update, { error: null, failed: false, ready: true, result });
     }
 
     function failed(error) {
       const current = get('current_request');
 
-      if(get('isDestroyed') === true || current !== id) {
+      if(get('isDestroyed') === true || current !== current_request) {
         return false;
       }
 
-      set('failed', true);
-      set('ready', false);
-
-      return deferred.reject(error);
+      run.next(null, update, { error, failed: true, ready: false, result: null });
     }
 
     function finished() {
       const current = get('current_request');
 
-      if(get('isDestroyed') === true || current !== id) {
+      if(get('isDestroyed') === true || current !== current_request) {
         return false;
       }
 
-      set('complete', true);
+      run.next(null, update, { complete: true });
     }
 
-    return target_promise.then(success)
+    target_promise.then(success)
       .catch(failed)
       .finally(finished);
+
+    return target_promise;
   }
 });
 
