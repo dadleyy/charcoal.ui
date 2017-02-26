@@ -20,6 +20,8 @@ Router.map(function() {
   this.route('games', function() {
     this.route('single', { path: ':game_id' });
   });
+
+  this.route('not-found',  { path: "/*path" });
 });
 
 export default Router;
