@@ -16,7 +16,7 @@ const promise = computed('delegate.{state,store}', 'pagination', 'sorting', func
 function init() {
   this._super(...arguments);
   this.sorting = this.sorting || { };
-  this.pagination = this.pagination || { };
+  this.pagination = this.pagination || { page: 0, size: 5 };
 }
 
 export default Ember.Component.extend({ init, layout, columns, promise });
