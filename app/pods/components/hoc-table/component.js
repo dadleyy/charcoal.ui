@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import layout from 'charcoal/pods/components/hoc-table/template';
+
 const { computed } = Ember;
 
 const columns = computed('delegate.{state,store}', function() {
@@ -8,8 +9,7 @@ const columns = computed('delegate.{state,store}', function() {
 });
 
 const promise = computed('delegate.{state,store}', 'pagination', 'sorting', function() {
-  const sorting = this.get('sorting');
-  const pagination = this.get('pagination');
+  const { pagination, sorting } = this;
   return this.get('delegate').rows({ sorting, pagination });
 });
 

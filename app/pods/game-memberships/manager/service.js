@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import Events from 'charcoal/mixins/event-handles';
 
 const { run, Service, inject } = Ember;
 
@@ -38,7 +39,7 @@ function add(user_id) {
   return memberships.create({ game_id: game.id, user_id }).then(refresh.bind(this));
 }
 
-export default Service.extend(Ember.Evented, {
+export default Service.extend(Events, {
   deferred: inject.service(),
   membership_resource: inject.service('game-memberships/resource'),
   users_resource: inject.service('users/resource'),

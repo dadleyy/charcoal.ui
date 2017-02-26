@@ -83,11 +83,13 @@ function open(handle, bounding) {
     return -1;
   }
 
+  /*
   const [ current ] = active;
 
   if(current) {
     close.call(this, current.handle);
   }
+  */
 
   for(var i = 0, c = idle.length; i < c; i++) {
     const { id } = idle[i];

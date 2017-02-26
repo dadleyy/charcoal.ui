@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { Component, inject } = Ember;
+const { Component, inject, run } = Ember;
 
 const ELEMENT_NODE_TYPE = 1;
 const ESCAPE = 27;
@@ -45,13 +45,14 @@ function init() {
         continue;
       }
 
-      const [{ handle }] = active;
+      const { handle } = active[active.length - 1];
 
       if(!handle) {
         continue;
       }
 
-      popups.close(handle);
+      run.next(popups, popups.close, handle);
+      break;
     }
   };
 
