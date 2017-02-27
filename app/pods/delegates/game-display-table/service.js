@@ -12,16 +12,25 @@ function columns() {
     return { text: user.name, rel: `user-${user.id}`, sortable: false, user, style, align: 'center' };
   }
 
-  const id_column = { text: i18n.t('round_id'), rel: 'id', style: 'width: 120px', align: 'center'};
+  const id_column = {
+    text: i18n.t('round_no'),
+    rel: 'created_at',
+    style: 'width: 140px',
+    align: 'center',
+    sortable: true
+  };
+
+  const menu_column = { rel: 'menu', style: 'width: 120px', align: 'center' };
   let result = users.map(toColumn);
-  return [ id_column ].concat(result).concat([ id_column ]);
+  return [ id_column ].concat(result).concat([ menu_column ]);
 }
 
-function rows({ pagination }) {
+function rows({ pagination, sorting }) {
   const { id: game_id } = this.get('game');
   const deferred = this.get('deferred');
   const round_resource = this.get('rounds');
   const { membership_manager, round_manager } = this;
+  let count = null;
 
   const { size: limit, page } = pagination;
 
@@ -33,16 +42,19 @@ function rows({ pagination }) {
     this.set('state', { updated });
   }.bind(this);
 
-  function toRow(round) {
+  const start = (page || 0) * limit;
+
+  function toRow(round, index) {
+    let number = sorting.order ? (start + index + 1) : count - (index + start);
     let { users } = membership_manager;
     let [ asshole ] = users.filter(function({ id }) { return id === round.asshole_id; });
     let [ president ] = users.filter(function({ id }) { return id === round.president_id; });
     let [ vice_president ] = users.filter(function({ id }) { return id === round.vice_president_id; });
-    return { round_manager, round, asshole, president, vice_president, columns: c, signals };
+    return { round_manager, number, round, asshole, president, vice_president, columns: c, signals };
   }
 
   function resolve({ results, meta }) {
-    const { count } = meta;
+    count = meta.count;
 
     if(count === 0) {
       return deferred.resolve({ rows });
@@ -52,7 +64,9 @@ function rows({ pagination }) {
     return deferred.resolve({ rows, count });
   }
 
-  return round_resource.query({ limit, page, where: { game_id } }).then(resolve);
+  let sort_order = sorting.order ? 'asc' : 'desc';
+  let sort_on = 'created_at';
+  return round_resource.query({ limit, page, sort_order, sort_on, where: { game_id } }).then(resolve);
 }
 
 function init() {

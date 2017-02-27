@@ -42,6 +42,7 @@ export default {
   'price'              : 'Price',
   'refresh'            : 'Refresh',
   'round_id'           : 'Round ID',
+  'round_no'           : 'Round',
   'search'             : 'Search',
   'search_users'       : 'Search Users',
   'shop'               : 'Shop',
