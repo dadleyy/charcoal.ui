@@ -1,6 +1,8 @@
 import Ember from 'ember';
 
 const { run, Component, inject } = Ember;
+const ELEMENT_NODE_TYPE = 1;
+const NUMERIC_RE=/^[\d\.]+$/;
 
 function init() {
   this._super(...arguments);
@@ -16,13 +18,16 @@ function init() {
 function willRender() {
   this._super(...arguments);
 
-  const { isDestroyed: destroyed } = this;
-  const { sent } = this.get('flags');
+  const { isDestroyed: destroyed, handle, flags } = this;
   const root = this.get('popups.root');
+  const bounding = this.get('popups').bounding(handle);
 
-  if(destroyed || !root || sent) {
+  if(destroyed || !root || flags.sent) {
     return false;
   }
+
+  const left = NUMERIC_RE.test(bounding.left) ? `${bounding.left}px` : bounding.left;
+  const top = NUMERIC_RE.test(bounding.top) ? `${bounding.top}px` : bounding.top;
 
   function send() {
     const { head, tail } = this.get('nodes');
@@ -32,6 +37,18 @@ function willRender() {
     while(cursor) {
       parent.removeChild(cursor);
       root.insertBefore(cursor, null);
+
+      if(cursor.nodeType === ELEMENT_NODE_TYPE && bounding.width) {
+        cursor.style.width = bounding.width;
+      }
+
+      if(cursor.nodeType === ELEMENT_NODE_TYPE) {
+        cursor.style.position = 'absolute';
+        cursor.style.left = left;
+        cursor.style.top = top;
+        cursor.dataset.handle = handle.id;
+      }
+
       cursor = cursor && cursor !== tail ? parent.firstChild : null;
     }
 

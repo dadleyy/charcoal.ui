@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { inject, Route } = Ember;
+const { run, inject, Route } = Ember;
 
 function model({ game_id }) {
   const table_delegate = this.get('table_delegate');
@@ -10,10 +10,14 @@ function model({ game_id }) {
   const resolution = { round_manager, table_delegate, membership_manager };
 
   let set = this.setProperties.bind(this);
+  let get = this.get.bind(this);
 
   function refresh() {
     let updated = Date.now();
-    table_delegate.set('state', { updated });
+
+    if(get('resolved') === true) {
+      table_delegate.set('state', { updated });
+    }
   }
 
   function resolve(response) {
@@ -32,6 +36,7 @@ function model({ game_id }) {
 
     set({ subscriptions });
 
+    run.next(null, set, { resolved: true });
     return deferred.resolve(resolution);
   }
 

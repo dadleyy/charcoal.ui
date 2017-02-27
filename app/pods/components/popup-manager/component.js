@@ -18,7 +18,7 @@ function init() {
   const mouse = this.get('mouse');
   const keyboard = this.get('keyboard');
 
-  const check = (evt) => {
+  const check = () => {
     const popups = this.get('popups');
     const { active } = popups.get('pool');
 
@@ -26,33 +26,28 @@ function init() {
       return false;
     }
 
-    const { clientX: ex, clientY: ey } = evt;
     const { childNodes: children } = this.element;
 
     for(let i = 0, c = children.length; i < c; i++) {
-      const { nodeType: type } = children[i];
+      const { nodeType: type, dataset } = children[i];
 
-      if(type !== ELEMENT_NODE_TYPE) {
+      if(type !== ELEMENT_NODE_TYPE || !dataset) {
         continue;
       }
 
-      const bounding = children[i].getBoundingClientRect();
-
-      const x = bounding.left < ex && bounding.right > ex;
-      const y = bounding.top < ey && bounding.bottom > ey;
-
-      if(x && y) {
-        continue;
-      }
-
-      const { handle } = active[active.length - 1];
+      const handle = popups.find(dataset.handle);
 
       if(!handle) {
         continue;
       }
 
+      const { flags } = handle;
+
+      if(!flags.close || flags.close.indexOf('click') === -1) {
+        continue;
+      }
+
       run.next(popups, popups.close, handle);
-      break;
     }
   };
 

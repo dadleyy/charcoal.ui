@@ -1,7 +1,5 @@
-{{unbound head ~}}
-{{#if display}}
-  {{#popup-manager/wormhole style=style}}
+{{#if open}}
+  {{#popup-manager/wormhole handle=handle}}
     {{yield ~}}
   {{/popup-manager/wormhole}}
 {{/if}}
-{{unbound tail ~}}

@@ -1,30 +1,36 @@
 import Ember from 'ember';
 import layout from 'charcoal/pods/components/hoc-table/pagination/template';
 
-const { inject, computed } = Ember;
+const { run, inject, computed } = Ember;
 
 const tagName = 'footer';
 
-const promise = computed('promise', 'delegate', {
+const promise = computed('promise', {
   set(key, target_promise) {
-    const set = this.set.bind(this);
     const get = this.get.bind(this);
 
-    set('display', false);
+    let updates = { display: false, controls: null };
+    let update = run.bind(this, this.setProperties, updates);
 
     function receive(result) {
       const { count } = result;
       const { page, size } = get('pagination') || { page: 0 };
 
-      if(!count || get('isDestroyed') === true) {
-        return;
+      if(get('isDestroyed') === true) {
+        return false;
+      }
+
+      if(!count) {
+        return run.next(null, update);
       }
 
       const start = page ? page * size : 0;
       const end = start + size;
 
-      set('display', { total: count, size });
-      set('controls', { next: count > end, previous: start > 0 });
+      updates.controls = { next: count > end, previous: start > 0 };
+      updates.display  = { total: count, size };
+
+      run.next(null, update);
     }
 
     target_promise.then(receive);
@@ -52,11 +58,6 @@ function init() {
 }
 
 const actions = {
-
-  update(size) {
-    const { page } = this.get('pagination');
-    this.set('pagination', { size, page });
-  },
 
   move(amount) {
     const { size, page } = this.get('pagination');

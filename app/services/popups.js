@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import Events from 'charcoal/mixins/event-handles';
 
 const { run, inject, Service } = Ember;
 
@@ -13,28 +14,28 @@ function mount(root) {
   this.set('root', root);
 }
 
-function allocate() {
+function allocate(flags = { close: [ ] }) {
   const { active, idle } = this.get('pool') || empty();
   const id = this.get('uuid').generate();
   const get = this.get.bind(this);
 
-  const handle = {
-    id,
+  const handle = { id, flags };
 
-    get open() {
-      const { active } = get('pool');
+  function isOpen() {
+    const { active } = get('pool');
 
-      for(let i = 0, c = active.length; i < c; i ++) {
-        const { handle } = active[i];
+    for(let i = 0, c = active.length; i < c; i ++) {
+      const { handle } = active[i];
 
-        if(handle.id === this.id) {
-          return true;
-        }
+      if(handle.id === this.id) {
+        return true;
       }
-
-      return false;
     }
-  };
+
+    return false;
+  }
+
+  Object.defineProperty(handle, 'open', { get: isOpen });
 
   idle.push(handle);
 
@@ -71,8 +72,10 @@ function close(target) {
 
   let [ match ] = active.splice(found, 1);
   idle.push(match.handle);
-  this.set('pool', { active, idle });
-  this.set('active', active.length);
+
+  const pool = { active, idle };
+
+  run.next(this, this.setProperties, { pool, opening: Date.now() });
 }
 
 function open(handle, bounding) {
@@ -109,9 +112,8 @@ function open(handle, bounding) {
   let [ target ] = idle.splice(found, 1);
   active.push({ handle: target, bounding });
 
-  this.set('pool', { active, idle });
-  this.set('active', active.length);
-  this.set('opening', true);
+  const pool = { active, idle };
+  this.setProperties({ pool, opening: true });
 
   function finish() {
     this.set('opening', false);
@@ -134,7 +136,18 @@ function bounding(target) {
   return null;
 }
 
-export default Service.extend({
-  allocate, free, mount, open, bounding, close,
+function find(handle_id) {
+  const { active, idle } = this.get('pool'); 
+  let [ r ] = active.filter(function({ handle }) { return handle.id === handle_id; });
+
+  if(r) {
+    return r.handle;
+  }
+
+  return idle.filter(function({ id }) { return id === handle_id; })[0];
+}
+
+export default Service.extend(Events, {
+  allocate, free, mount, open, bounding, close, find,
   uuid: inject.service()
 });
