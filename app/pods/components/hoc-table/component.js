@@ -15,13 +15,13 @@ const promise = computed('delegate.{state,store}', 'pagination', 'sorting', func
 
 function init() {
   this._super(...arguments);
-  let { sorting, pagination } = this;
+  let { pagination } = this;
 
   if(!pagination) {
     pagination = { size: 5 };
   }
 
-  this.setProperties({ sorting, pagination });
+  this.setProperties({ pagination });
 }
 
 export default Ember.Component.extend({

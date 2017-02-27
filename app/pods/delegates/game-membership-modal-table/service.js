@@ -3,12 +3,15 @@ import Ember from 'ember';
 const { Service, inject } = Ember;
 
 function rows({ pagination }) {
-  let where = { };
-  const { game, manager } = this;
+  const { size: limit, page } = pagination;
+  const { game, manager, state } = this;
+  const resolution = { rows: [{ empty: true }] };
+
   const deferred = this.get('deferred');
   const membership_resource = this.get('memberships');
-  const resolution = { rows: [{ empty: true }] };
-  const { size: limit, page } = pagination;
+  let { query } = state || { };
+
+  let where = { };
 
   const signals = () => {
     this.set('state', { updated: Date.now() });
@@ -40,6 +43,10 @@ function rows({ pagination }) {
     resolution.count = count;
     let where = { user_id: user_ids, game_id: game.id };
     return membership_resource.query({ where }).then(finish);
+  }
+
+  if(query && query.user) {
+    where.name = { like: query.user };
   }
 
   return this.get('users').query({ limit, page, where }).then(resolve);

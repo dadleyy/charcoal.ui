@@ -15,9 +15,10 @@ function columns() {
 
 function rows({ pagination, sorting }) {
   const { size: limit, page } = pagination;
-  const deferred = this.get('deferred');
-  const { games, memberships, users } = this.get('cache');
+  const { cache } = this;
+  const { games, memberships, users } = cache;
 
+  const deferred = this.get('deferred');
   const game_resource = this.get('games');
   const membership_resource = this.get('memberships');
   const users_resource = this.get('users');
