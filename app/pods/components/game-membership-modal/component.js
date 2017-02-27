@@ -1,24 +1,41 @@
 import Ember from 'ember';
 
-const { inject, Component } = Ember;
+const { run, inject, Component } = Ember;
+const DEBOUNCE_TIME = 400;
+
+function apply() {
+  const { query: user } = this;
+  const delegate = this.get('delegate');
+  const query = { user };
+  const state = { query };
+  delegate.set('state', state);
+}
 
 function init() {
   this._super(...arguments);
 
   const { game, manager } = this;
-
-  let pagination = { size: 5 };
-  let sorting = { };
+  const pagination = { size: 5 };
 
   // sync up the delegate w/ our manager and game
   this.get('delegate').setProperties({ game, manager });
 
-  this.setProperties({ pagination, sorting });
+  this.setProperties({ pagination });
 }
+
+const actions = {
+
+  search(evt) {
+    let { value: query } = evt.target;
+    this.set('query', query);
+    run.debounce(this, apply, DEBOUNCE_TIME);
+  }
+
+};
 
 export default Component.extend({
   users: inject.service('users/resource'),
   memberships: inject.service('users/memberships'),
   delegate: inject.service('delegates/game-membership-modal-table'),
-  init
+  init, actions
 });

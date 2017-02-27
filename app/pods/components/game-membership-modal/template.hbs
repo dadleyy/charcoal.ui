@@ -2,7 +2,7 @@
   <div class="clearfix margin-bottom-10">
     <div class="width-20">
       <div class="float-left balloon-input">
-        <input type="text" class="balloon-input__input" />
+        <input type="text" class="balloon-input__input" value="{{delegate.state.query.user}}" onInput={{action 'search'}} />
         <label class="balloon-input__label">{{t 'search'}}</label>
       </div>
     </div>
