@@ -5,7 +5,7 @@ const { Component, inject } = Ember;
 function init() {
   this._super(...arguments);
   const popups = this.get('popups');
-  const handle = popups.allocate();
+  const handle = popups.allocate({ close: ['click', 'escape'] });
   this.set('handle', handle);
 }
 

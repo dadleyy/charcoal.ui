@@ -15,4 +15,6 @@ const actions = {
   }
 };
 
-export default Component.extend({ popups: inject.service(), actions }); 
+const classNames = ['hoc-menu__button-container'];
+
+export default Component.extend({ popups: inject.service(), actions, classNames }); 
