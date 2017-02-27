@@ -15,8 +15,12 @@ const promise = computed('delegate.{state,store}', 'pagination', 'sorting', func
 
 function init() {
   this._super(...arguments);
-  const sorting = this.get('sorting') || { };
-  const pagination = this.get('pagination') || { size: 5 };
+  let { sorting, pagination } = this;
+
+  if(!pagination) {
+    pagination = { size: 5 };
+  }
+
   this.setProperties({ sorting, pagination });
 }
 

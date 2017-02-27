@@ -7,7 +7,8 @@ function model({ game_id }) {
   const membership_manager = this.get('membership_manager');
   const round_manager = this.get('round_manager');
   const deferred = this.get('deferred');
-  const resolution = { round_manager, table_delegate, membership_manager };
+  const sorting = { rel: 'created_at' };
+  const resolution = { round_manager, table_delegate, sorting, membership_manager };
 
   let set = this.setProperties.bind(this);
   let get = this.get.bind(this);
