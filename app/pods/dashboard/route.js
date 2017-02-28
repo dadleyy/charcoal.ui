@@ -11,7 +11,10 @@ function model() {
   return this.get('deferred').resolve({ user, table_delegate, pagination, sorting });
 }
 
+function titleToken() { return this.get('i18n').t('dashboard'); }
+
 export default Ember.Route.extend(RequiredAuth, {
+  i18n: inject.service(),
   table_delegate: inject.service('delegates/game-membership-table'),
-  model
+  model, titleToken
 });
