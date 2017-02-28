@@ -16,9 +16,11 @@ function model({ game_id }) {
   function refresh() {
     let updated = Date.now();
 
-    if(get('resolved') === true) {
-      table_delegate.set('state', { updated });
+    if(get('resolved') !== true) {
+      return;
     }
+
+    table_delegate.set('state', { updated });
   }
 
   function resolve(response) {
@@ -32,7 +34,8 @@ function model({ game_id }) {
     round_manager.setProperties({ game });
 
     let subscriptions = {
-      memberships: membership_manager.on('updated', refresh)
+      memberships: membership_manager.on('updated', refresh),
+      rounds: round_manager.on('updated', refresh)
     };
 
     set({ subscriptions });
@@ -52,8 +55,10 @@ function model({ game_id }) {
 
 function deactivate() {
   this._super(...arguments);
-  const { memberships } = this.get('subscriptions');
+  const { rounds, memberships } = this.get('subscriptions');
+
   this.get('membership_manager').off(memberships);
+  this.get('round_manager').off(rounds);
 }
 
 export default Route.extend({ 
