@@ -1,0 +1,7 @@
+@for $i from 0 through 10
+  $fs: ($i * 0.2) + 1
+  $fsi: $i + 1
+
+  .fs-#{$fsi}, .fs-#{$fsi}:before
+    font-size: $fs + unquote("rem")
+

@@ -1,0 +1,24 @@
+a
+  @extend .fg-0.char.darken-3
+  @extend .no-underline
+  @extend .pointer
+
+strong, b
+  font-weight: 400
+ 
+.icon:before
+  font-size: 1.1rem
+  line-height: 1.2rem
+
+@for $i from 1 through 6
+  $inc: 2.75 - ($i * 0.2)
+
+  h#{$i}
+    @extend strong
+    font-size: $inc + unquote("rem")
+
+.ellipsis
+  text-overflow: ellipsis
+
+.nowrap
+  white-space: nowrap
