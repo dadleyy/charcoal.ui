@@ -5,11 +5,13 @@
 
   {{#menu.body}}
     <div class="clearfix">
-      <div class="select-item">
-        <a class="fg-black" onClick={{action 'clear'}}>{{t 'clear_round'}}</a>
+      {{#if ranked}}
+      <div class="select-item" onClick={{action 'clear'}}>
+        <a class="fg-black">{{t 'clear_round'}}</a>
       </div>
-      <div class="select-item">
-        <a class="fg-black" onClick={{action 'remove'}}>{{t 'delete_round'}}</a>
+      {{/if}}
+      <div class="select-item" onClick={{action 'remove'}}>
+        <a class="fg-black">{{t 'delete_round'}}</a>
       </div>
     </div>
   {{/menu.body}}
