@@ -1,0 +1,25 @@
+<div class="clearfix">
+  {{#if errors.length}}
+    {{#each errors as |e|}}
+    <div class="margin-bottom-10 input-padding bg-4 radius-2 char fg-white">
+      <p>{{e}}</p>
+    </div>
+    {{/each}}
+  {{/if}}
+  <div class="margin-bottom-10">
+    {{forms/text-input value=manager.user.email onInput=(action 'email') placeholder=(t 'email')}}
+  </div>
+  <div class="margin-bottom-10">
+    {{forms/text-input value=manager.user.name onInput=(action 'name') placeholder=(t 'name')}}
+  </div>
+  <div class="margin-bottom-10">
+    {{forms/password-input value=manager.user.password onInput=(action 'password') placeholder=(t 'password')}}
+  </div>
+  <div class="margin-bottom-10 clearfix">
+    <div class="float-right">
+      {{#if delegate.revisions.length}}
+        <a class="button" onClick={{action 'submit'}}>{{t 'submit'}}</a>
+      {{/if}}
+    </div>
+  </div>
+</div>
