@@ -35,7 +35,10 @@ function add() {
   return rounds.create({ game_id: game.id }).then(success);
 }
 
-function remove(){ 
+function remove({ id }) { 
+  const updated = run.bind(this, this.trigger, 'updated');
+  const rounds = this.get('rounds');
+  return rounds.del({ id }).then(updated);
 }
 
 export default Service.extend(Events, {
