@@ -5,10 +5,10 @@ const { inject, run } = Ember;
 function columns() {
   const i18n = this.get('i18n');
   return [
-    { text: i18n.t('game_id'), rel: 'id', style: 'width: 120px' },
-    { text: i18n.t('status'), rel: 'game.status', style: 'width: 20%' },
-    { text: i18n.t('created_by'), rel: 'game.owner', style: 'width: 35%' },
-    { text: i18n.t('created'), rel: 'created', style: 'width: 35%' },
+    { rel: 'id', style: 'width: 60px' },
+    { text: i18n.t('status'), rel: 'game.status', style: 'width: 120px' },
+    { text: i18n.t('created_by'), rel: 'game.owner', style: 'width: 40%' },
+    { text: i18n.t('created'), rel: 'created', style: 'width: 40%' },
     { rel: 'actions', style: 'width: 80px' }
   ];
 }

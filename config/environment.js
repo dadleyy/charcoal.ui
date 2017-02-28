@@ -39,6 +39,7 @@ module.exports = function(environment) {
 
   if (environment === 'test') {
     ENV.locationType = 'none';
+    ENV.LOCALE_HOME = '/locale'
     ENV.APP.LOG_ACTIVE_GENERATION = false;
     ENV.APP.LOG_VIEW_LOOKUPS = false;
     ENV.APP.rootElement = '#ember-testing';

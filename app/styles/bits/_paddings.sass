@@ -5,3 +5,9 @@
 .input-padding--tb
   @extend .padding-tb-5
 
+@for $i from 0 through 50
+  $amount: $i * 0.1
+
+  .padding-#{$i}
+    +breakpoints
+      padding: $amount + unquote("rem")
