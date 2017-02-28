@@ -1,19 +1,23 @@
+.text-input
+  @extend .position-relative
+  @extend .width-50
+  @extend .outline-none
+  @extend .input-padding
+  @extend .background-transparent
+  @extend .position-relative
+  @extend .border-light
+  @extend .radius-2
+
 .balloon-input
   @extend .position-relative
   @extend .clearfix
   @extend .width-50
 
 .balloon-input__input
-  transition: all 0.3s ease-in-out
+  @extend .transition-ease
+  @extend .text-input
   @extend .z-2
-  @extend .outline-none
-  @extend .input-padding
-  @extend .background-transparent
-  @extend .position-relative
   @extend .display-inline-block
-  @extend .width-50
-  @extend .border-light
-  @extend .radius-2
   text-indent: 60px
 
 .balloon-input__input:focus,

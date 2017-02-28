@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 const { inject, Mixin } = Ember;
-const POOL_PROPERTY = '_event-pool';
+const POOL_PROPERTY = '-event-pool';
 
 function trigger(event_name, ...event_details) {
   let pool = this.get(POOL_PROPERTY);
@@ -17,7 +17,7 @@ function trigger(event_name, ...event_details) {
       continue;
     }
 
-    handler.apply(context, ...event_details);
+    handler.apply(context, [...event_details]);
   }
 }
 
