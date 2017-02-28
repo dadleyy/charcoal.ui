@@ -46,6 +46,7 @@ export default {
   'search'             : 'Search',
   'search_users'       : 'Search Users',
   'shop'               : 'Shop',
+  'source_code'        : 'Source Code',
   'start_game'         : 'Start game',
   'status'             : 'Status',
   'thumbnail'          : 'Thumbnail',
