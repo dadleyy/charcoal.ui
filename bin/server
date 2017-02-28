@@ -56,6 +56,7 @@ class Logger {
   let app          = express();
   let assets       = loc.dist.app;
   let index        = path.join(loc.dist.app, "index.html");
+  let i18n_root    = path.join(__dirname, '../config/locales');
 
   let client_id     = process.env["API_CLIENT_ID"];
   let client_secret = process.env["API_CLIENT_SECRET"];
@@ -93,6 +94,27 @@ class Logger {
 
     return request;
   }
+
+  app.get("/locale/:locale", function(req, res) {
+    let { locale } = req.params;
+
+    function render(err, buffer) {
+      if(err) {
+        logger.error(`unable to read locale: ${locale}: ${err.toString()}`);
+        return res.json({ });
+      }
+
+      try {
+        let j = JSON.parse(buffer.toString());
+        res.json(j);
+      } catch(err) {
+        logger.error(`unable to read locale: ${locale}: ${err.toString()}`);
+        return res.json({ });
+      }
+    }
+
+    fs.readFile(path.join(i18n_root, `${locale}.json`), render);
+  });
 
   app.get("/api/login/google", function(req, res) {
     let url = `${api_url}/oauth/google/prompt?client_id=${client_id}`;
