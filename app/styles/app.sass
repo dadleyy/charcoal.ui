@@ -1,27 +1,21 @@
-a
-  @extend .fg-0.char.darken-3
-  @extend .no-underline
-  @extend .pointer
-
 @import "bases"
 @import "base-4392f1"
 
-@mixin calc($property, $expression)
-  #{$property}: -moz-calc(#{$expression})
-  #{$property}: -webkit-calc(#{$expression})
-  #{$property}: calc(#{$expression})
+@import "mixins/calc"
 
-@for $i from 1 through 5
-  $amt: (10 + $i) + unquote("px")
-
-  .shadow-#{$i}
-    box-shadow: 0px 0px $amt 0px rgba(0,0,0,0.15)
-
-  .shadow-#{$i}--dark
-    box-shadow: 0px 0px $amt 0px rgba(0,0,0,0.25)
-
-.transition-ease
-  transition: all 300ms ease
+@import "bits/backgrounds"
+@import "bits/borders"
+@import "bits/cursors"
+@import "bits/displays"
+@import "bits/font-sizes"
+@import "bits/outlines"
+@import "bits/overflows"
+@import "bits/paddings"
+@import "bits/radii"
+@import "bits/shadows"
+@import "bits/text-decoration"
+@import "bits/transitions"
+@import "bits/typography"
 
 .bg-shadowy
   background-color: rgba(0,0,0,0.1)
@@ -30,27 +24,8 @@ p, label, input[type="text"], textarea, a
   font-size: 1.0rem
   line-height: 1.2rem
 
-.underline
-  text-decoration: underline
-
-.transition-ease
-  transition: all 300ms ease
-
-.no-underline
-  text-decoration: none
-
 a.button[href]
   @extend .fg-white
-
-strong, b
-  font-weight: 400
-
-@for $i from 1 through 6
-  $inc: 2.75 - ($i * 0.2)
-
-  h#{$i}
-    @extend strong
-    font-size: $inc + unquote("rem")
 
 html, body
   width: 100%
@@ -61,320 +36,15 @@ html, body
   *
     box-sizing: border-box
 
-.input-padding
-  @extend .padding-tb-5
-  @extend .padding-lr-8
-
-.input-padding--tb
-  @extend .padding-tb-5
-
-div[data-global-layer="popups"]
-  @extend .position-absolute
-  @extend .top-0
-  @extend .left-0
-  @extend .z-50
-  @extend .width-50
-  @extend .height-0
-
-div[data-global-layer="popups"] .popup-manager
-  @extend .position-absolute
-  @extend .top-0
-  @extend .left-0
-  @extend .width-50
-  @extend .height-0
-
-.hoc-menu
-  @extend .position-relative
-
-div[data-global-layer="popups"] .popup-manager__popup-container
-  @extend .position-absolute
-  @extend .bg-white
-  @extend .border-light
-  @extend .radius-2
-  @extend .shadow-1
-  
-.icon:before
-  font-size: 1.1rem
-  line-height: 1.2rem
-
-@for $i from 0 through 5
-  .radius-#{$i}
-    border-radius: $i + unquote("px")
-
-@for $i from 0 through 10
-  $fs: ($i * 0.2) + 1
-  $fsi: $i + 1
-
-  .fs-#{$fsi}, .fs-#{$fsi}:before
-    font-size: $fs + unquote("rem")
-
-.oc
-  max-width: 90vw
-  margin: 0 auto
-
-.pointer
-  cursor: pointer
-
-.button
-  @extend .transition-ease
-  @extend .pointer
-  @extend .radius-3
-  @extend .char.bg-0.darken-2
-  @extend .display-inline-block
-  @extend .border-1
-  @extend .input-padding
-  @extend .char.bc-0.darken-5
-  @extend .fg-white
-
-.button:hover
-  @extend .char.bg-0
-
-.vert-hack__table
-  @extend .display-table 
-  @extend .display-table--fixed 
-  @extend .width-50
-
-.vert-hack__cell
-  @extend .display-table-cell
-  @extend .v-align-middle
-
-.border-bottom-light
-  @extend .border-bottom-1
-  @extend .border-color-white-darken-10
-
-.border-top-light
-  @extend .border-top-1
-  @extend .border-color-white-darken-10
-
-.border-light
-  @extend .border-1
-  @extend .border-color-white-darken-10
-
-.ellipsis
-  text-overflow: ellipsis
-
-.nowrap
-  white-space: nowrap
-
-.overflow-hidden
-  overflow: hidden
-
-.display-table--fixed
-  table-layout: fixed
-
-.application-header__inner,
-.application-footer__inner
-  @extend .border-top-light 
-  @extend .bg-black-lighten-6
-  @extend .fg-white
-
-.application-outlet
-  +calc("min-height", "100vh - 10rem")
-  @extend .oc 
-  @extend .padding-tb-10
-  @extend .position-relative
-  min-height: calc("100vh - 3rem")
-
-.application-header__inner
-  @extend .padding-tb-10
-
-.application-header__inner a[href]
-  @extend .fg-white
-
-.application-footer__inner
-  @extend .padding-tb-30 
-
-.hoc-menu__button-container
-  @extend .display-inline-block
-
-.hoc-menu__toggle
-  @extend .button
-  @extend .display-inline-block
-
-.hoc-table__table
-  @extend .align-left
-  @extend .display-table
-  @extend .display-table--fixed
-  @extend .width-50
-
-.hoc-table__table tbody td,
-.hoc-table__column-header-inner
-  @extend .padding-tb-5
-  @extend .padding-lr-10
-
-.hoc-table__table tbody
-  @extend .transition-ease
-
-.hoc-table__table tbody:hover
-  @extend .bg-white-darken-4
-
-.hoc-table__table tbody td
-  @extend .border-bottom-1
-  @extend .border-color-white-darken-20
-
-.hoc-table__table tbody td:last-child
-  @extend .border-right-1
-  @extend .border-color-white-darken-20
-
-.hoc-table__table tbody td:first-child
-  @extend .border-left-1
-  @extend .border-color-white-darken-20
-
-.hoc-table__pagination-container
-  @extend .margin-top-10
-
-.hoc-table__pagination
-  @extend .clearfix
-
-.hoc-table__pagination-right
-  @extend .float-right
-  @extend .display-table
-  @extend .display-table--fixed
-
-.hoc-table__pagination-controls,
-.hoc-table__pagination-count-info
-  @extend .display-table-cell
-  @extend .v-align-middle
-
-.hoc-table__pagination-count-info-inner
-  @extend .display-table
-  @extend .display-table--fixed
-
-.hoc-table__pagination-count-info aside
-  @extend .display-table-cell
-  @extend .v-align-middle
-  @extend .padding-lr-3
-
-.hoc-table__pagination-controls
-  @extend .clearfix
-
-.hoc-table__pagination-control--next,
-.hoc-table__pagination-control--previous
-  @extend .float-left
-  @extend .margin-left-10
-
-.hoc-table__pagination-control-next-button,
-.hoc-table__pagination-control-previous-button
-  @extend .button
-
-.hoc-table__column-header[data-sortable="true"]
-  @extend .pointer
-
-.hoc-table__column-header[data-align="right"]
-  @extend .align-right
-
-.hoc-table__column-header[data-align="center"]
-  @extend .align-center
-
-.hoc-table__indicator-container
-  @extend .float-right
-  @extend .margin-left-10
-
-.hoc-table__column-header[data-align="right"] .hoc-table__indicator-container
-  @extend .float-left
-  @extend .margin-right-10
-  @extend .margin-left-0
-
-.hoc-table__table thead th
-  @extend .fg-white-darken-5
-  @extend .bg-black-lighten-10
-  @extend .border-color-black-lighten-10
-
-.background-transparent
-  background-color: transparent
-
-.hoc-table__size-menu-option
-  @extend .transition-ease
-  @extend .padding-tb-5
-  @extend .padding-lr-10
-  @extend .align-right
-  @extend .pointer
-
-.hoc-table__size-menu-option:hover
-  @extend .bg-white-darken-4
-
-.outline-none
-  outline: none
-
-.balloon-input
-  @extend .position-relative
-  @extend .clearfix
-  @extend .width-50
-
-.select-item
-  @extend .padding-lr-5
-  @extend .padding-tb-3
-  @extend .pointer
-  @extend .transition-ease
-
-.select-item:hover
-  @extend .bg-shadowy
-
-.hoc-select__item
-  @extend .select-item
-
-.hoc-modal__content
-  @extend .padding-10
-
-.balloon-input__input
-  transition: all 0.3s ease-in-out
-  @extend .z-2
-  @extend .outline-none
-  @extend .input-padding
-  @extend .background-transparent
-  @extend .position-relative
-  @extend .display-inline-block
-  @extend .width-50
-  @extend .border-light
-  @extend .radius-2
-  text-indent: 60px
-
-.balloon-input__input:focus,
-.balloon-input__input:active
-  text-indent: 0
-
-.hoc-select__body .hoc-select__search
-  @extend .margin-tb-5
-  @extend .margin-lr-10
-
-.hoc-select__search input[type="text"]
-  @extend .balloon-input__input
-
-.hoc-select__body .hoc-select__search input[type="text"]
-  text-indent: 0
-
-.balloon-input__label
-  transition: all 0.3s ease-in-out
-  @extend .z-1
-  @extend .fg-white-darken-20
-  @extend .display-inline-block
-  @extend .radius-4
-  @extend .position-absolute
-  @extend .padding-tb-5
-  @extend .padding-lr-8
-  @extend .display-block
-  @extend .left-0
-  @extend .top-4
-
-.balloon-input__label:after
-  position: absolute;
-  content: "";
-  width: 0;
-  height: 0;
-  top: 100%;
-  left: 50%;
-  margin-left: -3px;
-  border-left: 3px solid transparent;
-  border-right: 3px solid transparent;
-  border-top: 3px solid rgba(122,184,147,0);
-  transition: all .3s ease-in-out;
-
-.balloon-input__input:focus + .balloon-input__label,
-.balloon-input__input:active + .balloon-input__label
-  @extend .fg-white
-  transform: translateY(-40px);
-  text-shadow: 0 1px 0 rgba(19,74,70,.4);
-  background: rgba(122,184,147,1);
-
-  &:after
-    border-top: 4px solid rgba(122,184,147,1)
+@import "bytes/buttons"
+@import "bytes/containers"
+@import "bytes/inputs"
+@import "bytes/select-item"
+@import "bytes/vert-hack"
+
+@import "kilos/application"
+@import "kilos/hoc-menu"
+@import "kilos/hoc-modal"
+@import "kilos/hoc-select"
+@import "kilos/hoc-table"
+@import "kilos/popups"
