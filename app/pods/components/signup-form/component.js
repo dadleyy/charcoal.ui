@@ -1,12 +1,8 @@
 import Ember from 'ember';
 
-const { inject, run, Component } = Ember;
+const { computed, inject, run, Component } = Ember;
 
 const fields = ['email', 'password', 'name'];
-
-function message(e) {
-  return e.message || e.title || e;
-}
 
 const actions = {
 
@@ -14,16 +10,14 @@ const actions = {
     const { delegate, busy } = this;
     const set = this.setProperties.bind(this);
     const finished = run.bind(this, set, { busy: false });
+    const api_errors = this.get('api_errors');
 
     if(busy === true) {
       return false;
     }
 
-    function failed(error_response) {
-      let { errors } = error_response || { };
-
-      errors = errors.length ? errors.map(message) : [ i18n.t('unknown_error') ];
-
+    function failed(er) {
+      let errors = er && er.errors ? api_errors.parse(er.errors) : [ i18n.t('unknown_error') ];
       set({ errors, failed: true });
     }
 
@@ -38,20 +32,29 @@ const actions = {
 
 };
 
+const user = computed.alias('delegate.user');
+
 function updater(field_name) {
-  return function(evt) {
-    const { value } = evt.target;
-    const { delegate } = this;
-    delegate.stage(field_name, value);
+  function set(key, value) {
+    this.get('delegate').stage(field_name, value);
+    return value;
   }
+
+  function get() {
+    return this.get('delegate').get(`user.${field_name}`);
+  }
+
+  return { get, set };
 }
 
+let dyanmic = { };
 for(let i = 0, c = fields.length; i < c; i++) {
   let field = fields[i];
-  actions[field] = updater(field);
+  dyanmic[field] = computed(updater(field));
 }
 
-export default Component.extend({
+export default Component.extend({ 
   i18n: inject.service(),
-  actions
+  api_errors: inject.service('api-errors'),
+  user, ...dyanmic, actions
 });
