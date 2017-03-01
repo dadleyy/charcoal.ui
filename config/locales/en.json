@@ -19,6 +19,7 @@
   "game"               : "Game",
   "game_id"            : "Game ID",
   "home"               : "Home",
+  "invalid_field_x"    : "Invalid {{field}}",
   "leaderboard"        : "Leaderboard",
   "leave_game"         : "Leave Game",
   "listings"           : "Listings",
@@ -58,8 +59,12 @@
   "thumbnail"          : "Thumbnail",
   "title"              : "Title",
   "unknown"            : "Unknown",
+  "unknown_error"      : "Unknown Error",
   "user_id"            : "User ID",
   "view_game"          : "View Game",
   "welcome_name"       : "Welcome, {{name}}",
-  "your_games"         : "Your Games"
+  "your_games"         : "Your Games",
+  "api_errors"         : {
+    "duplicate-user"  : "User already exists."
+  }
 }

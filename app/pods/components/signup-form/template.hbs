@@ -7,13 +7,13 @@
     {{/each}}
   {{/if}}
   <div class="margin-bottom-10">
-    {{forms/text-input value=manager.user.email onInput=(action 'email') placeholder=(t 'email')}}
+    {{forms/text-input value=(mut email) enter=(action 'submit') placeholder=(t 'email')}}
   </div>
   <div class="margin-bottom-10">
-    {{forms/text-input value=manager.user.name onInput=(action 'name') placeholder=(t 'name')}}
+    {{forms/text-input value=(mut name) enter=(action 'submit') placeholder=(t 'name')}}
   </div>
   <div class="margin-bottom-10">
-    {{forms/password-input value=manager.user.password onInput=(action 'password') placeholder=(t 'password')}}
+    {{forms/password-input value=(mut password) enter=(action 'submit') placeholder=(t 'password')}}
   </div>
   <div class="margin-bottom-10 clearfix">
     <div class="float-right">

@@ -31,12 +31,12 @@ function model() {
   return this.get('deferred').resolve({ signup_delegate });
 }
 
-function destroyed() {
+function deactivate() {
   const { subscriptions } = this;
-  console.log(subscriptions);
+  this.get('signup_delegate').off(subscriptions.signup);
 }
 
 export default Ember.Route.extend(AuthenticatedRoute, { 
   signup_delegate: inject.service('delegates/signup'),
-  model, destroyed
+  model, deactivate
 });
