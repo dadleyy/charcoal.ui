@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import AuthenticatedRoute from 'charcoal/mixins/authenticated-route';
+import TrackedRoute from 'charcoal/mixins/tracked-route';
 
-const { inject } = Ember;
+const { inject, Route } = Ember;
 
 const auth = inject.service('auth');
 
@@ -36,7 +37,7 @@ function deactivate() {
   this.get('signup_delegate').off(subscriptions.signup);
 }
 
-export default Ember.Route.extend(AuthenticatedRoute, { 
+export default Route.extend(TrackedRoute, AuthenticatedRoute, { 
   signup_delegate: inject.service('delegates/signup'),
   model, deactivate
 });

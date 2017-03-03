@@ -1,6 +1,7 @@
 import Ember from 'ember';
+import TrackedRoute from 'charcoal/mixins/tracked-route';
 
-const { inject } = Ember;
+const { inject, Route } = Ember;
 
 function beforeModel(transition) {
   const { queryParams: params } = transition;
@@ -23,5 +24,8 @@ function beforeModel(transition) {
   return auth.attempt(token).then(success).catch(failed);
 }
 
-export default Ember.Route.extend({ auth: inject.service(), beforeModel });
+export default Route.extend(TrackedRoute, {
+  auth: inject.service(),
+  beforeModel
+});
 
