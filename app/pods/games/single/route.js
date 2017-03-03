@@ -10,8 +10,9 @@ function model({ game_id }) {
   const sorting = { rel: 'created_at' };
   const resolution = { round_manager, table_delegate, sorting, membership_manager };
 
-  let set = this.setProperties.bind(this);
-  let get = this.get.bind(this);
+  const transition = run.bind(this, this.transitionTo);
+  const set = run.bind(this, this.setProperties)
+  const get = run.bind(this, this.get);
 
   function refresh() {
     let updated = Date.now();
@@ -46,11 +47,16 @@ function model({ game_id }) {
 
   function loadUsers(games_result) {
     [ resolution.game ] = games_result.results;
+
+    if(!resolution.game) {
+      return transition('index');
+    }
+
     membership_manager.set('game', resolution.game);
     return membership_manager.refresh().then(resolve);
   }
 
-  return this.get('game_resource').query({ where: { id: game_id } }).then(loadUsers);
+  return this.get('game_resource').query({ where: { uuid: game_id } }).then(loadUsers);
 }
 
 function deactivate() {
