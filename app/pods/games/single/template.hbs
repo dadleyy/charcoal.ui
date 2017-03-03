@@ -33,6 +33,10 @@
     </div>
   </div>
   <div class="clearfix">
-    {{game-display-table delegate=model.table_delegate sorting=model.sorting}}
+    {{#if lonely}}
+      {{game-setup membership=model.membership_manager game=model.game}}
+    {{else}}
+      {{game-display-table delegate=model.table_delegate sorting=model.sorting}}
+    {{/if}}
   </div>
 </div>

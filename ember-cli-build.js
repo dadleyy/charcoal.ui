@@ -6,8 +6,7 @@ module.exports = function(defaults) {
   var sassOptions = {
     extension    : 'sass',
     includePaths : [
-      './bower_components/bases.scss/src',
-      'bower_components/krmp.cc'
+      './bower_components/bases.scss/src'
     ]
   };
 

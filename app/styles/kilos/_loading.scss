@@ -31,7 +31,7 @@
 
   &:after {
     content: '';
-    @extend .char.bg-0;
+    @extend %bg-0;
     @extend .position-absolute;
     @extend .left-0;
     @extend .top-0;
