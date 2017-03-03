@@ -1,5 +1,8 @@
 /* jshint node: true */
+const dotenv = require("dotenv");
 const pkg = require('../package.json');
+
+dotenv.load("../.env");
 
 module.exports = function(environment) {
   var ENV = {
@@ -10,6 +13,10 @@ module.exports = function(environment) {
     environment     : environment,
     rootURL         : '/',
     locationType    : 'auto',
+
+    google: { 
+      tracking_id: process.env["GOOGLE_TRACKING_ID"],
+    },
 
     EmberENV: {
       FEATURES: {

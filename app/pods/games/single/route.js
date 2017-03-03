@@ -1,4 +1,6 @@
 import Ember from 'ember';
+import RequiredAuth from 'charcoal/mixins/require-authentication-route';
+import TrackedRoute from 'charcoal/mixins/tracked-route';
 
 const { run, inject, Route } = Ember;
 
@@ -7,6 +9,7 @@ function model({ game_id }) {
   const membership_manager = this.get('membership_manager');
   const round_manager = this.get('round_manager');
   const deferred = this.get('deferred');
+  const analytics = this.get('analytics');
   const sorting = { rel: 'created_at' };
   const resolution = { round_manager, table_delegate, sorting, membership_manager };
 
@@ -22,6 +25,10 @@ function model({ game_id }) {
     }
 
     table_delegate.set('state', { updated });
+  }
+
+  function failed() {
+    return transition('index');
   }
 
   function resolve(response) {
@@ -41,6 +48,7 @@ function model({ game_id }) {
 
     set({ subscriptions });
 
+    analytics.track({ category: 'games', action: 'loaded', label: resolution.game.uuid });
     run.next(null, set, { resolved: true });
     return deferred.resolve(resolution);
   }
@@ -56,7 +64,7 @@ function model({ game_id }) {
     return membership_manager.refresh().then(resolve);
   }
 
-  return this.get('game_resource').query({ where: { uuid: game_id } }).then(loadUsers);
+  return this.get('game_resource').query({ where: { uuid: game_id } }).then(loadUsers).catch(failed);
 }
 
 function deactivate() {
@@ -67,7 +75,7 @@ function deactivate() {
   this.get('round_manager').off(rounds);
 }
 
-export default Route.extend({ 
+export default Route.extend(RequiredAuth, TrackedRoute, {
   deferred           : inject.service(),
   game_resource      : inject.service('games/resource'),
   membership_manager : inject.service('game-memberships/manager'),

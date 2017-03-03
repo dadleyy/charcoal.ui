@@ -1,7 +1,8 @@
 import Ember from 'ember';
 import RequiredAuth from 'charcoal/mixins/require-authentication-route';
+import TrackedRoute from 'charcoal/mixins/tracked-route';
 
-const { inject } = Ember;
+const { Route, inject } = Ember;
 
 function model() {
   const user = this.get('auth.user');
@@ -13,7 +14,7 @@ function model() {
 
 function titleToken() { return this.get('i18n').t('dashboard'); }
 
-export default Ember.Route.extend(RequiredAuth, {
+export default Route.extend(TrackedRoute, RequiredAuth, {
   i18n: inject.service(),
   table_delegate: inject.service('delegates/game-membership-table'),
   model, titleToken

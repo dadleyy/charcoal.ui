@@ -15,6 +15,7 @@ Router.map(function() {
       this.route('google');
     });
   });
+
   this.route('dashboard');
 
   this.route('games', function() {
