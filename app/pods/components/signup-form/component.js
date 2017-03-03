@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 const { computed, inject, run, Component } = Ember;
 
-const fields = ['email', 'password', 'name'];
+const fields = ['email', 'password', 'name', 'username'];
 
 const actions = {
 

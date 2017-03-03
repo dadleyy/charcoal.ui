@@ -60,6 +60,7 @@
   "title"              : "Title",
   "unknown"            : "Unknown",
   "unknown_error"      : "Unknown Error",
+  "username"           : "Username",
   "user_id"            : "User ID",
   "view_game"          : "View Game",
   "welcome_name"       : "Welcome, {{name}}",
