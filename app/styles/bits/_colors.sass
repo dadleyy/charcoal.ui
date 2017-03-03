@@ -1,0 +1,7 @@
+$color_base: #4382a1
+$color_steps: 10
+$color_offset: 0
+
+@for $i from 0 through $color_steps
+  $step: ((360 / $color_steps) * $i) + $color_offset
+  +charcoal-color-classes($i, adjust-hue($color_base, $step))

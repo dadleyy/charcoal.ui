@@ -1,6 +1,6 @@
 import Ember from 'ember';
 
-const { inject, Controller } = Ember;
+const { computed, inject, Controller } = Ember;
 
 function init() {
   this._super(...arguments);
@@ -24,9 +24,14 @@ const actions = {
 
 };
 
+const lonely = computed('model.game.{population}', function() {
+  const { population } = this.get('model.game');
+  return !population || population < 3;
+});
+
 export default Controller.extend({
   users: inject.service('users/resource'),
   memberships: inject.service('game-memberships/resource'),
   rounds: inject.service('game-rounds/resource'),
-  init, actions
+  init, actions, lonely
 });
