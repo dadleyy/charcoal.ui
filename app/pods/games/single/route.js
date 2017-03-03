@@ -6,12 +6,12 @@ const { run, inject, Route } = Ember;
 
 function model({ game_id }) {
   const table_delegate = this.get('table_delegate');
-  const membership_manager = this.get('membership_manager');
-  const round_manager = this.get('round_manager');
+  const manager = this.get('manager');
   const deferred = this.get('deferred');
   const analytics = this.get('analytics');
+
   const sorting = { rel: 'created_at' };
-  const resolution = { round_manager, table_delegate, sorting, membership_manager };
+  const resolution = { table_delegate, sorting, manager };
 
   const transition = run.bind(this, this.transitionTo);
   const set = run.bind(this, this.setProperties)
@@ -27,59 +27,38 @@ function model({ game_id }) {
     table_delegate.set('state', { updated });
   }
 
-  function failed() {
+  function failed(err) {
+    console.error(err);
     return transition('index');
   }
 
-  function resolve(response) {
-    resolution.users = response.results;
-    let { table_delegate, ...others } = resolution;
-    let { game } = resolution;
+  function resolve({ members, game, rounds }) {
+    let { table_delegate } = resolution;
 
     // give our manager + delegate context
-    table_delegate.setProperties(others);
-    membership_manager.setProperties({ game });
-    round_manager.setProperties({ game });
+    table_delegate.setProperties({ members, game, rounds });
 
-    let subscriptions = {
-      memberships: membership_manager.on('updated', refresh),
-      rounds: round_manager.on('updated', refresh)
-    };
-
+    let subscriptions = { manager: manager.on('updated', refresh) };
     set({ subscriptions });
 
-    analytics.track({ category: 'games', action: 'loaded', label: resolution.game.uuid });
+    analytics.track({ category: 'games', action: 'loaded', label: game.uuid });
     run.next(null, set, { resolved: true });
-    return deferred.resolve(resolution);
+    return deferred.resolve({ game, members, rounds, ...resolution });
   }
 
-  function loadUsers(games_result) {
-    [ resolution.game ] = games_result.results;
-
-    if(!resolution.game) {
-      return transition('index');
-    }
-
-    membership_manager.set('game', resolution.game);
-    return membership_manager.refresh().then(resolve);
-  }
-
-  return this.get('game_resource').query({ where: { uuid: game_id } }).then(loadUsers).catch(failed);
+  return this.get('manager').load(game_id).then(resolve).catch(failed);
 }
 
 function deactivate() {
   this._super(...arguments);
-  const { rounds, memberships } = this.get('subscriptions');
-
-  this.get('membership_manager').off(memberships);
-  this.get('round_manager').off(rounds);
+  const { subscriptions } = this;
+  this.get('manager').off(subscriptions.manager);
 }
 
 export default Route.extend(RequiredAuth, TrackedRoute, {
-  deferred           : inject.service(),
-  game_resource      : inject.service('games/resource'),
-  membership_manager : inject.service('game-memberships/manager'),
-  round_manager      : inject.service('game-rounds/manager'),
-  table_delegate     : inject.service('delegates/game-display-table'),
+  deferred       : inject.service(),
+  manager        : inject.service('games/manager'),
+  members        : inject.service('game-memberships/manager', { singleton: false }),
+  table_delegate : inject.service('delegates/game-display-table'),
   model, deactivate
 });

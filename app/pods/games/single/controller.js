@@ -24,8 +24,8 @@ const actions = {
 
 };
 
-const lonely = computed('model.game.{population}', function() {
-  const { population } = this.get('model.game');
+const lonely = computed('model.manager.state.game.{population}', function() {
+  const { population } = this.get('model.manager.state.game') || { };
   return !population || population < 3;
 });
 

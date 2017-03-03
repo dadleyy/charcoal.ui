@@ -6,6 +6,7 @@ moduleForComponent('game-setup', 'Integration | Component | game setup', {
 });
 
 test('it renders', function(assert) {
-  this.render(hbs`{{game-setup}}`);
+  this.set('manager', { });
+  this.render(hbs`{{game-setup manager=manager}}`);
   assert.equal(true, true);
 });
