@@ -21,8 +21,6 @@ moduleForComponent('game-membership-table', 'Integration | Component | game memb
 });
 
 test('it renders', function(assert) {
-  console.log(`delegate --- ${this.get('delegate')}`);
-
   this.render(hbs`
     {{#game-membership-table delegate=delegate}}
     {{/game-membership-table}}
