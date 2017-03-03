@@ -14,7 +14,7 @@
         <a class="fg-black" onClick={{action 'leave'}}>{{t 'leave_game'}}</a>
       </div>
       <div class="select-item">
-        {{#link-to 'games.single' membership.game_id class="fg-black"}}{{t 'view_game'}}{{/link-to}}
+        {{#link-to 'games.single' game.uuid class="fg-black"}}{{t 'view_game'}}{{/link-to}}
       </div>
     </div>
   {{/menu.body}}
