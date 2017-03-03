@@ -11,7 +11,7 @@ const actions = {
   add() {
     const { manager, signals, user } = this.get('row');
     const finish = signals.bind(null, 'added');
-    return manager.add(user.id).then(finish);
+    return manager.addMember(user.id).then(finish);
   }
 
 };

@@ -10,10 +10,14 @@ function init() {
 
 function refresh() {
   const { game } = this;
+  const deferred = this.get('deferred');
+
+  if(!game) {
+    return deferred.reject(new Error("must provide game first!"))
+  }
 
   const users_resource = this.get('users_resource');
   const membership_resource = this.get('membership_resource');
-  const deferred = this.get('deferred');
 
   const set = this.set.bind(this);
   const trigger = this.trigger.bind(this, 'updated');

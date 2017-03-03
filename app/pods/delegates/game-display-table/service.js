@@ -4,7 +4,7 @@ const { inject, Service } = Ember;
 
 function columns() {
   const i18n = this.get('i18n');
-  let users = this.get('membership_manager.users');
+  let users = this.get('members.users');
   let width = users && users.length ? (100 / users.length) : 0;
 
   function toColumn(user) {
@@ -27,9 +27,11 @@ function columns() {
 
 function rows({ pagination, sorting }) {
   const { id: game_id } = this.get('game');
+  const { members: membership_manager, rounds: round_manager } = this;
+
   const deferred = this.get('deferred');
-  const round_resource = this.get('rounds');
-  const { membership_manager, round_manager } = this;
+  const round_resource = this.get('round_resource');
+
   let count = null;
 
   const { size: limit, page } = pagination;
@@ -78,7 +80,7 @@ function sizes() { return [ 5, 10, 20 ]; }
 
 export default Service.extend({ 
   deferred: inject.service(),
-  rounds: inject.service('game-rounds/resource'),
+  round_resource: inject.service('game-rounds/resource'),
   i18n: inject.service(),
   sizes, columns, rows, init
 });

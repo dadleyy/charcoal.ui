@@ -23,7 +23,7 @@
                 {{/modal_body.title}}
 
                 {{#modal_body.content}}
-                  {{game-membership-modal game=model.game manager=model.membership_manager}}
+                  {{game-membership-modal game=model.game manager=model.manager}}
                 {{/modal_body.content}}
               {{/modal.body}}
             {{/hoc-modal}}
@@ -34,7 +34,7 @@
   </div>
   <div class="clearfix">
     {{#if lonely}}
-      {{game-setup membership=model.membership_manager game=model.game}}
+      {{game-setup manager=model.manager game=model.game}}
     {{else}}
       {{game-display-table delegate=model.table_delegate sorting=model.sorting}}
     {{/if}}
