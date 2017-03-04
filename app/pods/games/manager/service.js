@@ -17,6 +17,13 @@ export default Service.extend(EventHandles, {
     return this.get('membership_manager').add(user_id).then(reload).then(success);
   },
 
+  newRound() {
+    const { game } = this.get('state');
+    const success = run.bind(this, this.trigger, 'updated');
+    const reload = run.bind(this, this.load, game.uuid);
+    return this.get('round_manager').add().then(reload).then(success);
+  },
+
   load(uuid) {
     const deferred = this.get('deferred');
     const members = this.get('membership_manager');

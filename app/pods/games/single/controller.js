@@ -9,13 +9,13 @@ function init() {
 const actions = {
 
   newRound() {
-    const { round_manager, table_delegate, game } = this.get('model');
+    const { manager, table_delegate, game } = this.get('model');
 
     function success() {
       table_delegate.set('state', { updated: Date.now() });
     }
 
-    return round_manager.add().then(success);
+    return manager.newRound().then(success);
   },
 
   refresh() {
