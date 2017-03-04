@@ -1,6 +1,6 @@
 {
   "name": "charcoal",
-  "version": "0.3.3",
+  "version": "0.3.7",
   "description": "emberjs playground",
   "license": "MIT",
   "author": {
@@ -64,6 +64,7 @@
     "karma": "^1.4.1",
     "karma-phantomjs-launcher": "^1.0.2",
     "loader.js": "^4.0.10",
+    "node-sass": "^4.5.0",
     "phantomjs": "^2.1.7",
     "redis": "^2.6.5",
     "request": "^2.79.0",
