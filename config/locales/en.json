@@ -1,4 +1,5 @@
 {
+  "aborted_game"       : "This game was ended w/o  any rounds or users",
   "about"              : "About",
   "add_player"         : "Add Player",
   "already_added"      : "Already Added",

@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 const { inject, Service } = Ember;
+const ENDED_STATUS = 'ENDED';
 
 function columns() {
   const i18n = this.get('i18n');
@@ -26,7 +27,7 @@ function columns() {
 }
 
 function rows({ pagination, sorting }) {
-  const { id: game_id } = this.get('game');
+  const { id: game_id, status } = this.get('game');
   const { members: membership_manager, rounds: round_manager } = this;
 
   const deferred = this.get('deferred');
@@ -37,7 +38,7 @@ function rows({ pagination, sorting }) {
   const { size: limit, page } = pagination;
 
   let c = columns.call(this);
-  let rows = [{ empty: true, columns: c }];
+  let rows = status === ENDED_STATUS ? [{ aborted: true, columns: c }] : [{ empty: true, columns: c }];
 
   const signals = function() {
     let updated = Date.now();
