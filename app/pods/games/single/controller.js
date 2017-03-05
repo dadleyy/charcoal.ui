@@ -37,7 +37,6 @@ const active = computed('lonely', 'model.manager.state.game.{status}', function(
 
 const ended = computed('model.manager.state.game.{status}', function() {
   const { status } = this.get('model.manager.state.game') || { };
-  console.log(status);
   return status !== ACTIVE_STATUS;
 });
 
