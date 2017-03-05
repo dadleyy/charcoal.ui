@@ -5,6 +5,7 @@ const ENDED_STATUS = 'ENDED';
 
 function columns() {
   const i18n = this.get('i18n');
+  const { game } = this.get('manager.state');
   const { users } = this.get('manager.membership_manager');
   const width = users && users.length ? (100 / users.length) : 0;
 
@@ -23,6 +24,11 @@ function columns() {
 
   const menu_column = { rel: 'menu', style: 'width: 120px', align: 'center' };
   let result = users.map(toColumn);
+
+  if(game.status === ENDED_STATUS) {
+    return [ id_column ].concat(result);
+  }
+
   return [ id_column ].concat(result).concat([ menu_column ]);
 }
 
