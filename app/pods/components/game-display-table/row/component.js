@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 const { inject, computed, Component } = Ember;
 const tagName = 'tbody';
+const ENDED_STATUS = 'ENDED';
 
 const userColumns = computed(function() {
   let { round } = this.get('row');
@@ -44,7 +45,12 @@ const actions = {
 
 };
 
+const ended = computed('row.manager.{state}', function() {
+  const { status } = this.get('row.manager.state.game') || { };
+  return status === ENDED_STATUS;
+});
+
 export default Component.extend({
   rounds: inject.service('game-rounds/resource'),
-  userColumns, tagName, actions
+  userColumns, tagName, actions, ended
 });

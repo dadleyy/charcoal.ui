@@ -37,7 +37,10 @@
       </div>
     </td>
   {{/each}}
-  <td data-column="round.actions" class="align-center border-left-1 v-align-middle">
-    {{game-display-table/action-menu manager=row.manager round=row.round}}
-  </td>
+
+  {{#unless ended}}
+    <td data-column="round.actions" class="align-center border-left-1 v-align-middle">
+      {{game-display-table/action-menu manager=row.manager round=row.round}}
+    </td>
+  {{/unless}}
 </tr>
