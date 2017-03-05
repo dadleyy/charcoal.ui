@@ -36,7 +36,7 @@ function model({ game_id }) {
     let { table_delegate } = resolution;
 
     // give our manager + delegate context
-    table_delegate.setProperties({ members, game, rounds });
+    table_delegate.setProperties({ game, manager });
 
     let subscriptions = { manager: manager.on('updated', refresh) };
     set({ subscriptions });

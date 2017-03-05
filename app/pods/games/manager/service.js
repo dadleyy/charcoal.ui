@@ -17,6 +17,20 @@ export default Service.extend(EventHandles, {
     return this.get('membership_manager').add(user_id).then(reload).then(success);
   },
 
+  clearRound(round) {
+    const { game } = this.get('state');
+    const success = run.bind(this, this.trigger, 'updated');
+    const reload = run.bind(this, this.load, game.uuid);
+    return this.get('round_manager').clear(round).then(reload).then(success);
+  },
+  
+  removeRound(round) {
+    const { game } = this.get('state');
+    const success = run.bind(this, this.trigger, 'updated');
+    const reload = run.bind(this, this.load, game.uuid);
+    return this.get('round_manager').remove(round).then(reload).then(success);
+  },
+
   newRound() {
     const { game } = this.get('state');
     const success = run.bind(this, this.trigger, 'updated');

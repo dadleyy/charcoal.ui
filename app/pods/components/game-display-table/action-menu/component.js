@@ -15,12 +15,12 @@ const actions = {
 
   clear() {
     const { manager, round } = this;
-    return manager.clear(round);
+    return manager.clearRound(round);
   },
 
   remove() {
     const { manager, round } = this;
-    return manager.remove(round);
+    return manager.removeRound(round);
   }
 
 };
