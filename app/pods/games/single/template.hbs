@@ -2,9 +2,16 @@
   <div class="clearfix margin-bottom-10">
     <div class="vert-hack__table">
       <div class="vert-hack__cell">
-        <h4>{{t 'leaderboard'}}</h4>
+        <div class="display-flex--center">
+          <div class="float-left">
+            <h4>{{t 'leaderboard'}}</h4>
+          </div>
+          <div class="float-left margin-left-10 attention">
+            <p>{{model.game.status}}</p>
+          </div>
+        </div>
       </div>
-      <div class="vert-hack__cell">
+      <div class="vert-hack__cell float-right clearfix">
         <div class="float-right clearfix">
           <div class="float-left">
             <a class="button" onClick={{action 'refresh'}}>{{t 'refresh'}}</a>

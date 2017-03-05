@@ -1,17 +1,17 @@
 {{#hoc-menu as |menu|}}
   {{#menu.button}}
-    <i class="icon ion-navicon bg-0"></i>
+    <i class="icon ion-navicon fg-white"></i>
   {{/menu.button}}
 
   {{#menu.body}}
     <div class="clearfix">
       {{#if ranked}}
       <div class="select-item" onClick={{action 'clear'}}>
-        <a class="fg-black">{{t 'clear_round'}}</a>
+        <a class="fg-black select-item__action">{{t 'clear_round'}}</a>
       </div>
       {{/if}}
       <div class="select-item" onClick={{action 'remove'}}>
-        <a class="fg-black">{{t 'delete_round'}}</a>
+        <a class="fg-black select-item__action">{{t 'delete_round'}}</a>
       </div>
     </div>
   {{/menu.body}}

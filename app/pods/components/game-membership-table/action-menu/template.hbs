@@ -1,20 +1,20 @@
 {{#hoc-menu as |menu|}}
   {{#menu.button}}
-    <i class="icon ion-navicon bg-0"></i>
+    <i class="icon ion-navicon fg-white"></i>
   {{/menu.button}}
 
   {{#menu.body}}
     <div class="clearfix">
       {{#if canDelete}}
         <div class="select-item">
-          <a class="fg-black" onClick={{action 'destroy'}}>{{t 'end_game'}}</a>
+          <a class="fg-black select-item__action" onClick={{action 'destroy'}}>{{t 'end_game'}}</a>
         </div>
       {{/if}}
       <div class="select-item">
-        <a class="fg-black" onClick={{action 'leave'}}>{{t 'leave_game'}}</a>
+        <a class="fg-black select-item__action" onClick={{action 'leave'}}>{{t 'leave_game'}}</a>
       </div>
       <div class="select-item">
-        {{#link-to 'games.single' game.uuid class="fg-black"}}{{t 'view_game'}}{{/link-to}}
+        {{#link-to 'games.single' game.uuid class="select-item__action fg-black"}}{{t 'view_game'}}{{/link-to}}
       </div>
     </div>
   {{/menu.body}}
