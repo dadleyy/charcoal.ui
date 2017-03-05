@@ -25,9 +25,9 @@ const actions = {
 
 };
 
-const lonely = computed('model.manager.state.game.{population}', function() {
+const lonely = computed('ended', 'model.manager.state.game.{population}', function() {
   const { population } = this.get('model.manager.state.game') || { };
-  return !population || population < 3;
+  return (!population || population < 3) && !this.get('ended');
 });
 
 const active = computed('lonely', 'model.manager.state.game.{status}', function() {
@@ -37,6 +37,7 @@ const active = computed('lonely', 'model.manager.state.game.{status}', function(
 
 const ended = computed('model.manager.state.game.{status}', function() {
   const { status } = this.get('model.manager.state.game') || { };
+  console.log(status);
   return status !== ACTIVE_STATUS;
 });
 
@@ -44,5 +45,5 @@ export default Controller.extend({
   users: inject.service('users/resource'),
   memberships: inject.service('game-memberships/resource'),
   rounds: inject.service('game-rounds/resource'),
-  init, actions, lonely, active
+  init, actions, lonely, active, ended
 });

@@ -6,6 +6,16 @@
   {{/table.pending}}
 
   {{#table.row as |row|}}
+    {{#if row.aborted}}
+      <tbody>
+        <tr>
+          <td colspan="{{row.columns.length}}">
+            <p>{{t 'aborted_game'}}</p>
+          </td>
+        </tr>
+      </tbody>
+    {{/if}}
+
     {{#if row.empty}}
       <tbody>
         <tr>
@@ -14,7 +24,9 @@
           </td>
         </tr>
       </tbody>
-    {{else}}
+    {{/if}}
+
+    {{#if row.round}}
       {{game-display-table/row row=row}}
     {{/if}}
   {{/table.row}}

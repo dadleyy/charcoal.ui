@@ -3,4 +3,4 @@ import ENV from 'charcoal/config/environment';
 
 const { API_HOME } = ENV;
 
-export default resource(`${API_HOME}/games`);
+export default resource(`${API_HOME}/games/:id`);
