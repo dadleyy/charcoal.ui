@@ -3,6 +3,7 @@ import Ember from 'ember';
 const { inject, Component, computed } = Ember;
 
 const className = 'game-membership-table__action-menu';
+const ENDED_STATUS = 'ENDED';
 
 const actions = {
 
@@ -16,7 +17,7 @@ const actions = {
   destroy() {
     const resource = this.get('games_resource');
     const { id } = this.get('game');
-    const status = 'ENDED';
+    const status = ENDED_STATUS;
     const finished = this.get('signals').bind(null, 'destroyed');
     return resource.update({ id, status }).then(finished);
   }
