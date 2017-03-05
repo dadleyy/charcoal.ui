@@ -1,31 +1,31 @@
 @mixin charcoal-color-classes($num, $value)
-  %bg-#{$num}
+  .bg-#{$num}
     background-color: $value
 
-  %fg-#{$num}, %fg-#{$num}:before
+  .fg-#{$num}, .fg-#{$num}:before
     color: $value
 
-  %bc-#{$num}
+  .bc-#{$num}
     border-color: $value
 
   @for $i from 1 through 20
     $lightened: lighten($value, ($i * 5))
     $darkened: darken($value, ($i * 5))
 
-    %bg-#{$num}--lighten-#{$i}
+    .bg-#{$num}--lighten-#{$i}
       background-color: $lightened
 
-    %bc-#{$num}--lighten-#{$i}
+    .bc-#{$num}--lighten-#{$i}
       border-color: $lightened
 
-    %fg-#{$num}--lighten-#{$i}, %fg-#{$num}.lighten-#{$i}:before
+    .fg-#{$num}--lighten-#{$i}, .fg-#{$num}.lighten-#{$i}:before
       color: $lightened
 
-    %bg-#{$num}--darken-#{$i}
+    .bg-#{$num}--darken-#{$i}
       background-color: $darkened
 
-    %bc-#{$num}--darken-#{$i}
+    .bc-#{$num}--darken-#{$i}
       border-color: $darkened
 
-    %fg-#{$num}--darken-#{$i}, %fg-#{$num}.darken-#{$i}:before
+    .fg-#{$num}--darken-#{$i}, .fg-#{$num}.darken-#{$i}:before
       color: $darkened
