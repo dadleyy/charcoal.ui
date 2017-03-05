@@ -10,12 +10,13 @@ const userColumns = computed(function() {
   let result = [ ];
 
   for(let i = 0, c = columns.length; i < c; i++) {
-    let { user } = columns[i];
+    let { user, membership } = columns[i];
     let asshole = user.id === round.asshole_id;
     let president = user.id === round.president_id;
     let vice_president = user.id === round.vice_president_id;
-    let unranked = !asshole && !president && !vice_president;
-    result.push({ unranked, asshole, president, vice_president, user });
+    let absent = membership.entry_round_id != null && membership.entry_round_id > round.id;
+    let unranked = !asshole && !president && !vice_president && !absent;
+    result.push({ unranked, asshole, president, vice_president, user, absent });
   }
 
   return result;

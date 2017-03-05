@@ -17,6 +17,10 @@
           <div class="vert-hack__cell"><i class="icon fs-4 ion-ios-circle-outline fg-black-lighten-20"></i></div>
         {{/if}}
 
+        {{#if c.absent}}
+          <div class="vert-hack__cell"><i class="icon fs-4 fg-white-darken-10 ion-asterisk"></i></div>
+        {{/if}}
+
         {{#if c.unranked}}
           {{#unless row.round.asshole_id}}
           <div class="vert-hack__cell">
