@@ -6,12 +6,13 @@ const ENDED_STATUS = 'ENDED';
 function columns() {
   const i18n = this.get('i18n');
   const { game } = this.get('manager.state');
-  const { users } = this.get('manager.membership_manager');
+  const { users, memberships } = this.get('manager.membership_manager');
   const width = users && users.length ? (100 / users.length) : 0;
 
   function toColumn(user) {
     const style = `width: ${width}%`;
-    return { text: user.name, rel: `user-${user.id}`, sortable: false, user, style, align: 'center' };
+    const [ membership ] = memberships.filter(function({ user_id }) { return user_id === user.id });
+    return { text: user.name, rel: `user-${user.id}`, sortable: false, user, membership, style, align: 'center' };
   }
 
   const id_column = {
