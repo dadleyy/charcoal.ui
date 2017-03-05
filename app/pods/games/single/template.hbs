@@ -6,28 +6,32 @@
       </div>
       <div class="vert-hack__cell">
         <div class="float-right clearfix">
-          <div class="float-right margin-left-10">
-            <a class="button" onClick={{action 'newRound'}}>{{t 'new_round'}}</a>
-          </div>
-          <div class="float-right margin-left-10">
+          <div class="float-left margin-right-10">
             <a class="button" onClick={{action 'refresh'}}>{{t 'refresh'}}</a>
           </div>
-          <div class="float-right">
-            {{#hoc-modal as |modal|}}
-              {{#modal.button}}
-                <p class="button">{{t 'add_player'}}</p>
-              {{/modal.button}}
-              {{#modal.body as |modal_body|}}
-                {{#modal_body.title}}
-                  <h5><b>{{t 'add_player'}}</b></h5>
-                {{/modal_body.title}}
+          {{#if active}}
+            <div class="float-left margin-right-10">
+              <a class="button" onClick={{action 'newRound'}}>{{t 'new_round'}}</a>
+            </div>
+          {{/if}}
+          {{#unless ended}}
+            <div class="float-left">
+              {{#hoc-modal as |modal|}}
+                {{#modal.button}}
+                  <p class="button">{{t 'add_player'}}</p>
+                {{/modal.button}}
+                {{#modal.body as |modal_body|}}
+                  {{#modal_body.title}}
+                    <h5><b>{{t 'add_player'}}</b></h5>
+                  {{/modal_body.title}}
 
-                {{#modal_body.content}}
-                  {{game-membership-modal game=model.game manager=model.manager}}
-                {{/modal_body.content}}
-              {{/modal.body}}
-            {{/hoc-modal}}
-          </div>
+                  {{#modal_body.content}}
+                    {{game-membership-modal game=model.game manager=model.manager}}
+                  {{/modal_body.content}}
+                {{/modal.body}}
+              {{/hoc-modal}}
+            </div>
+          {{/unless}}
         </div>
       </div>
     </div>
