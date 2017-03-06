@@ -3,6 +3,7 @@ import Ember from 'ember';
 const { Component, computed } = Ember;
 
 const tagName = 'th';
+const classNames = ['v-align-middle'];
 
 const ascending = computed('sorting', 'column', function() {
   const { rel, order } = this.get('sorting') || { };
@@ -35,4 +36,7 @@ const actions = {
 
 };
 
-export default Component.extend({ tagName, actions, active, descending, ascending });
+export default Component.extend({
+  tagName, classNames,
+  actions, active, descending, ascending
+});
