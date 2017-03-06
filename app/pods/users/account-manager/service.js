@@ -20,9 +20,27 @@ export default Service.extend({
   },
 
   stage(field, payload) {
-    let rev = this.get('revisions').filter(function({ field: f }) { return f !== field; });
+    const { base, revisions } = this;
+    let rev = revisions.filter(function({ field: f }) { return f !== field; });
+
+    if(base[field] === payload.value) {
+      this.set('revisions', rev);
+      return;
+    }
+
     rev.push({ field, payload });
     this.set('revisions', rev);
+  },
+
+  commit() {
+    const user = this.get('user');
+    const reload = run.bind(this, this.load, user.id);
+
+    if(user.password !== undefined && user.password !== user.password_confirm) {
+      return this.get('deferred').reject(new Error('invalid-password-confirm'));
+    }
+
+    return this.get('user_resource').update(user).then(reload);
   },
 
   user: computed('revisions', 'base', function() {

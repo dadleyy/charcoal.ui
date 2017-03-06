@@ -1,38 +1,49 @@
-<table class="display-table--fixed width-50">
-  <tr>
-    <td class="padding-right-10 padding-bottom-10 width-auto">
-      <p class="float-left">{{t 'email'}}</p>
-    </td>
-    <td class="padding-bottom-10">
-      {{forms/text-input value=email}}
-    </td>
-  </tr>
-  <tr>
-    <td class="padding-right-10 padding-bottom-10 width-auto">
-      <p class="float-left">{{t 'username'}}</p>
-    </td>
-    <td class="padding-bottom-10">
-      {{forms/text-input value=username}}
-    </td>
-  </tr>
-  <tr>
-    <td class="padding-right-10 padding-bottom-10 width-auto">
-      <p class="float-left">{{t 'full_name'}}</p>
-    </td>
-    <td class="padding-bottom-10">
-      {{forms/text-input value=name}}
-    </td>
-  </tr>
-  <tr>
-    <td class="padding-right-10 padding-bottom-10 width-auto">
-      <p class="float-left">{{t 'password'}}</p>
-    </td>
-    <td class="padding-bottom-10">
-      <div class="margin-bottom-10">
-        {{forms/password-input value=password placeholder=(t 'password')}}
+<div class="clearfix">
+  <table class="display-table--fixed width-50 margin-bottom-10">
+    <tr>
+      <td class="padding-right-10 padding-bottom-10 width-auto">
+        <p class="float-left">{{t 'email'}}</p>
+      </td>
+      <td class="padding-bottom-10">
+        {{forms/text-input value=email}}
+      </td>
+    </tr>
+    <tr>
+      <td class="padding-right-10 padding-bottom-10 width-auto">
+        <p class="float-left">{{t 'username'}}</p>
+      </td>
+      <td class="padding-bottom-10">
+        {{forms/text-input value=username}}
+      </td>
+    </tr>
+    <tr>
+      <td class="padding-right-10 padding-bottom-10 width-auto">
+        <p class="float-left">{{t 'full_name'}}</p>
+      </td>
+      <td class="padding-bottom-10">
+        {{forms/text-input value=name}}
+      </td>
+    </tr>
+    <tr>
+      <td class="padding-right-10 width-auto">
+        <p class="float-left">{{t 'password'}}</p>
+      </td>
+      <td>
+        <div class="margin-bottom-10">
+          {{forms/password-input value=password placeholder=(t 'password')}}
+        </div>
+        {{forms/password-input value=password_confirm placeholder=(t 'confirm_password')}}
+      </td>
+    </tr>
+  </table>
+  <div class="clearfix">
+    {{#if manager.revisions.length}}
+      <div class="float-right margin-left-10">
+        <a class="button" onClick={{action 'save'}}>{{t 'submit'}}</a>
       </div>
-      {{forms/password-input value=password_confirm placeholder=(t 'confirm_password')}}
-    </td>
-  </tr>
-</table>
-
+      <div class="float-right">
+        <a class="button" onClick={{action 'cancel'}}>{{t 'cancel'}}</a>
+      </div>
+    {{/if}}
+  </div>
+</div>
