@@ -2,7 +2,7 @@ import Ember from 'ember';
 import ENV from 'charcoal/config/environment';
 
 const { API_HOME } = ENV;
-const { inject } = Ember;
+const { run, inject } = Ember;
 
 const AUTH_ENDPOINT = `${API_HOME}/auth/user`;
 
@@ -26,18 +26,19 @@ function prepare() {
   const deferred = this.get('deferred');
   const flags = this.get('flags');
   const success = register.bind(this);
+  const set = run.bind(this, this.set);
 
   if(flags.loaded) {
     return this.get('deferred').resolve();
   }
 
   function failed() {
-    Object.assign(flags, { guest: true });
+    set('flags', { ...flags, guest: true });
     return deferred.resolve();
   }
 
   function finished() {
-    flags.loaded = true;
+    set('flags', { ...flags, loaded: true });
     return deferred.resolve({ flags });
   }
 

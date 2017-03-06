@@ -1,7 +1,9 @@
 import Ember from 'ember';
 import ENV from 'charcoal/config/environment';
+import AuthenticatedRoute from 'charcoal/mixins/authenticated-route';
 
-const { inject } = Ember;
+const { inject, Route } = Ember;
+
 const { LOCALE_HOME } = ENV;
 const DEFAULT_LOCALE = 'en';
 const TITLE_DELIMETER = ' | ';
@@ -23,7 +25,7 @@ function title(tokens) {
   return [this.get('i18n').t('charcoal')].concat(tokens).join(TITLE_DELIMETER);
 }
 
-export default Ember.Route.extend({
+export default Route.extend(AuthenticatedRoute, {
   queryParams: { locale: 'en' },
   i18n: inject.service(), 
   model, title
