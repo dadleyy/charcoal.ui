@@ -8,6 +8,7 @@ const express = require("express");
 const program = require("commander");
 const session = require("express-session");
 const request = require("request");
+const parser  = require("body-parser");
 const connect = require("connect-redis");
 const redis   = require("redis");
 const fs      = require("fs");
@@ -63,11 +64,14 @@ class Logger {
   let api_url       = process.env["API_REAL_HOME"];
   let logger        = new Logger("${level}");
   let auth_header   = btoa([client_id, client_secret].join(":"));
+  let api_proxy     = proxy(api_url, {decorateRequest});
 
   function sessionError({message, code}) {
     logger.error(`${code}: ${message}`);
   }
 
+  app.use(parser.json());
+  app.use(parser.urlencoded({ extended: true }));
   app.use(sessionMiddleware(process.env["SESSION_SECRET"], {logErrors: sessionError}));
 
   // serve the js, css from the assets dir
@@ -121,13 +125,42 @@ class Logger {
     return res.redirect(url);
   });
 
+  app.post("/api/login", function(req, res) {
+    let { email, password } = req.body;
+    logger.info(`logging in email[${email}] | ${req.headers['content-type']}`);
+
+    function finished(err, response, body) {
+      if(err) {
+        logger.error(`invalid login: ${err}`);
+        return res.redirect(`/errors/bad-login`);
+      }
+
+      if(response.statusCode !== 200) {
+        logger.error(`invalid login: ${body}`);
+        return res.redirect(`/errors/bad-login`);
+      }
+
+      try {
+        let [{ token }] = JSON.parse(body).results;
+        req.session.bearer_token = token;
+        return res.redirect("/dashboard");
+      } catch(e) {
+        logger.error(`unable to parse api login response: ${e}`);
+        return res.redirect(`/errors/bad-login`);
+      }
+    }
+
+    let headers = { "X-CLIENT-AUTH": auth_header };
+    request.post(`${api_url}/auth`, { headers, form: { email, password } }, finished);
+  });
+
   app.get("/api/logout", function(req, res) {
     let {session} = req;
     session.bearer_token = null;
     return res.redirect("/");
   });
 
-  app.use("/api", proxy(api_url, {decorateRequest}));
+  app.use("/api", api_proxy);
 
   // send the same index html for every request - this is a single
   // page application
