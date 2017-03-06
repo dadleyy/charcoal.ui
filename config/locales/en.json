@@ -1,11 +1,13 @@
 {
   "aborted_game"       : "This game was ended w/o  any rounds or users",
   "about"              : "About",
+  "account"            : "Account",
   "add_player"         : "Add Player",
   "already_added"      : "Already Added",
   "categories"         : "Categories",
   "charcoal"           : "Charcoal",
   "clear_round"        : "Clear Round",
+  "confirm_password"   : "Confirm Password",
   "created"            : "Created",
   "created_by"         : "Created By",
   "create_game"        : "Create Game",
@@ -17,6 +19,7 @@
   "displaying_x_of_y"  : "Displaying {{x}} of {{y}} results",
   "email"              : "Email",
   "end_game"           : "End Game",
+  "full_name"          : "Full Name",
   "game"               : "Game",
   "game_id"            : "Game ID",
   "home"               : "Home",
@@ -66,6 +69,7 @@
   "user_id"            : "User ID",
   "view_game"          : "View Game",
   "welcome_name"       : "Welcome, {{name}}",
+  "your_account"       : "Your Account",
   "your_games"         : "Your Games",
   "api_errors"         : {
     "duplicate-user"  : "User already exists."
