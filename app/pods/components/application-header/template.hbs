@@ -14,6 +14,9 @@
           <div class="display-table display-table--fixed">
             {{#if user}}
               <div class="display-table-cell v-align-middle padding-right-10">
+                {{#link-to 'account'}}{{t 'account'}}{{/link-to}}
+              </div>
+              <div class="display-table-cell v-align-middle padding-right-10">
                 <a href="/api/logout">{{t 'logout'}}</a>
               </div>
             {{/if}}
