@@ -12,6 +12,9 @@
       <div class="vert-hack__cell">
         <div class="float-right">
           <div class="display-table display-table--fixed">
+            <div class="display-table-cell v-align-middle padding-right-10">
+              {{#link-to 'about'}}{{t 'about'}}{{/link-to}}
+            </div>
             {{#if user}}
               <div class="display-table-cell v-align-middle padding-right-10">
                 {{#link-to 'account'}}{{t 'account'}}{{/link-to}}
@@ -20,9 +23,6 @@
                 <a href="/api/logout">{{t 'logout'}}</a>
               </div>
             {{/if}}
-            <div class="display-table-cell v-align-middle padding-right-10">
-              {{#link-to 'about'}}{{t 'about'}}{{/link-to}}
-            </div>
             <div class="display-table-cell v-align-middle">
               <a href="{{source_home}}" title="{{t 'source_code'}}">
                 <i class="icon fs-5 ion-social-github fg-white" />

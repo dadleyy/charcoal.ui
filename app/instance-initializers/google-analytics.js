@@ -14,7 +14,7 @@ initialize = function (application) {
   const { tracking_id } = get(config, 'google') || { };
 
   if(!tracking_id) {
-    return;
+    return application.lookup('service:analytics').set('disabled', true);
   }
 
   const script = document.createElement('script');
