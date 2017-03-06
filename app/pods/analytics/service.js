@@ -4,12 +4,11 @@ const { Service } = Ember;
 
 function ready() {
   const { ready, items, pages } = this.get('-queue');
-  const { isDestroyed } = this;
+  const { isDestroyed: destroyed } = this;
 
-  if(isDestroyed) {
+  if(destroyed) {
     return;
   }
-  
 
   this.set('-queue.ready', true);
 
@@ -30,9 +29,9 @@ function send(type, ...params) {
 
 function track(event) {
   const { ready, items } = this.get('-queue');
-  const { isDestroyed } = this;
+  const { isDestroyed: destroyed, disabled } = this;
 
-  if(isDestroyed) {
+  if(destroyed || disabled) {
     return;
   }
   
@@ -47,9 +46,9 @@ function track(event) {
 
 function page(route, fields) {
   const { ready, pages } = this.get('-queue');
-  const { isDestroyed } = this;
+  const { isDestroyed: destroyed, disabled } = this;
 
-  if(isDestroyed) {
+  if(destroyed || disabled) {
     return;
   }
   
