@@ -14,7 +14,7 @@ function model({ locale: url_locale }) {
 
   function success(response) {
     i18n.addTranslations(locale, response);
-    i18n.set('locale', locale);
+    i18n.setProperties({ locale, ready: true });
     return true;
   }
 
