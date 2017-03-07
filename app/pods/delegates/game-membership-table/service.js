@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import { GAME_STATUSES } from 'charcoal/pods/games/manager/service';
 
 const { inject, run } = Ember;
 
@@ -15,7 +16,7 @@ function columns() {
 
 function rows({ pagination, sorting }) {
   const { size: limit, page } = pagination;
-  const { cache } = this;
+  const { cache, state } = this;
   const { games, memberships, users } = cache;
 
   const deferred = this.get('deferred');
@@ -62,6 +63,15 @@ function rows({ pagination, sorting }) {
 
   let user_id = this.get('auth.user.id');
   let where = { user_id };
+
+  if(state && state.status.toUpperCase() == GAME_STATUSES.ENDED) {
+    where['game.status'] = GAME_STATUSES.ENDED;
+  }
+
+  if(state && state.status.toUpperCase() == GAME_STATUSES.ACTIVE) {
+    where['game.status'] = GAME_STATUSES.ACTIVE;
+  }
+
   let payload = { limit, page, sort: sorting.rel, where };
   return membership_resource.query(payload).then(loadGames);
 }
