@@ -1,8 +1,9 @@
 import Ember from 'ember';
+import { GAME_STATUSES } from 'charcoal/pods/games/manager/service';
 
 const { inject, computed, Component } = Ember;
+const { ENDED: ENDED_STATUS } = GAME_STATUSES;
 const tagName = 'tbody';
-const ENDED_STATUS = 'ENDED';
 
 const userColumns = computed(function() {
   let { round } = this.get('row');

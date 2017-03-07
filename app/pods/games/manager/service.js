@@ -3,6 +3,11 @@ import EventHandles from 'charcoal/mixins/event-handles';
 
 const { run, inject, Service } = Ember;
 
+export const GAME_STATUSES = {
+  ENDED  : 'ENDED',
+  ACTIVE : 'ACTIVE'
+};
+
 export default Service.extend(EventHandles, {
   deferred           : inject.service(),
   resource           : inject.service('games/resource'),
@@ -36,6 +41,13 @@ export default Service.extend(EventHandles, {
     const success = run.bind(this, this.trigger, 'updated');
     const reload = run.bind(this, this.load, game.uuid);
     return this.get('round_manager').add().then(reload).then(success);
+  },
+
+  endGame() {
+    const { id, uuid } = this.get('state.game') || { };
+    const reload = run.bind(this, this.load, uuid);
+    const updates = { id, status: GAME_STATUSES.ENDED };
+    return this.get('resource').update(updates).then(reload);
   },
 
   load(uuid) {
