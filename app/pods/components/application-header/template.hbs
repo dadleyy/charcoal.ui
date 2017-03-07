@@ -4,32 +4,38 @@
       <div class="vert-hack__cell">
         <div class="vert-hack__table">
           <div class="vert-hack__cell" style="width: 35px">
-            <img src="/images/logo-white.svg" width="100%"/>
+            <div class="position-relative" style="width: 35px;">
+              <img src="/images/logo-white.svg" width="100%"/>
+            </div>
           </div>
-          <div class="vert-hack__cell padding-left-5">{{#link-to 'index'}}<b>{{t 'charcoal'}}</b>{{/link-to}}</div>
+          {{#if i18n.ready}}
+            <div class="vert-hack__cell padding-left-5">{{#link-to 'index'}}<b>{{t 'charcoal'}}</b>{{/link-to}}</div>
+          {{/if}}
         </div>
       </div>
       <div class="vert-hack__cell">
-        <div class="float-right">
-          <div class="display-table display-table--fixed">
-            <div class="display-table-cell v-align-middle padding-right-10">
-              {{#link-to 'about'}}{{t 'about'}}{{/link-to}}
-            </div>
-            {{#if user}}
+        {{#if i18n.ready}}
+          <div class="float-right">
+            <div class="display-table display-table--fixed">
               <div class="display-table-cell v-align-middle padding-right-10">
-                {{#link-to 'account'}}{{t 'account'}}{{/link-to}}
+                {{#link-to 'about'}}{{t 'about'}}{{/link-to}}
               </div>
-              <div class="display-table-cell v-align-middle padding-right-10">
-                <a href="/api/logout">{{t 'logout'}}</a>
+              {{#if user}}
+                <div class="display-table-cell v-align-middle padding-right-10">
+                  {{#link-to 'account'}}{{t 'account'}}{{/link-to}}
+                </div>
+                <div class="display-table-cell v-align-middle padding-right-10">
+                  <a href="/api/logout">{{t 'logout'}}</a>
+                </div>
+              {{/if}}
+              <div class="display-table-cell v-align-middle">
+                <a href="{{source_home}}" title="{{t 'source_code'}}">
+                  <i class="icon fs-5 ion-social-github fg-white" />
+                </a>
               </div>
-            {{/if}}
-            <div class="display-table-cell v-align-middle">
-              <a href="{{source_home}}" title="{{t 'source_code'}}">
-                <i class="icon fs-5 ion-social-github fg-white" />
-              </a>
             </div>
           </div>
-        </div>
+        {{/if}}
       </div>
     </div>
   </section>

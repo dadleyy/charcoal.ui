@@ -3,9 +3,14 @@ import ENV from 'charcoal/config/environment';
 
 const { inject, computed } = Ember;
 
-const auth = inject.service();
 const user = computed.alias('auth.user');
 
-const source_home = computed(function() { return ENV.source_home; });
+const source_home = computed(function() {
+  return ENV.source_home;
+});
 
-export default Ember.Component.extend({ auth, user, source_home });
+export default Ember.Component.extend({
+  auth: inject.service(),
+  i18n: inject.service(),
+  user, source_home
+});

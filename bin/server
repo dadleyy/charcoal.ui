@@ -117,7 +117,9 @@ class Logger {
       }
     }
 
-    fs.readFile(path.join(i18n_root, `${locale}.json`), render);
+    setTimeout(function() {
+      fs.readFile(path.join(i18n_root, `${locale}.json`), render);
+    }, 1000);
   });
 
   app.get("/api/login/google", function(req, res) {
