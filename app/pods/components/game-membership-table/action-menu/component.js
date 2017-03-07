@@ -1,9 +1,10 @@
 import Ember from 'ember';
+import { GAME_STATUSES } from 'charcoal/pods/games/manager/service';
 
 const { inject, Component, computed } = Ember;
 
 const className = 'game-membership-table__action-menu';
-const ENDED_STATUS = 'ENDED';
+const { ENDED: ENDED_STATUS } = GAME_STATUSES;
 
 const actions = {
 

@@ -1,7 +1,8 @@
 import Ember from 'ember';
+import { GAME_STATUSES } from 'charcoal/pods/games/manager/service';
 
 const { inject, Service } = Ember;
-const ENDED_STATUS = 'ENDED';
+const { ENDED: ENDED_STATUS } = GAME_STATUSES;
 
 function columns() {
   const i18n = this.get('i18n');

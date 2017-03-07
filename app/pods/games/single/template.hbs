@@ -7,7 +7,7 @@
             <h4>{{t 'leaderboard'}}</h4>
           </div>
           <div class="float-left margin-left-10 attention">
-            <p>{{model.game.status}}</p>
+            <p>{{model.manager.state.game.status}}</p>
           </div>
         </div>
       </div>
@@ -22,6 +22,9 @@
             </div>
           {{/if}}
           {{#unless ended}}
+            <div class="float-left margin-left-10">
+              <a class="button" onClick={{action 'endGame'}}>{{t 'end_game'}}</a>
+            </div>
             <div class="float-left margin-left-10">
               {{#hoc-modal as |modal|}}
                 {{#modal.button}}

@@ -1,7 +1,8 @@
 import Ember from 'ember';
+import { GAME_STATUSES } from 'charcoal/pods/games/manager/service';
 
 const { computed, inject, Controller } = Ember;
-const ACTIVE_STATUS = 'ACTIVE';
+const { ACTIVE: ACTIVE_STATUS } = GAME_STATUSES;
 
 function init() {
   this._super(...arguments);
@@ -21,6 +22,10 @@ const actions = {
 
   refresh() {
     this.get('model.table_delegate').set('state', { updated: Date.now() });
+  },
+
+  endGame() {
+    this.get('model.manager').endGame();
   }
 
 };
