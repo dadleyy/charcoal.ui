@@ -1,0 +1,16 @@
+{{#hoc-menu as |menu|}}
+  {{#menu.button}}
+    <p><span class="padding-right-5">{{t 'status'}}: {{selected}}</span> <i class="icon ion-navicon fg-white"></i></p>
+  {{/menu.button}}
+  {{#menu.body}}
+    <div class="select-item">
+      <a class="select-item__action" onClick={{action 'select' 'active'}}>{{t 'active'}}</a>
+    </div>
+    <div class="select-item">
+      <a class="select-item__action" onClick={{action 'select' 'ended'}}>{{t 'ended'}}</a>
+    </div>
+    <div class="select-item">
+      <a class="select-item__action" onClick={{action 'select' 'all'}}>{{t 'all'}}</a>
+    </div>
+  {{/menu.body}}
+{{/hoc-menu}}
