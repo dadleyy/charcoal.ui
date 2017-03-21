@@ -1,8 +1,11 @@
 import { moduleFor, test } from 'ember-qunit';
 
 moduleFor('service:game-rounds/manager', 'Unit | Service | game rounds/manager', {
-  // Specify the other units that are required for this test.
-  // needs: ['service:foo']
+  needs: [
+    'service:uuid',
+    'service:deferred',
+    'service:game-rounds/resource'
+  ]
 });
 
 // Replace this with your real tests.

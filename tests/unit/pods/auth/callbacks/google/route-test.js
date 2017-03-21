@@ -1,8 +1,7 @@
 import { moduleFor, test } from 'ember-qunit';
 
 moduleFor('route:auth/callbacks/google', 'Unit | Route | auth/callbacks/google', {
-  // Specify the other units that are required for this test.
-  // needs: ['controller:foo']
+  needs: ['service:analytics', 'service:auth']
 });
 
 test('it exists', function(assert) {

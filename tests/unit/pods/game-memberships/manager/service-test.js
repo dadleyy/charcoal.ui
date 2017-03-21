@@ -1,6 +1,12 @@
 import { moduleFor, test } from 'ember-qunit';
 
 moduleFor('service:game-memberships/manager', 'Unit | Service | game-memberships/manager', {
+  needs: [
+    'service:uuid',
+    'service:deferred',
+    'service:game-memberships/resource',
+    'service:users/resource'
+  ]
 });
 
 test('it exists', function(assert) {
