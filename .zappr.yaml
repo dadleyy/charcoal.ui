@@ -2,3 +2,4 @@ commit:
   message:
     patterns:
       - "^\\[CHUI\\-[0-9]+\\]"
+      - "^chore\\(\\S+\\)"
