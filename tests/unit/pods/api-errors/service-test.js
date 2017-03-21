@@ -1,8 +1,7 @@
 import { moduleFor, test } from 'ember-qunit';
 
 moduleFor('service:api-errors', 'Unit | Service | api errors', {
-  // Specify the other units that are required for this test.
-  // needs: ['service:foo']
+  needs: ['service:i18n']
 });
 
 // Replace this with your real tests.
