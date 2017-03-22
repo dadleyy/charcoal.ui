@@ -34,8 +34,6 @@ const actions = {
 };
 
 export default Component.extend({
-  users: inject.service('users/resource'),
-  memberships: inject.service('users/memberships'),
   delegate: inject.service('delegates/game-membership-modal-table'),
   init, actions
 });
