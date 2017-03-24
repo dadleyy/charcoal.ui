@@ -18,6 +18,7 @@ function refresh() {
 
   const users_resource = this.get('users_resource');
   const membership_resource = this.get('membership_resource');
+  const history_resource = this.get('history_resource');
 
   const set = this.set.bind(this);
   const trigger = this.trigger.bind(this, 'updated');
@@ -28,13 +29,17 @@ function refresh() {
     return deferred.resolve(true);
   }
 
-  function loadUsers({ results }) {
-    set('memberships', results);
-    let user_ids = results.map(function({ user_id }) { return user_id; });
+  function loadUsers([ membership_response, history_response ]) {
+    const { results: memberships } = membership_response;
+    set('memberships', memberships);
+    let user_ids = memberships.map(function({ user_id }) { return user_id; });
     return users_resource.query({ where: { id: user_ids } }).then(refreshed);
   }
 
-  return membership_resource.query({ where: { game_id: game.id } }).then(loadUsers);
+  return deferred.all([
+    membership_resource.query({ where: { game_id: game.id } }),
+    history_resource.query({ where: { game_id: game.id } }),
+  ]).then(loadUsers);
 }
 
 function add(user_id) {
@@ -46,6 +51,7 @@ function add(user_id) {
 export default Service.extend(Events, {
   deferred: inject.service(),
   membership_resource: inject.service('game-memberships/resource'),
+  history_resource: inject.service('game-membership-history/resource'),
   users_resource: inject.service('users/resource'),
   add, init, refresh
 });
