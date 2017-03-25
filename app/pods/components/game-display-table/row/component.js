@@ -27,7 +27,13 @@ function wasAbsent(history_list, round) {
     }
   }
 
-  return history_list[history_list.length - 1].entry_round_id > round_id;
+  let latest = history_list[history_list.length - 1];
+
+  if(latest.exit_round_id && latest.exit_round_id < round_id) {
+    return true;
+  }
+
+  return latest.entry_round_id > round_id; 
 }
 
 const userColumns = computed(function() {
