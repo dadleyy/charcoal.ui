@@ -7,13 +7,21 @@ const { ENDED: ENDED_STATUS } = GAME_STATUSES;
 function columns() {
   const i18n = this.get('i18n');
   const { game } = this.get('manager.state');
-  const { users, memberships } = this.get('manager.membership_manager');
+  const { users, memberships, history } = this.get('manager.membership_manager');
   const width = users && users.length ? (100 / users.length) : 0;
 
+  const defaults = {
+    style: `width: ${width}%`,
+    sortable: false,
+    align: 'center'
+  };
+
   function toColumn(user) {
-    const style = `width: ${width}%`;
     const [ membership ] = memberships.filter(function({ user_id }) { return user_id === user.id });
-    return { text: user.name, rel: `user-${user.id}`, sortable: false, user, membership, style, align: 'center' };
+    const histories = history.filter(function({ user_id }) { return user_id === user.id });
+    const rel =`user-${user.id}`;
+    const { name: text } = user;
+    return { text, rel, user, membership, histories, ...defaults };
   }
 
   const id_column = {

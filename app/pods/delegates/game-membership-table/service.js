@@ -62,7 +62,7 @@ function rows({ pagination, sorting }) {
   }
 
   let user_id = this.get('auth.user.id');
-  let where = { user_id };
+  let where = { user_id, status: 'ACTIVE' };
 
   if(state && (state.status || '').toUpperCase() == GAME_STATUSES.ENDED) {
     where['game.status'] = GAME_STATUSES.ENDED;

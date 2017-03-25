@@ -1,17 +1,23 @@
 /*jshint node:true*/
 /* global require, module */
-var EmberApp = require('ember-cli/lib/broccoli/ember-app');
+const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function(defaults) {
-  var sassOptions = {
+  const sassOptions = {
     extension    : 'sass',
     includePaths : [
       './bower_components/bases.scss/src'
     ]
   };
 
-  var config = { sassOptions };
-  var app    = new EmberApp(defaults, config);
+  const config = {
+    sassOptions,
+    "ember-cli-babel": {
+      includePolyfill: true
+    }
+  };
+
+  const app    = new EmberApp(defaults, config);
 
   return app.toTree();
 };

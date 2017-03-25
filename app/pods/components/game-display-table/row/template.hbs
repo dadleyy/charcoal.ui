@@ -1,7 +1,7 @@
 <tr>
   <td data-column="round.id" class="align-center v-align-middle">
     <div class="align-center">
-      <p>{{row.number}}</p>
+      <p>{{row.number}} ({{row.round.id}})</p>
     </div>
   </td>
   {{#each userColumns as |c|}}
@@ -21,7 +21,7 @@
           <div class="vert-hack__cell"><i class="icon fs-4 fg-white-darken-10 ion-asterisk"></i></div>
         {{/if}}
 
-        {{#if c.unranked}}
+        {{#if c.rankable}}
           {{#unless row.round.asshole_id}}
           <div class="vert-hack__cell">
             <a class="button" onClick={{action 'asshole' c.user}}><i class="icon ion-close"></i></a>
