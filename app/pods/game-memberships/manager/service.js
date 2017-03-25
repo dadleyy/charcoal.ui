@@ -8,38 +8,29 @@ function init() {
   this.setProperties({ users: [], memberships: [] });
 }
 
-function refresh() {
+async function refresh() {
   const { game } = this;
   const deferred = this.get('deferred');
 
   if(!game) {
-    return deferred.reject(new Error("must provide game first!"))
+   throw new Error("must provide game first!");
   }
 
   const users_resource = this.get('users_resource');
   const membership_resource = this.get('membership_resource');
   const history_resource = this.get('history_resource');
 
-  const set = this.set.bind(this);
-  const trigger = this.trigger.bind(this, 'updated');
-
-  function refreshed({ results }) {
-    run.next(null, trigger);
-    set('users', results);
-    return deferred.resolve(true);
-  }
-
-  function loadUsers([ membership_response, history_response ]) {
-    const { results: memberships } = membership_response;
-    set('memberships', memberships);
-    let user_ids = memberships.map(function({ user_id }) { return user_id; });
-    return users_resource.query({ where: { id: user_ids } }).then(refreshed);
-  }
-
-  return deferred.all([
+  const [ membership_response, history_response ] = await deferred.all([
     membership_resource.query({ where: { game_id: game.id } }),
-    history_resource.query({ where: { game_id: game.id } }),
-  ]).then(loadUsers);
+    history_resource.query({ where: { game_id: game.id } })
+  ]);
+
+  const { results: memberships } = membership_response;
+  const { results: history } = history_response;
+  let user_ids = memberships.map(function({ user_id }) { return user_id; });
+  const { results: users } = await users_resource.query({ where: { id: user_ids } });
+  run.next(this, this.trigger, 'updated');
+  this.setProperties({ users, memberships, history });
 }
 
 function add(user_id) {

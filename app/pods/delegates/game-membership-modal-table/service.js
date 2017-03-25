@@ -41,7 +41,7 @@ function rows({ pagination }) {
 
     resolution.users = results;
     resolution.count = count;
-    let where = { user_id: user_ids, game_id: game.id };
+    let where = { user_id: user_ids, game_id: game.id, status: 'ACTIVE' };
     return membership_resource.query({ where }).then(finish);
   }
 
