@@ -1,0 +1,10 @@
+test
+test
+dist/*
+tmp
+node_modules
+bin
+config
+auto
+karma.conf.js
+gulpfile.js

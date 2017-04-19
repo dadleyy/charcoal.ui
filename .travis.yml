@@ -4,11 +4,10 @@ node_js:
 sudo: false
 install:
   - npm install
-  - npm run vendor:install
 script:
-  - npm run build -- --prod --output-path ./dist/charcoal
+  - npm run build:release
   - npm test
-  - tar -cvzf ./dist/charcoal.ui.tar.gz -C ./dist ./charcoal
+  - tar -cvzf ./dist/charcoal.ui.tar.gz -C ./dist ./app
 deploy:
   provider: releases
   api_key:
