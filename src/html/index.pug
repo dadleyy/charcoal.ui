@@ -20,7 +20,12 @@ html
     script(src="/assets/js/helpers.js" type="text/javascript")
     script.
       (function() {
-        requirejs.config({baseUrl: "/assets/js"});
+        requirejs.config({
+          baseUrl: "/assets/js",
+          paths: {
+            "charcoal": "/assets/js"
+          }
+        });
         function start(app) { return app.bootstrap(); }
         require(["main"], start);
       })();

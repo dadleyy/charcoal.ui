@@ -1,5 +1,9 @@
+import auth from "charcoal/services/auth";
+
 function resolve() {
-  return { };
+  const { user } = auth;
+
+  return { user };
 }
 
 const view = "charcoal/views/not-found";

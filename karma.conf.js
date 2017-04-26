@@ -1,9 +1,26 @@
 const babel = require("babel-core");
 const path = require("path");
+const nanybar = require('nanybar');
+
+function AnybarReporter(baseReporterDecorator) {
+  baseReporterDecorator(this);
+
+  this.onBrowserStart = function() {
+    nanybar('red');
+  };
+
+  this.onRunComplete = function() {
+    nanybar('blue');
+  };
+}
+
+AnybarReporter.$inject = [
+  "baseReporterDecorator"
+];
 
 module.exports = function(config) {
   let browsers   = ["PhantomJS"];
-  let frameworks = ["requirejs", "jasmine"];
+  let frameworks = ["requirejs", "jasmine-ajax", "jasmine"];
   let reporters  = ["dots", "narrow"];
   const npm_root = path.join(__dirname, "./node_modules");
 
@@ -20,12 +37,14 @@ module.exports = function(config) {
 
     "test/unit/**/*.js": ["babel"],
     "test/fixtures/**/*.js": ["babel"],
+    "test/helpers/**/*.js": ["babel"],
     "test/unit.js": ["babelexternal"]
   };
 
   let files = [
     {pattern: "./test/unit/**/*.spec.js", included: false},
     {pattern: "./test/fixtures/**/*.js", included: false},
+    {pattern: "./test/helpers/**/*.js", included: false},
 
     {pattern: "./src/**/*.ts", included: false},
     {pattern: "./src/**/*.tsx", included: false},
@@ -56,6 +75,7 @@ module.exports = function(config) {
   let plugins = [
     "karma-eslint",
     "karma-jasmine",
+    "karma-jasmine-ajax",
     "karma-requirejs",
     "karma-babel-preprocessor",
     "karma-typescript-preprocessor",
@@ -63,6 +83,7 @@ module.exports = function(config) {
     "karma-chrome-launcher",
     "karma-narrow-reporter",
     {"preprocessor:babelexternal": ["factory", external]},
+    {"reporter:anybar": ["type", AnybarReporter]},
   ];
 
   let options = {preprocessors, browsers, plugins, frameworks, files};

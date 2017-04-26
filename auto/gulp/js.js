@@ -12,6 +12,7 @@ const merge   = require("merge-stream");
 const docs    = require("gulp-yuidoc");
 const tsc     = require("gulp-typescript");
 const eslint  = require('gulp-eslint');
+const yaml    = require('gulp-yaml');
 const cfg     = require("./config");
 
 module.exports = function(gulp) {
@@ -20,11 +21,15 @@ module.exports = function(gulp) {
   const docs_dest = cfg.path("dist.docs");
 
   const eslint_config = path.join(base, ".eslintrc");
+
   const js_src = path.join(base, "src/js");
   const js_out = path.join(app_dest, "assets/js");
   const js_tmp = path.join(base, "tmp/js");
+
   const config_out = path.join(js_tmp, "config/environment.js");
   const config_in = path.join(base, "config/environment");
+
+  const locales_out = path.join(app_dest, "assets/locales");
 
   const docs_out = path.join(docs_dest, "js");
 
@@ -35,31 +40,78 @@ module.exports = function(gulp) {
     return path.join(npm_root, lib_path);
   }
 
-  let vendors = [
+  const vendors = [
     vendor("requirejs/require.js"),
     vendor("regenerator-runtime/runtime.js")
   ];
 
-  let presets = ["es2015", "react"];
+  const presets = ["es2015", "react"];
 
-  let plugins = [
+  const plugins = [
     "external-helpers", 
     "transform-es2015-modules-amd",
     "transform-object-rest-spread",
     "transform-async-to-generator"
   ];
 
-  let rjs_conf = { };
+  /* This function is used to optimize the main.js file and it's dependency tree into a single file. The files outside
+   * of it's tree will be lazy-loaded via requirejs during the runtime of the application.
+   */
+  function bundle(opts = { }) {
+    const cwd = js_tmp;
 
+    const rjs_conf = {
+      include : ["main"],
+      optimize : "none",
+      paths: {
+        "charcoal"  : js_tmp,
+        "page"      : vendor("page/page"),
+        "bluebird"  : vendor("bluebird/js/browser/bluebird"),
+        "react"     : vendor(opts.min === true ? "react/dist/react.min" : "react/dist/react"),
+        "react-dom" : vendor(opts.min === true ? "react-dom/dist/react-dom.min" : "react-dom/dist/react-dom"),
+        "hoctable"  : vendor("hoctable/dist/es5/hoctable/hoctable"),
+        "qwest"     : vendor("qwest/qwest.min")
+      }
+    };
+
+    const compiler = rjs(rjs_conf);
+
+    compiler.on("error", function(err) {
+      console.error(err);
+    });
+
+    const out = gulp.dest(js_out);
+    return gulp.src(["main.js"], { cwd }).pipe(compiler).pipe(out);
+  };
+
+  /* This function is during the `gulp:release` process and tells the bundler to use the optimized versions of vendor
+   * libraries that complain if their un-minified version is being used in the application (react, react-dom).
+   */
+  bundle.min = function() {
+    return bundle({ min: true });
+  };
+
+  /* clean:js:docs
+   *
+   * Removes any files/directories associated with javascript documentation.
+   */
   gulp.task("clean:js:docs", function() {
     return del([docs_out]);
   });
 
+  /* clean:js
+   *
+   * Removes any files/directories associated with javascript application itself.
+   */
   gulp.task("clean:js", ["clean:js:docs"], function() {
     const dirs = [vendor_bundle_file, js_out, js_tmp];
     return del(dirs);
   });
 
+  /* js:docs
+   *
+   * Generates javascript documentation for the application.
+   */
   gulp.task("js:docs", ["clean:js:docs"], function() {
     const cwd = js_src;
     const out = gulp.dest(docs_out);
@@ -67,6 +119,21 @@ module.exports = function(gulp) {
     return gulp.src(["**/*.js", "**/*.jsx"], { cwd }).pipe(docs()).pipe(out);
   });
 
+  /* js:vendors
+   *
+   * It is necessary for some vendor libraries to be exposed in the browser as globals during runtime. This includes
+   * requirejs, which is used to lazy-load dependencies during the routing engine.
+   */
+  gulp.task("js:vendors", function() {
+    return gulp.src(vendors)
+      .pipe(concat("bundle.js"))
+      .pipe(gulp.dest(path.dirname(vendor_bundle_file)));
+  });
+
+  /* js:vendors:release
+   *
+   * Like js:vendors, but w/ minification.
+   */
   gulp.task("js:vendors:release", function() {
     return gulp.src(vendors)
       .pipe(concat("bundle.js"))
@@ -75,12 +142,10 @@ module.exports = function(gulp) {
       .pipe(gulp.dest(path.dirname(vendor_bundle_file)));
   });
 
-  gulp.task("js:vendors", function() {
-    return gulp.src(vendors)
-      .pipe(concat("bundle.js"))
-      .pipe(gulp.dest(path.dirname(vendor_bundle_file)));
-  });
-
+  /* js:ts
+   *
+   * Compiles typescript files to the js_tmp directory.
+   */
   gulp.task("js:ts", ["clean:js"], function() {
     const config_file = path.join(base, "tsconfig.json");
     const project = tsc.createProject(config_file);
@@ -90,6 +155,10 @@ module.exports = function(gulp) {
     return gulp.src(["**/*.ts", "**/*.tsx"], { cwd }).pipe(project()).pipe(out);
   });
 
+  /* js:babel
+   *
+   * Compiles es6 and jsx fils to the js_tmp directory. Also runs eslint during the process.
+   */
   gulp.task("js:babel", ["js:ts"], function() {
     const vanilla = gulp.src(["**/*.js", "**/*.jsx"], { cwd: js_src });
     const out = gulp.dest(js_tmp)
@@ -102,6 +171,10 @@ module.exports = function(gulp) {
       .pipe(out);
   });
 
+  /* js:copy
+   *
+   * Copies compiled files from the js_tmp directory to the final distributable directory.
+   */
   gulp.task("js:copy", ["js:babel", "js:vendors"], function() {
     const cwd = js_tmp;
     const out = gulp.dest(js_out);
@@ -109,44 +182,31 @@ module.exports = function(gulp) {
     return gulp.src("**/*.js", { cwd }).pipe(out);
   });
 
-  gulp.task("js:config", ["js:copy"], function() {
-    const config = require(config_in);
-    const { base, dir } = path.parse(config_out);
-    return file(base, config.contents, { src: true }).pipe(babel({ presets, plugins })).pipe(gulp.dest(dir));
+  gulp.task("js:runtime-config:locales", ["js:copy"], function() {
+    const cwd = path.join(base, "config/locales");
+    const out = gulp.dest(locales_out);
+
+    return gulp.src("**/*.yml", { cwd })
+      .pipe(yaml({ schema: 'DEFAULT_SAFE_SCHEMA' }))
+      .pipe(out)
   });
 
-  function bundle(opts = { }) {
-    const cwd = js_tmp;
+  /* js:runtime-config:environment
+   *
+   * Creates a config/environment file for use during runtime with compile-time environment variables.
+   */
+  gulp.task("js:runtime-config:environment", ["js:runtime-config:locales"], function() {
+    const config = require(config_in);
+    const { base, dir } = path.parse(config_out);
 
-    const compiler = rjs({
-      include : ["main"],
-      optimize : "none",
-      paths: {
-        "charcoal": cwd,
-        "page": vendor("page/page"),
-        "bluebird": vendor("bluebird/js/browser/bluebird"),
-        "react": vendor(opts.min === true ? "react/dist/react.min" : "react/dist/react"),
-        "react-dom": vendor(opts.min === true ? "react-dom/dist/react-dom.min" : "react-dom/dist/react-dom"),
-        "hoctable": vendor("hoctable/dist/es5/hoctable/hoctable"),
-        "qwest": vendor("qwest/qwest.min")
-      }
-    });
+    return file(base, config.contents, { src: true })
+      .pipe(babel({ presets, plugins }))
+      .pipe(gulp.dest(dir));
+  });
 
-    compiler.on("error", function(err) {
-      console.error(err);
-    });
+  gulp.task("js", ["js:runtime-config:environment"], bundle);
 
-    const out = gulp.dest(js_out);
-    return gulp.src(["main.js"], { cwd }).pipe(compiler).pipe(out);
-  };
-
-  bundle.min = function() {
-    return bundle({ min: true });
-  };
-
-  gulp.task("js", ["js:config"], bundle);
-
-  gulp.task("js:release:bundle", ["js:config"], bundle.min);
+  gulp.task("js:release:bundle", ["js:runtime-config:environment"], bundle.min);
 
   // js:release:unstage
   //

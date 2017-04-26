@@ -8,20 +8,28 @@ function pathToModule(path) {
 
 for(var i =  0, c = file_names.length; i < c; i++) {
   var file = file_names[i];
-  console.log(file);
   if(TEST_REGEXP.test(file)) tests.push(pathToModule(file));
 }
 
 define("charcoal/config/environment", [], function() {
   var config = {
+    locale_root: "/api/locales"
   };
 
-  return { default: config };
+  return config;
 });
+
+function start() {
+  require(["bluebird"], function(bluebird) {
+    window.Promise = window.Promise || bluebird;
+    window.__karma__.start();
+  });
+}
 
 require.config({
   baseUrl: '/base',
   paths: {
+    "test-helpers": "/base/test/helpers",
     "charcoal": "/base/src/js",
     "react": "/base/node_modules/react/dist/react",
     "react-dom": "/base/node_modules/react-dom/dist/react-dom",
@@ -32,5 +40,5 @@ require.config({
   },
   shim: {},
   deps: tests,
-  callback: window.__karma__.start
+  callback: start
 });

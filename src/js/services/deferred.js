@@ -7,11 +7,11 @@ const deferred = {
   },
 
   make() {
-    let
-    result = { };
+    const result = { };
 
     result.promise = new Bluebird(function(resolve, reject) {
-      result = { ...result, resolve, reject };
+      result.resolve = resolve;
+      result.reject = reject;
     });
 
     return result;
