@@ -1,22 +1,5 @@
 const babel = require("babel-core");
 const path = require("path");
-const nanybar = require('nanybar');
-
-function AnybarReporter(baseReporterDecorator) {
-  baseReporterDecorator(this);
-
-  this.onBrowserStart = function() {
-    nanybar('red');
-  };
-
-  this.onRunComplete = function() {
-    nanybar('blue');
-  };
-}
-
-AnybarReporter.$inject = [
-  "baseReporterDecorator"
-];
 
 module.exports = function(config) {
   let browsers   = ["PhantomJS"];
@@ -82,8 +65,8 @@ module.exports = function(config) {
     "karma-phantomjs-launcher",
     "karma-chrome-launcher",
     "karma-narrow-reporter",
+    "karma-anybar-reporter",
     {"preprocessor:babelexternal": ["factory", external]},
-    {"reporter:anybar": ["type", AnybarReporter]},
   ];
 
   let options = {preprocessors, browsers, plugins, frameworks, files};
@@ -100,6 +83,14 @@ module.exports = function(config) {
     },
     filename: function (file) {
       return file.originalPath.replace(/\.jsx$/, ".js");
+    }
+  };
+
+  options.anybar = {
+    colors: {
+      failed: "exclamation",
+      running: "black",
+      success: "green"
     }
   };
 
