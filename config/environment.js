@@ -1,6 +1,13 @@
+const api_root = process.env["API_ROOT"] || "/api";
+
 const env = {
-  api_root: process.env["API_ROOT"] || "/api",
+  api_root,
+
   locale_root: "/assets/locales",
+
+  oauth: {
+    google_url: `${api_root}/login/google`
+  },
 
   routing: {
     base_url: "/"

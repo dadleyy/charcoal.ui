@@ -1,0 +1,21 @@
+@for $i from 0 through 40
+  $amount: $i * 0.20
+
+  .margin-#{$i}
+    margin: $amount + unquote("rem")
+
+  .margin-tb-#{$i}
+    margin-top: $amount + unquote("rem")
+    margin-bottom: $amount + unquote("rem")
+
+  .margin-right-#{$i}
+    margin-right: $amount + unquote("rem")
+
+  .margin-left-#{$i}
+    margin-left: $amount + unquote("rem")
+
+  .margin-top-#{$i}
+    margin-top: $amount + unquote("rem")
+
+  .margin-bottom-#{$i}
+    margin-bottom: $amount + unquote("rem")

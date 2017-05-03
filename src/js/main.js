@@ -5,6 +5,7 @@ import { services } from "hoctable";
 import React from "react";
 import ReactDOM from "react-dom";
 
+import Header from "charcoal/components/header";
 import ErrorView from "charcoal/views/error";
 
 import i18n from "charcoal/services/i18n";
@@ -12,12 +13,25 @@ import routes from "charcoal/routes";
 import router from "charcoal/router";
 import config from "charcoal/config/environment";
 
-export async function bootstrap() {
-  const popups = document.getElementById("popups");
-  const main = document.getElementById("main");
+const layers = {
 
+  get popups() {
+    return document.getElementById("popups");
+  },
+
+  get main() {
+    return document.getElementById("main");
+  },
+
+  get header() {
+    return document.getElementById("header");
+  }
+
+};
+
+export async function bootstrap() {
   services.Viewport.bind();
-  services.Popups.mount(popups);
+  services.Popups.mount(layers.popups);
 
   for(let i = 0, c = routes.length; i < c; i++) {
     const route = routes[i];
@@ -29,8 +43,10 @@ export async function bootstrap() {
   } catch (error) {
     const error_view = React.createElement(ErrorView, { error });
 
-    return ReactDOM.render(error_view, main);
+    return ReactDOM.render(error_view, layers.main);
   }
 
+  const header = React.createElement(Header, { });
+  ReactDOM.render(header, layers.header);
   router.start(config.routing);
 }

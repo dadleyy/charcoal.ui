@@ -11,7 +11,8 @@ module.exports = function(gulp) {
   const source = [path.join(base, "src/sass/app.sass")];
 
   const includePaths = [
-    path.join(base, "node_modules/bulma")
+    path.join(base, "node_modules/bulma"),
+    path.join(base, "node_modules/font-awesome/scss")
   ];
 
   gulp.task("clean:css", function() {

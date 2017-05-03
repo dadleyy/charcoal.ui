@@ -2,8 +2,8 @@ const main = require("charcoal/main");
 
 describe("application test suite", function() {
 
-  it("should be okay", function() {
-    expect(true).toBe(true);
+  it("be bootstrap-able", function() {
+    expect(typeof main.bootstrap).toBe("function");
   });
 
 });

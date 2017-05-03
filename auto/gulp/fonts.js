@@ -5,24 +5,25 @@ const del  = require("del");
 const cfg  = require("./config");
 
 module.exports = function(gulp) {
-  let dest = path.join(cfg.path("dist.app"), "assets/fonts");
+  const dest = path.join(cfg.path("dist.app"), "assets/fonts");
   const base = cfg.path("base");
 
   gulp.task("clean:fonts", function() {
     return del([dest]);
   });
 
-  gulp.task("fonts:material", ["clean:fonts"], function() {
-    let cwd = path.join(base, "bower_components/materialize/fonts");
+  gulp.task("fonts:font-awesome", ["clean:fonts"], function() {
+    const cwd = path.join(base, "node_modules/font-awesome/fonts");
+    const out = gulp.dest(path.join(dest, "font-awesome"));
 
-    return gulp.src("**/*", {cwd})
-      .pipe(gulp.dest(dest));
+    return gulp.src("**/*", { cwd }).pipe(out);
   });
 
-  gulp.task("fonts", ["fonts:material"], function() {
-    let cwd = path.join(base, "src/fonts");
-    return gulp.src("**/*", {cwd})
-      .pipe(gulp.dest(dest));
+  gulp.task("fonts", ["fonts:font-awesome"], function() {
+    const cwd = path.join(base, "src/fonts");
+    const out = gulp.dest(dest);
+
+    return gulp.src("**/*", { cwd }).pipe(out);
   });
 
 };
