@@ -18,6 +18,7 @@ module.exports = function(config) {
     "src/**/*.ts": ["typescript"],
     "src/**/*.tsx": ["typescript"],
 
+    "test/views/**/*.jsx": ["babel"],
     "test/unit/**/*.js": ["babel"],
     "test/fixtures/**/*.js": ["babel"],
     "test/helpers/**/*.js": ["babel"],
@@ -28,6 +29,7 @@ module.exports = function(config) {
     {pattern: "./test/unit/**/*.spec.js", included: false},
     {pattern: "./test/fixtures/**/*.js", included: false},
     {pattern: "./test/helpers/**/*.js", included: false},
+    {pattern: "./test/views/**/*.jsx", included: false},
 
     {pattern: "./src/**/*.ts", included: false},
     {pattern: "./src/**/*.tsx", included: false},

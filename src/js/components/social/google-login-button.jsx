@@ -14,7 +14,7 @@ class Button extends React.Component {
     return (
       <div className="cursor-pointer button is-light clearfix" onClick={navigate}>
         <span className="icon is-small">
-          <i className="fa fa-check"></i>
+          <i className="fa fa-google"></i>
         </span>
         <span>{i18n("google_login")}</span>
       </div>

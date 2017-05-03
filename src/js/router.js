@@ -46,10 +46,12 @@ const router = {
     }
 
     async function begin(page_context) {
+      const { guest } = definition;
+
       try {
         await auth.prep();
       } catch (e) {
-        if(definition.guest !== true) return page("/login");
+        if(guest !== true) return page("/login");
       }
 
       stack.push({ page_context });
@@ -61,7 +63,7 @@ const router = {
     page(path, begin);
   },
 
-  start(options) {
+  start(options = { }) {
     const { base_url } = options;
 
     if(base_url) {
@@ -69,7 +71,11 @@ const router = {
     }
 
     view_mount = document.getElementById("main");
-    page({ popstate : true, click : true });
+    page.start({ popstate : true, click : true });
+  },
+
+  stop() {
+    page.stop();
   }
 
 };

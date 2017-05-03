@@ -20,7 +20,7 @@ const requests = {
 
   get latest() {
     const most_recent = jasmine_ajax.requests.mostRecent();
-    return new Request(most_recent);
+    return most_recent ? new Request(most_recent) : null;
   },
 
   get latest_url() {

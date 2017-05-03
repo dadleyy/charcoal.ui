@@ -13,7 +13,8 @@ for(var i =  0, c = file_names.length; i < c; i++) {
 
 define("charcoal/config/environment", [], function() {
   var config = {
-    locale_root: "/api/locales"
+    locale_root: "/api/locales",
+    api_root: "/api",
   };
 
   return config;
@@ -29,6 +30,7 @@ function start() {
 require.config({
   baseUrl: '/base',
   paths: {
+    "test-views": "/base/test/views",
     "test-helpers": "/base/test/helpers",
     "charcoal": "/base/src/js",
     "react": "/base/node_modules/react/dist/react",
