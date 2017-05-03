@@ -19,7 +19,8 @@ export class Redirect extends Error {
 const router = {
 
   register(definition) {
-    const { resolve, path, view } = definition;
+    const { resolve, path, view, dependencies } = definition;
+
     const stack = [ ];
 
     function render(ViewClass) {
@@ -33,11 +34,11 @@ const router = {
       return ReactDOM.render(instance, view_mount);
     }
 
-    async function inject(...dependencies) {
+    async function inject(...resolved_dependencies) {
       const [ latest, previous ] = stack;
 
       try {
-        latest.resolution = await resolve.call(latest, [ ...dependencies, previous ]);
+        latest.resolution = await resolve.apply(latest, [ ...resolved_dependencies, previous ]);
       } catch (e) {
         return e instanceof Redirect || e.redirect_url ? page(e.redirect_url) : page("/error");
       }
@@ -45,19 +46,36 @@ const router = {
       require([ view ], render);
     }
 
+    function failed(err) {
+      console.warn(`error resolving route[${err}]`);
+
+      return page("/login");
+    }
+
+    function go(page_context) {
+      stack.push({ page_context });
+
+      if(dependencies && dependencies.length) {
+        return require(dependencies, inject, failed);
+      }
+
+      return inject();
+    }
+
     async function begin(page_context) {
       const { guest } = definition;
+
+      if(guest) {
+        return go(page_context);
+      }
 
       try {
         await auth.prep();
       } catch (e) {
-        if(guest !== true) return page("/login");
+        return page("/login");
       }
 
-      stack.push({ page_context });
-      const dependencies = resolve.$inject && resolve.$inject.length ? resolve.$inject : [ ];
-
-      return dependencies.length ? require([ dependencies ], inject) : inject();
+      return go(page_context);
     }
 
     page(path, begin);
@@ -71,11 +89,16 @@ const router = {
     }
 
     view_mount = document.getElementById("main");
-    page.start({ popstate : true, click : true });
+    page.start({
+      hashbang : options.hashbang === true,
+      popstate : options.popstate !== false,
+      click : true
+    });
   },
 
   stop() {
     page.stop();
+    page.callbacks.length = 0;
   }
 
 };

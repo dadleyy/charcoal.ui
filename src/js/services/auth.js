@@ -5,10 +5,6 @@ const { api_root } = config;
 
 let internals = { };
 
-async function fetch() {
-  return await qwest.get(`${api_root}/auth/user`);
-}
-
 const auth = {
 
   get user() {
@@ -25,16 +21,19 @@ const auth = {
     }
 
     try {
-      const { results, meta } = await fetch();
+      const { results, meta } = await qwest.get(`${api_root}/auth/user`);
       const [ user ] = results;
       internals = { meta, user };
     } catch (e) {
       internals = { guest : true, prepared : true };
-
       throw e;
     }
 
     return { ...internals };
+  },
+
+  reset() {
+    internals = { };
   }
 
 };
