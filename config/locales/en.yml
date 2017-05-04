@@ -1,6 +1,8 @@
 account: "Account"
 charcoal: "Charcoal"
 google_login: "Sign in with Google"
+home: "Home"
 login: "Login"
 not_found: "not found"
 sign_out: "Sign Out"
+welcome_x: "Welcome, {{0}}"

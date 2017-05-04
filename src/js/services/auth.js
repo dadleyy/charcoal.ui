@@ -1,5 +1,5 @@
 import config from "charcoal/config/environment";
-import qwest from "qwest";
+import ajax from "charcoal/services/ajax";
 
 const { api_root } = config;
 
@@ -13,6 +13,15 @@ const auth = {
     return user ? { ...user } : null;
   },
 
+  async attempt(token) {
+    const { results, meta } = await ajax.get(`${api_root}/auth/user`, { token });
+
+    const [ user ] = results;
+    internals = { meta, user, prepared : true };
+
+    return !!user;
+  },
+
   async prep() {
     const { prepared } = internals;
 
@@ -21,7 +30,7 @@ const auth = {
     }
 
     try {
-      const { results, meta } = await qwest.get(`${api_root}/auth/user`);
+      const { results, meta } = await ajax.get(`${api_root}/auth/user`);
       const [ user ] = results;
       internals = { meta, user };
     } catch (e) {

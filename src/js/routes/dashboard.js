@@ -8,10 +8,10 @@ function resolve() {
     throw new Redirect("/login");
   }
 
-  return { };
+  return { user };
 }
 
 const view = "charcoal/views/dashboard";
 const path = "dashboard";
 
-export default { resolve, view, path, guest : true };
+export default { resolve, view, path };

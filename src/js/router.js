@@ -1,9 +1,13 @@
 /* globals document, require */
 
-import page from "page";
-import auth from "charcoal/services/auth";
 import React from "react";
 import ReactDOM from "react-dom";
+
+import page from "page";
+import isEsModule from "charcoal/util/is-es-module";
+import auth from "charcoal/services/auth";
+import ErrorView from "charcoal/views/error";
+import querystring from "charcoal/services/querystring";
 
 let view_mount = null;
 
@@ -23,10 +27,11 @@ const router = {
 
     const stack = [ ];
 
-    function render(ViewClass) {
+    function render(ViewModule) {
       const [ latest ] = stack;
       const { resolution } = latest;
-      const instance = React.createElement(ViewClass.default, { resolution });
+      const ViewClass = isEsModule(ViewModule) ? ViewModule.default : ViewModule;
+      const instance = React.createElement(ViewClass, { resolution });
 
       // Remove oldest route from stack
       stack.splice(1, 1);
@@ -40,7 +45,21 @@ const router = {
       try {
         latest.resolution = await resolve.apply(latest, [ ...resolved_dependencies, previous ]);
       } catch (e) {
-        return e instanceof Redirect || e.redirect_url ? page(e.redirect_url) : page("/error");
+        const is_redirect = e instanceof Redirect || e.redirect_url;
+
+        console.warn(`unable to load ${path}: ${e}`);
+
+        latest.resolution = { error : e };
+
+        return is_redirect ? page(e.redirect_url) : render(ErrorView);
+      }
+
+      const { resolution } = latest;
+
+      if(resolution && resolution.redirect_url || resolution instanceof Redirect) {
+        const { redirect_url } = latest.resolution;
+
+        return page(redirect_url);
       }
 
       require([ view ], render);
@@ -53,7 +72,9 @@ const router = {
     }
 
     function go(page_context) {
-      stack.push({ page_context });
+      const query = querystring(page_context.querystring);
+
+      stack.push({ page_context, query });
 
       if(dependencies && dependencies.length) {
         return require(dependencies, inject, failed);
