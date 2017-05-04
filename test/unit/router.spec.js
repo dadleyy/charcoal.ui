@@ -3,6 +3,7 @@ import auth from "charcoal/services/auth";
 import ajax from "test-helpers/ajax";
 import dom from "test-helpers/dom";
 import config from "charcoal/config/environment";
+import * as ACCESS_LEVELS from "charcoal/defs/route-access";
 import view from "test-views/dummy";
 import page from "page";
 
@@ -20,7 +21,7 @@ describe("router test suite", function() {
 
   const login = {
     path: "/login",
-    guest: true,
+    access: ACCESS_LEVELS.ALLOW_GUEST,
     view: "test-views/dummy",
     resolve() {
       bag.flags.loaded_login = true;
@@ -29,7 +30,7 @@ describe("router test suite", function() {
 
   const root = { 
     path: "/",
-    guest: true,
+    access: ACCESS_LEVELS.ALLOW_GUEST,
     view: "test-views/dummy",
     resolve() {
       bag.flags.loaded_root = true;
@@ -54,11 +55,12 @@ describe("router test suite", function() {
     router.stop();
   });
 
-  describe("having registered a route w/o guest access", function() {
+  describe("having registered a ACCESS_LEVELS.REQUIRE_AUTH route", function() {
 
     const route = {
       path: "/foobar",
       view: "test-views/dummy",
+      access: ACCESS_LEVELS.REQUIRE_AUTH,
       resolve() {
         bag.flags.loaded_foobar = true;
       },
@@ -97,16 +99,12 @@ describe("router test suite", function() {
 
   });
 
-  describe("hacing a route that fails during resolve" ,function() {
-
-  });
-
   describe("having registered a guest route", function() {
 
     const route = {
       path: "/guest-route",
       view: "test-views/dummy",
-      guest: true,
+      access: ACCESS_LEVELS.ALLOW_GUEST,
       resolve() {
         bag.flags.loaded_guest_route = true;
       },
@@ -139,7 +137,7 @@ describe("router test suite", function() {
     const route = {
       path: "/guest-route",
       view: "test-views/dummy",
-      guest: true,
+      access: ACCESS_LEVELS.ALLOW_GUEST,
       resolve(dep_one) {
         throw new Error(error_text);
       }
@@ -169,7 +167,7 @@ describe("router test suite", function() {
     const route = {
       path: "/guest-route",
       view: "test-views/dummy",
-      guest: true,
+      access: ACCESS_LEVELS.ALLOW_GUEST,
       resolve(dep_one) {
         bag.resolved_dependencies = [ dep_one ];
         bag.flags.loaded_guest_route = true;

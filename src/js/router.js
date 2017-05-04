@@ -4,6 +4,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import page from "page";
+import * as ACCESS_LEVELS from "charcoal/defs/route-access";
 import isEsModule from "charcoal/util/is-es-module";
 import auth from "charcoal/services/auth";
 import ErrorView from "charcoal/views/error";
@@ -46,7 +47,6 @@ const router = {
         latest.resolution = await resolve.apply(latest, [ ...resolved_dependencies, previous ]);
       } catch (e) {
         const is_redirect = e instanceof Redirect || e.redirect_url;
-
         console.warn(`unable to load ${path}: ${e}`);
 
         latest.resolution = { error : e };
@@ -84,16 +84,19 @@ const router = {
     }
 
     async function begin(page_context) {
-      const { guest } = definition;
+      const { access } = definition;
 
-      if(guest) {
+      if(access & ACCESS_LEVELS.ALLOW_GUEST) {
         return go(page_context);
       }
 
       try {
         await auth.prep();
       } catch (e) {
-        return page("/login");
+
+        if(access & ACCESS_LEVELS.REQUIRE_AUTH) {
+          return page("/login");
+        }
       }
 
       return go(page_context);

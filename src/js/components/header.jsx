@@ -1,13 +1,14 @@
 import React from "react";
 import i18n from "charcoal/services/i18n";
-import Auth from "charcoal/services/auth";
+import Auth, { EVENTS } from "charcoal/services/auth";
 import UserMenu from "charcoal/components/user-menu";
 
 class Header extends React.Component {
 
   constructor() {
     super(...arguments);
-    this.listeners = { };
+    const auth = Auth.on(EVENTS.USER_AUTHENTICATED, this.forceUpdate, this);
+    this.listeners = { auth };
   }
 
   componentWillUnmount() {

@@ -4,6 +4,14 @@ import ajax from "test-helpers/ajax";
 
 describe("i18n test suite", function() {
 
+  const dictionary = {
+    test: "this is a test",
+    other: {
+      test: "this is another test"
+    },
+    templated: "hello {{0}}, {{1}}"
+  };
+
   beforeEach(function() {
     ajax.install();
   });
@@ -19,23 +27,27 @@ describe("i18n test suite", function() {
 
   describe("having successfully loaded in the locale file", function() {
 
-    const TEST_ENTRY = "this is a test";
-    const OTHER_TEST_ENTRY = "this is another test";
-
     beforeEach(function(done) {
       i18n.set("en").then(done);
       const { latest } = ajax.requests;
-      latest.send({ test: TEST_ENTRY, other: { test: OTHER_TEST_ENTRY } });
+      latest.send(dictionary);
     });
 
     it("should return the matching lookup for valid strings", function() {
       const result = i18n("test");
-      expect(result).toBe(TEST_ENTRY);
+      expect(result).toBe(dictionary.test);
     });
 
     it("should return the matching lookup for valid strings w/ separator", function() {
       const result = i18n("other.test");
-      expect(result).toBe(OTHER_TEST_ENTRY);
+      expect(result).toBe(dictionary.other.test);
+    });
+
+    it("should template out variables appropriately", function() {
+      let result = i18n("templated", "world", "how are you");
+      expect(result).toBe("hello world, how are you");
+      result = i18n("templated", "world", "how are you");
+      expect(result).toBe("hello world, how are you");
     });
 
   });

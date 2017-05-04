@@ -6,16 +6,19 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div data-role="login-page" className="container">
+      <main data-role="login-page" className="container">
         <div className="columns">
-          <div className="column">
+          <aside className="column">
             <h4>{i18n("login")}</h4>
-          </div>
-          <div className="column">
-            <GoogleLogin />
-          </div>
+            <hr />
+            <section data-role="google-login">
+              <GoogleLogin />
+            </section>
+          </aside>
+          <aside className="column">
+          </aside>
         </div>
-      </div>
+      </main>
     );
   }
 

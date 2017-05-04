@@ -10,7 +10,8 @@ const env = {
   },
 
   routing: {
-    base_url: "/"
+    base_url: "/",
+    logout_url: `${api_root}/logout`
   }
 };
 
