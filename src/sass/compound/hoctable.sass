@@ -1,0 +1,40 @@
+.hoctable__table
+  @extend .position-relative
+  @extend .padding-bottom-11
+
+.hoctable__table table
+  @extend .table
+
+.hoctable__table .hoctable__table-container table
+  @extend .is-bordered
+  @extend .is-striped
+  table-layout: fixed
+  width: 100%
+
+.hoctable__table-pagination
+  position: absolute
+  bottom: 0
+  right: 0
+
+.hoctable__table-pagination .hoctable__pagination
+  @extend .level
+
+.hoctable__menu-button-container
+  @extend .position-relative
+  @extend .display-inline-block
+
+.hoctable__menu-default-button
+  @extend .button
+
+.hoctable__table .hoctable__pagination-controls
+  @extend .is-clearfix
+  @extend .margin-left-5
+  
+.hoctable__table .hoctable__pagination-next,
+.hoctable__table .hoctable__pagination-previous
+  @extend .button
+  float: left
+
+.hoctable__table .hoctable__pagination-next + .hoctable__pagination-previous,
+.hoctable__table .hoctable__pagination-previous + .hoctable__pagination-next
+  @extend .margin-left-5

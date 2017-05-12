@@ -19,7 +19,7 @@
     }
   },
   "rules": {
-    "array-bracket-spacing": ["error", "always"],
+    "array-bracket-spacing": ["error", "always", { "objectsInArrays": false }],
     "array-callback-return": 2,
 
     "react/jsx-uses-vars": 1,

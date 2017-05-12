@@ -3,9 +3,15 @@ const { Ajax: jasmine_ajax } = jasmine;
 class Request {
 
   constructor(jasmine_request) {
-    const { url } = jasmine_request;
+    const { url, method } = jasmine_request;
     this.url = url;
+    this.method = method;
     this.jasmine_request = jasmine_request;
+  }
+
+  get raw_url() {
+    const { url } = this;
+    return decodeURIComponent(url);
   }
 
   send(body, status = 200) {

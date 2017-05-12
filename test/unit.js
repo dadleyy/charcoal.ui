@@ -20,6 +20,10 @@ define("charcoal/config/environment", [], function() {
   return config;
 });
 
+function vendor(path) {
+  return "/base/node_modules/" + path;
+}
+
 function start() {
   require(["bluebird"], function(bluebird) {
     window.Promise = window.Promise || bluebird;
@@ -33,12 +37,14 @@ require.config({
     "test-views": "/base/test/views",
     "test-helpers": "/base/test/helpers",
     "charcoal": "/base/src/js",
-    "react": "/base/node_modules/react/dist/react",
-    "react-dom": "/base/node_modules/react-dom/dist/react-dom",
-    "bluebird": "/base/node_modules/bluebird/js/browser/bluebird",
-    "hoctable": "/base/node_modules/hoctable/dist/es5/hoctable/hoctable",
-    "page": "/base/node_modules/page/page",
-    "qwest": "/base/node_modules/qwest/qwest.min"
+    "react": vendor("react/dist/react"),
+    "react-dom": vendor("react-dom/dist/react-dom"),
+    "bluebird": vendor("bluebird/js/browser/bluebird"),
+    "hoctable": vendor("hoctable/dist/es5/hoctable/hoctable"),
+    "page": vendor("page/page"),
+    "qwest": vendor("qwest/qwest.min"),
+    "moment": vendor("moment/moment"),
+    "uri-templates": vendor("uri-templates/uri-templates")
   },
   shim: {},
   deps: tests,

@@ -64,14 +64,18 @@ module.exports = function(gulp) {
       include : ["main"],
       optimize : "none",
       paths: {
-        "charcoal"  : js_tmp,
-        "page"      : vendor("page/page"),
-        "bluebird"  : vendor("bluebird/js/browser/bluebird"),
-        "react"     : vendor(opts.min === true ? "react/dist/react.min" : "react/dist/react"),
-        "react-dom" : vendor(opts.min === true ? "react-dom/dist/react-dom.min" : "react-dom/dist/react-dom"),
-        "hoctable"  : vendor("hoctable/dist/es5/hoctable/hoctable"),
-        "qwest"     : vendor("qwest/qwest.min")
-      }
+        "charcoal"      : js_tmp,
+        "page"          : vendor("page/page"),
+        "bluebird"      : vendor("bluebird/js/browser/bluebird"),
+        "react"         : vendor(opts.min === true ? "react/dist/react.min" : "react/dist/react"),
+        "react-dom"     : vendor(opts.min === true ? "react-dom/dist/react-dom.min" : "react-dom/dist/react-dom"),
+        "hoctable"      : vendor("hoctable/dist/es5/hoctable/hoctable"),
+        "moment"        : vendor("moment/moment"),
+        "uri-templates" : vendor("uri-templates/uri-templates"),
+        "qwest"         : vendor("qwest/qwest.min")
+      },
+      insertRequire: ["moment", "uri-templates"],
+      include: ["moment", "uri-templates", "main"]
     };
 
     const compiler = rjs(rjs_conf);

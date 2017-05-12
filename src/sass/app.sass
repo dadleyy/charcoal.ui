@@ -4,6 +4,10 @@
 @import "var/fonts/awesome"
 @import "bases/margin"
 @import "bases/padding"
+@import "bases/bounding-box"
+@import "bases/positions"
+@import "bases/displays"
+@import "bases/z-index"
 
 html, body
   position: relative
@@ -16,4 +20,14 @@ html *, body *
 main#main
   @extend .padding-tb-10
 
+#popups
+  @extend .position-absolute
+  @extend .top-0
+  @extend .left-0
+  @extend .z-50
+  @extend .width-50
+  @extend .height-0 
+
 @import "compound/application-header"
+@import "compound/hoctable"
+@import "compound/popup-menu"

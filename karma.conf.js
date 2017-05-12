@@ -40,6 +40,8 @@ module.exports = function(config) {
     {pattern: vendor("react-dom/dist/react-dom.js"), included: false},
     {pattern: vendor("hoctable/dist/es5/hoctable/**/*.js"), included: false},
     {pattern: vendor("qwest/qwest.min.js"), included: false},
+    {pattern: vendor("moment/moment.js"), included: false},
+    {pattern: vendor("uri-templates/uri-templates.js"), included: false},
 
     {pattern: "./src/**/*.js", included: false},
     {pattern: "./src/**/*.jsx", included: false},

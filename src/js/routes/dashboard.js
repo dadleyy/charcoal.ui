@@ -4,11 +4,12 @@ import GamesDelegate from "charcoal/delegates/user-games";
 
 function resolve() {
   const { user } = auth;
-  const games_delegate = new GamesDelegate();
 
   if(!user) {
     throw new Redirect("/login");
   }
+
+  const games_delegate = new GamesDelegate(user);
 
   return { user, games_delegate };
 }

@@ -93,6 +93,7 @@
     "karma-requirejs": "1.1.0",
     "karma-typescript-preprocessor": "0.3.0",
     "merge-stream": "1.0.1",
+    "moment": "^2.18.1",
     "page": "^1.7.1",
     "qwest": "^4.4.5",
     "react": "^15.5.4",
@@ -102,6 +103,7 @@
     "request": "2.81.0",
     "requirejs": "^2.3.3",
     "typescript": "^2.0.10",
-    "typings": "^2.0.0"
+    "typings": "^2.0.0",
+    "uri-templates": "^0.2.0"
   }
 }
