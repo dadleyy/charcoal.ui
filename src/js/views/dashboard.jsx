@@ -17,7 +17,7 @@ class Dashboard extends React.Component {
 
     return (
       <main data-role="dashboard-view" className="container">
-        <section className="container columns">
+        <section className="columns">
           <aside className="is-one-quarter column">
             <div className="card">
               <header className="card-header">
