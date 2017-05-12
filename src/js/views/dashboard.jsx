@@ -32,16 +32,12 @@ class Dashboard extends React.Component {
           <aside className="is-three-quarters column">
             <div className="card">
               <header className="card-header">
-                <section className="level container">
-                  <aside className="level-left">
-                    <p className="card-header-title">{i18n("your_games")}</p>
-                  </aside>
-                  <aside className="level-right">
-                    <div className="card-header-icon">
-                      <a className="button" onClick={createGame}>{i18n("new_game")}</a>
-                    </div>
-                  </aside>
-                </section>
+                <p className="card-header-title ">{i18n("your_games")}</p>
+                <a className="card-header-icon" onClick={createGame} title={i18n("new_game")}>
+                  <span className="icon">
+                    <i className="fa-plus fa" />
+                  </span>
+                </a>
               </header>
               <section data-role="game-table" className="card-content">
                 <GameTable delegate={games_delegate} />

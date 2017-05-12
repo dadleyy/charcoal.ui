@@ -1,6 +1,14 @@
+.hoctable__menu-button-container
+  @extend .position-relative
+  @extend .display-inline-block
+
+.hoctable__menu-default-button
+  @extend .button
+
+.hoctable__grid,
 .hoctable__table
   @extend .position-relative
-  @extend .padding-bottom-11
+  @extend .padding-bottom-20
 
 .hoctable__table table
   @extend .table
@@ -11,30 +19,69 @@
   table-layout: fixed
   width: 100%
 
-.hoctable__table-pagination
-  position: absolute
-  bottom: 0
-  right: 0
-
+.hoctable__grid-pagination .hoctable__pagination,
 .hoctable__table-pagination .hoctable__pagination
-  @extend .level
+  @extend .columns
+  @extend .is-mobile
+  @extend .align-items-center
 
-.hoctable__menu-button-container
-  @extend .position-relative
-  @extend .display-inline-block
+.hoctable__grid-pagination .hoctable__pagination:last-child,
+.hoctable__table-pagination .hoctable__pagination:last-child
+  @extend .margin-tb-0
 
-.hoctable__menu-default-button
-  @extend .button
-
+.hoctable__grid .hoctable__pagination-info,
+.hoctable__table .hoctable__pagination-info,
+.hoctable__grid .hoctable__pagination-controls,
 .hoctable__table .hoctable__pagination-controls
-  @extend .is-clearfix
-  @extend .margin-left-5
+  @extend .column
+  @extend .padding-lr-0
+
+.hoctable__grid .hoctable__pagination-controls,
+.hoctable__table .hoctable__pagination-controls
+  @extend .has-text-right
+
+.hoctable__grid .hoctable__pagination-info,
+.hoctable__table .hoctable__pagination-info
+  @extend .is-8
+
+.hoctable__grid .hoctable__pagination-controls,
+.hoctable__table .hoctable__pagination-controls
+  @extend .is-pulled-right
   
+.hoctable__grid .hoctable__pagination-next,
+.hoctable__grid .hoctable__pagination-previous,
 .hoctable__table .hoctable__pagination-next,
 .hoctable__table .hoctable__pagination-previous
   @extend .button
-  float: left
+  @extend .is-inline-block
 
 .hoctable__table .hoctable__pagination-next + .hoctable__pagination-previous,
 .hoctable__table .hoctable__pagination-previous + .hoctable__pagination-next
   @extend .margin-left-5
+
+.hoctable__grid-pagination,
+.hoctable__table-pagination
+  position: absolute
+  @extend .bottom-0
+  @extend .right-0
+  @extend .width-50
+
+.hoctable__grid-head-row
+  @extend .bordered
+  border-width: 1px 0
+
+.hoctable__grid-header-cell
+  @extend .column
+  @extend .bordered
+  border-width: 0 0 0 1px
+
+  &:last-child
+    border-width: 0 1px
+
+.hoctable__grid-head-row
+  @extend .columns
+  @extend .is-mobile
+
+.hoctable__grid-row-container:first-child
+  border-width: 0px 1px 1px 1px
+

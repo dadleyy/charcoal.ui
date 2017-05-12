@@ -75,7 +75,7 @@
     "gulp-util": "3.0.7",
     "gulp-yaml": "^1.0.1",
     "gulp-yuidoc": "0.1.2",
-    "hoctable": "0.0.7",
+    "hoctable": "0.0.10",
     "jasmine-ajax": "^3.3.1",
     "jasmine-core": "2.5.2",
     "json5": "0.5.1",

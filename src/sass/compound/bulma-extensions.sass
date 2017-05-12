@@ -1,0 +1,23 @@
+.card-header.is-block
+  @extend .is-block
+
+.section
+  @extend .padding-lr-2
+
+.columns, .columns:last-child
+  @extend .margin-top-0
+  @extend .margin-bottom-0
+
+.columns.bordered-row
+  @extend .bordered
+  border-width: 1px 0
+
+.columns.bordered-row:first-child
+  border-width: 0 0 1px 0
+
+.columns.bordered-row .column
+  @extend .bordered
+  border-width: 0 0 0 1px
+
+.columns.bordered-row .column:last-child
+  border-width: 0 1px

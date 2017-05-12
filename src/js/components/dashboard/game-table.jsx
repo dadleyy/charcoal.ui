@@ -5,24 +5,24 @@ import i18n from "charcoal/services/i18n";
 import StatusTag from "charcoal/components/micro/status-tag";
 import GameMembershipMenu from "charcoal/components/dashboard/membership-menu";
 
-const { Table : table } = hoc;
+const { Grid : grid } = hoc;
 
 function errored(error) {
   return (
-    <tr className="game-row" data-role="game-row--error">
-      <td colSpan="5">
+    <article className="columns bordered" data-role="game-row--error">
+      <aside className="column">
         <p>{i18n("something_went_wrong")}</p>
         <input type="hidden" value={error.toString()} data-role="error-value" />
-      </td>
-    </tr>
+      </aside>
+    </article>
   );
 }
 
 function empty() {
   return (
-    <tr className="game-row" data-role="game-row--empty">
-      <td colSpan="5"><p>{i18n("no_results")}</p></td>
-    </tr>
+    <article data-role="game-row--empty">
+      <aside className="column"><p>{i18n("no_results")}</p></aside>
+    </article>
   );
 }
 
@@ -43,25 +43,25 @@ class Row extends React.Component {
     const { game } = row;
 
     return (
-      <tr className="game-row" data-role="game-row">
-        <td data-role="game-id">
+      <main data-role="game-row" className="columns is-mobile bordered-row">
+        <aside data-role="game-id" className="column is-1 is-hidden-mobile">
           <p>{game.id}</p>
-        </td>
-        <td data-role="game-status">
+        </aside>
+        <aside data-role="game-status" className="column is-4">
           <StatusTag status={game.status}><p>{game.status}</p></StatusTag>
-        </td>
-        <td data-role="game-creation">
+        </aside>
+        <aside data-role="game-creation" className="column">
           <p>{moment(game.created_at).fromNow()}</p>
-        </td>
-        <td data-role="actions" className="align-center">
+        </aside>
+        <aside data-role="actions" className="align-center column is-3">
           <div className="display-inline-block">
             <GameMembershipMenu delegate={row.delegate} />
           </div>
-        </td>
-      </tr>
+        </aside>
+      </main>
     );
   }
 
 }
 
-export default table(Row);
+export default grid(Row);

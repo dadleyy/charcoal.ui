@@ -9,7 +9,7 @@ class Button extends React.Component {
     return (
       <main className="icon-menu-button">
         <a className="button">
-          <span className="icon is-medium">
+          <span className="icon">
             <i className="fa-bars fa" />
           </span>
         </a>

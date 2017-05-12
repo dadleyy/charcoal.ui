@@ -55,10 +55,10 @@ class Delegate {
 
   columns() {
     const columns = [
-      { name : i18n("id"), rel : "id" },
-      { name : i18n("status"), rel : "game.status" },
+      { name : i18n("id"), rel : "id", classes : [ "is-1 is-hidden-mobile" ] },
+      { name : i18n("status"), rel : "game.status", classes : [ "is-4" ] },
       { name : i18n("start_date"), rel : "created" },
-      { rel : "actions", style : { width : "60px" } }
+      { rel : "actions", classes : [ "is-3" ] }
     ];
 
     return columns;

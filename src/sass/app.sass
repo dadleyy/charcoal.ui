@@ -8,6 +8,8 @@
 @import "bases/positions"
 @import "bases/displays"
 @import "bases/z-index"
+@import "bases/borders"
+@import "bases/alignment"
 
 html, body
   position: relative
@@ -16,6 +18,10 @@ html, body
 
 html *, body *
   box-sizing: border-box
+
+@import "compound/bulma-extensions"
+@import "compound/hoctable"
+@import "compound/popup-menu"
 
 main#main
   @extend .section
@@ -28,6 +34,3 @@ main#main
   @extend .width-50
   @extend .height-0 
 
-@import "compound/application-header"
-@import "compound/hoctable"
-@import "compound/popup-menu"
