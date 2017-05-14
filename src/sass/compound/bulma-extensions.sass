@@ -8,16 +8,20 @@
   @extend .margin-top-0
   @extend .margin-bottom-0
 
+.grid-row
+  @extend .columns
+  @extend .is-gapless
+  @extend .is-mobile
+  @extend .bordered-row
+
+.grid-row .column
+  @extend .padding-lr-8
+  @extend .padding-tb-3
+
 .columns.bordered-row
   @extend .bordered
-  border-width: 1px 0
+  @extend .align-items-center
+  border-width: 1px
 
 .columns.bordered-row:first-child
-  border-width: 0 0 1px 0
-
-.columns.bordered-row .column
-  @extend .bordered
-  border-width: 0 0 0 1px
-
-.columns.bordered-row .column:last-child
-  border-width: 0 1px
+  border-width: 0 1px 1px 1px

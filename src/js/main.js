@@ -8,30 +8,17 @@ import ReactDOM from "react-dom";
 import Header from "charcoal/components/header";
 import ErrorView from "charcoal/views/error";
 
+import modals from "charcoal/services/modals";
 import i18n from "charcoal/services/i18n";
 import routes from "charcoal/routes";
 import router from "charcoal/router";
 import config from "charcoal/config/environment";
-
-const layers = {
-
-  get popups() {
-    return document.getElementById("popups");
-  },
-
-  get main() {
-    return document.getElementById("main");
-  },
-
-  get header() {
-    return document.getElementById("header");
-  }
-
-};
+import layers from "charcoal/defs/document-layers";
 
 export async function bootstrap() {
   services.Viewport.bind();
   services.Popups.mount(layers.popups);
+  modals.mount(layers.modals);
 
   for(let i = 0, c = routes.length; i < c; i++) {
     const route = routes[i];

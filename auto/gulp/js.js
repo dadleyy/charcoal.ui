@@ -60,22 +60,31 @@ module.exports = function(gulp) {
   function bundle(opts = { }) {
     const cwd = js_tmp;
 
+    const paths = {
+      "charcoal"      : js_tmp,
+      "page"          : vendor("page/page"),
+      "bluebird"      : vendor("bluebird/js/browser/bluebird"),
+      "react"         : vendor(`react/dist/react-with-addons${opts.min ? ".min" : ""}`),
+      "react-dom"     : vendor(`react-dom/dist/react-dom${opts.min === true ? ".min" : ""}`),
+      "hoctable"      : vendor("hoctable/dist/es5/hoctable/hoctable"),
+      "moment"        : vendor("moment/moment"),
+      "uri-templates" : vendor("uri-templates/uri-templates"),
+      "qwest"         : vendor("qwest/qwest.min")
+    };
+
+    const eager_load = [
+      "moment",
+      "uri-templates",
+      "bluebird",
+      "react"
+    ];
+
     const rjs_conf = {
+      paths,
       include : ["main"],
       optimize : "none",
-      paths: {
-        "charcoal"      : js_tmp,
-        "page"          : vendor("page/page"),
-        "bluebird"      : vendor("bluebird/js/browser/bluebird"),
-        "react"         : vendor(opts.min === true ? "react/dist/react.min" : "react/dist/react"),
-        "react-dom"     : vendor(opts.min === true ? "react-dom/dist/react-dom.min" : "react-dom/dist/react-dom"),
-        "hoctable"      : vendor("hoctable/dist/es5/hoctable/hoctable"),
-        "moment"        : vendor("moment/moment"),
-        "uri-templates" : vendor("uri-templates/uri-templates"),
-        "qwest"         : vendor("qwest/qwest.min")
-      },
-      insertRequire: ["moment", "uri-templates"],
-      include: ["moment", "uri-templates", "main"]
+      insertRequire: eager_load,
+      include: eager_load.concat("main")
     };
 
     const compiler = rjs(rjs_conf);

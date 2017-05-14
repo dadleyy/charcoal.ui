@@ -15,6 +15,10 @@ const deferred = {
     });
 
     return result;
+  },
+
+  async all(...promises) {
+    return await Bluebird.all(promises);
   }
 
 };

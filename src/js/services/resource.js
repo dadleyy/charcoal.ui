@@ -5,7 +5,7 @@ const WITHIN_DELIMETER = ",";
 
 const queryTransforms = {
 
-  request(input) {
+  request(input = { }) {
     const { where, ...query_params } = input;
     const filter = { };
 
@@ -40,7 +40,8 @@ export const DEFAULT_ACTIONS = [{
   flags : { exclude_template_params : true }
 }, {
   name : "create",
-  method : "post"
+  method : "post",
+  flags : { ajax_options : { dataType : "json" } }
 }];
 
 export const DEFAULT_TRANSFORMS = {
@@ -69,7 +70,7 @@ function action(url_template, method, transforms = DEFAULT_TRANSFORMS, flags = {
   const template = uriTemplate(url_template);
   const { varNames : template_params } = template;
 
-  async function execute(parameters, options) {
+  async function execute(parameters, user_options) {
     let body = transformRequest(parameters);
     const url = template.fill(parameters);
 
@@ -77,7 +78,9 @@ function action(url_template, method, transforms = DEFAULT_TRANSFORMS, flags = {
       body = exclude(body, template_params);
     }
 
-    const result = await ajax[method](url, body, options);
+    const ajax_options = { ...flags.ajax_options, ...user_options };
+
+    const result = await ajax[method](url, body, ajax_options);
 
     return transformResponse(result);
   }

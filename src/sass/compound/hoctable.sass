@@ -8,7 +8,7 @@
 .hoctable__grid,
 .hoctable__table
   @extend .position-relative
-  @extend .padding-bottom-20
+  @extend .padding-bottom-10
 
 .hoctable__table table
   @extend .table
@@ -24,6 +24,7 @@
   @extend .columns
   @extend .is-mobile
   @extend .align-items-center
+  @extend .is-gapless
 
 .hoctable__grid-pagination .hoctable__pagination:last-child,
 .hoctable__table-pagination .hoctable__pagination:last-child
@@ -75,12 +76,17 @@
   @extend .bordered
   border-width: 0 0 0 1px
 
+.hoctable__grid-head-row > .hoctable__grid-header-cell
+  @extend .padding-lr-8
+  @extend .padding-tb-3
+
   &:last-child
     border-width: 0 1px
 
 .hoctable__grid-head-row
   @extend .columns
   @extend .is-mobile
+  @extend .is-gapless
 
 .hoctable__grid-row-container:first-child
   border-width: 0px 1px 1px 1px

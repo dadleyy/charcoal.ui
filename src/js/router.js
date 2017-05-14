@@ -43,8 +43,10 @@ const router = {
     async function inject(...resolved_dependencies) {
       const [ latest, previous ] = stack;
 
+      const deps = resolved_dependencies.map(module => module.default);
+
       try {
-        latest.resolution = await resolve.apply(latest, [ ...resolved_dependencies, previous ]);
+        latest.resolution = await resolve.apply(latest, [ ...deps, previous ]);
       } catch (e) {
         const is_redirect = e instanceof Redirect || e.redirect_url;
         console.warn(`unable to load ${path}: ${e}`);
@@ -73,8 +75,9 @@ const router = {
 
     function go(page_context) {
       const query = querystring(page_context.querystring);
+      const { params } = page_context;
 
-      stack.push({ page_context, query });
+      stack.push({ page_context, query, params });
 
       if(dependencies && dependencies.length) {
         return require(dependencies, inject, failed);

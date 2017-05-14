@@ -23,14 +23,27 @@ html *, body *
 @import "compound/hoctable"
 @import "compound/popup-menu"
 
+main#main,
+header#header,
+footer#footer
+  @extend .position-relative
+  @extend .z-3
+
 main#main
   @extend .section
+
+#modals
+  @extend .position-fixed
+  @extend .z-10
+
+#notes
+  @extend .z-8
 
 #popups
   @extend .position-absolute
   @extend .top-0
   @extend .left-0
-  @extend .z-50
+  @extend .z-9
   @extend .width-50
   @extend .height-0 
 

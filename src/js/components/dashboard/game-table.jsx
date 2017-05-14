@@ -43,7 +43,7 @@ class Row extends React.Component {
     const { game } = row;
 
     return (
-      <main data-role="game-row" className="columns is-mobile bordered-row">
+      <main data-role="game-row" className="grid-row is-mobile">
         <aside data-role="game-id" className="column is-1 is-hidden-mobile">
           <p>{game.id}</p>
         </aside>

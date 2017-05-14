@@ -1,14 +1,8 @@
 import auth from "charcoal/services/auth";
-import { Redirect } from "charcoal/router";
-import GamesDelegate from "charcoal/delegates/user-games";
+import { REQUIRE_AUTH } from "charcoal/defs/route-access";
 
-function resolve() {
+function resolve(GamesDelegate) {
   const { user } = auth;
-
-  if(!user) {
-    throw new Redirect("/login");
-  }
-
   const games_delegate = new GamesDelegate(user);
 
   return { user, games_delegate };
@@ -16,5 +10,8 @@ function resolve() {
 
 const view = "charcoal/views/dashboard";
 const path = "dashboard";
+const dependencies = [
+  "charcoal/delegates/user-games"
+];
 
-export default { resolve, view, path };
+export default { resolve, view, path, dependencies, access : REQUIRE_AUTH };
