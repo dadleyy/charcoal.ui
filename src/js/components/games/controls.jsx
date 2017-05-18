@@ -30,8 +30,13 @@ export default class Controls extends React.Component {
       this.modal_id = modals.open(body, title);
     };
 
-    function newRound() {
-    }
+    const newRound = async () => {
+      try {
+        return await manager.newRound();
+      } catch (e) {
+        console.warn(`failed: ${e}`);
+      }
+    };
 
     if(game.status !== STATUSES.ACTIVE) {
       return (<main data-role="game-controls"></main>);
@@ -39,7 +44,7 @@ export default class Controls extends React.Component {
 
     const controls = [
       control(<a className="button" onClick={invite}>{i18n("add_players")}</a>),
-      control(<a className="button" onClick={newRound}>{i18n("new_round")}</a>)
+      control(<a className="button margin-left-5" onClick={newRound}>{i18n("new_round")}</a>)
     ];
 
     return (

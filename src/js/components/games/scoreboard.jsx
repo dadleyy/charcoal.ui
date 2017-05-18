@@ -21,8 +21,12 @@ class ScoreboardRow extends React.Component {
       return empty();
     }
 
+    const { number, round } = row;
+
     return (
-      <article data-role="leaderboard-row">
+      <article data-role="leaderboard-row" className="grid-row is-mobile" data-round={round.uuid}>
+        <aside className="column is-one-quarter">{number}</aside>
+        <aside className="column"></aside>
       </article>
     );
   }

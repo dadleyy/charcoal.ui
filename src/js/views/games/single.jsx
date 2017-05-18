@@ -13,6 +13,21 @@ function LowPop() {
 
 export default class SingleGame extends React.Component {
 
+  componentDidMount() {
+    const { props } = this;
+    const { resolution } = props;
+    const { manager } = resolution;
+    const updates = manager.on("updated", this.forceUpdate, this);
+    this.subscriptions = { updates };
+  }
+
+  componentWillUnmount() {
+    const { props, subscriptions } = this;
+    const { resolution } = props;
+    const { manager } = resolution;
+    manager.off(subscriptions.updates);
+  }
+
   render() {
     const { props } = this;
     const { resolution } = props;
@@ -28,11 +43,11 @@ export default class SingleGame extends React.Component {
       <main className="container">
         <section data-role="flash-messages" className="margin-bottom-5">{flash_messages}</section>
         <section data-role="game-controls" className="margin-bottom-5"><Controls manager={manager} /></section>
-        <section className="columns is-gapless">
-          <aside className="column">
+        <section className="columns margin-0">
+          <aside className="column margin-0 padding-0">
             <Scoreboard delegate={delegates.scoreboard} />
           </aside>
-          <aside className="column is-5 margin-left-10">
+          <aside className="column is-5 margin-left-10 padding-0 margin-left-0-mobile">
             <Leaderboard delegate={delegates.leaderboard} />
           </aside>
         </section>

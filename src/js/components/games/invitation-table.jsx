@@ -48,9 +48,9 @@ class InvitationRow extends React.Component {
 
     return (
       <article className="grid-row">
-        <aside className="column"><p>{user.id}</p></aside>
-        <aside className="column"><p>{user.name}</p></aside>
-        <aside className="column is-2 has-text-centered">{control}</aside>
+        <aside className="column is-hidden-mobile"><p>{user.id}</p></aside>
+        <aside className="column text-overflow-ellipsis"><p>{user.name}</p></aside>
+        <aside className="column is-one-quarter-mobile has-text-centered is-paddingless">{control}</aside>
       </article>
     );
   }

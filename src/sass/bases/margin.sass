@@ -4,22 +4,51 @@
   .margin-#{$i}
     margin: $amount + unquote("rem")
 
+    +mobile
+      &-mobile
+        margin: $amount + unquote("rem")
+
+
   .margin-lr-#{$i}
     margin-left: $amount + unquote("rem")
     margin-right: $amount + unquote("rem")
+
+    +mobile
+      &-mobile
+        margin: $amount + unquote("rem")
 
   .margin-tb-#{$i}
     margin-top: $amount + unquote("rem")
     margin-bottom: $amount + unquote("rem")
 
+    +mobile
+      &-mobile
+        margin: $amount + unquote("rem")
+
   .margin-right-#{$i}
     margin-right: $amount + unquote("rem")
 
+    +mobile
+      &-mobile
+        margin-right: $amount + unquote("rem")
+
   .margin-left-#{$i}
-    margin-left: $amount + unquote("rem") !important
+    margin-left: $amount + unquote("rem")
+
+    +mobile
+      &-mobile
+        margin-left: $amount + unquote("rem") !important
 
   .margin-top-#{$i}
-    margin-top: $amount + unquote("rem") !important
+    margin-top: $amount + unquote("rem")
+
+    +mobile
+      &-mobile
+        margin-top: $amount + unquote("rem")
 
   .margin-bottom-#{$i}
-    margin-bottom: $amount + unquote("rem") !important
+    margin-bottom: $amount + unquote("rem")
+
+    +mobile
+      &-mobile
+        margin-bottom: $amount + unquote("rem")

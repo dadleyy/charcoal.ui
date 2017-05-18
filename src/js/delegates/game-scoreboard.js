@@ -8,16 +8,10 @@ class Delegate {
   }
 
   columns() {
-    const { manager } = this;
-    const { members } = manager;
     const columns = [
-      { name : i18n("round"), rel : "round", classes : [ "is-2" ] }
+      { name : i18n("round_no"), rel : "round", classes : [ "is-one-quarter" ] },
+      { name : i18n("results"), rel : "results" }
     ];
-
-    for(let i = 0, c = members.length; i < c; i++) {
-      const { name, uuid } = members[i];
-      columns.push({ name, rel : uuid });
-    }
 
     return columns;
   }
@@ -27,7 +21,13 @@ class Delegate {
     const { game_id } = manager;
     const rows = [ ];
     const where = { game_id };
-    const rounds = await rounds_api.query({ where });
+    const { current : page, size : limit } = pagination;
+
+    const sort_order = sorting && sorting.direction ? "asc" : "desc";
+    const sort_on = sorting && sorting.rel === "round" ? "id" : "id";
+
+    const rounds = await rounds_api.query({ where, sort_order, sort_on });
+
     const { total } = rounds.meta;
 
     if(total >= 1 === false) {
@@ -36,9 +36,12 @@ class Delegate {
       return callback({ rows, total });
     }
 
+    const start = (page || 0) * limit;
+
     for(let i = 0, c = rounds.length; i < c; i++) {
       const round = rounds[i];
-      rows.push({ round, manager });
+      const number = sorting && sorting.direction ? (start + i + 1) : total - (i + start);
+      rows.push({ round, number, manager });
     }
 
     callback({ rows, total });

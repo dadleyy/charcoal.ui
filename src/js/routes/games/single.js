@@ -1,25 +1,19 @@
 import auth from "charcoal/services/auth";
 import { REQUIRE_AUTH } from "charcoal/defs/route-access";
 import { Redirect } from "charcoal/router";
-import game_api from "charcoal/resources/games";
 
 async function resolve(GameManager, ScoreboardDelegate, LeaderboardDelegate) {
   const { user } = auth;
   const { params } = this;
-
-  const where = { uuid : params.id };
+  const { id : uuid } = params;
   const result = { };
 
   try {
-    const [ game ] = await game_api.query({ where });
-    result.game = game;
+    result.manager = new GameManager({ uuid }, user);
+    await result.manager.refresh();
   } catch (e) {
     throw new Redirect("/missing");
   }
-
-  result.manager = new GameManager(result.game, user);
-
-  await result.manager.refresh();
 
   result.delegates = {
     scoreboard : new ScoreboardDelegate(result.manager),

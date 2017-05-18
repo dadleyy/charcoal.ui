@@ -10,11 +10,15 @@
 @import "bases/z-index"
 @import "bases/borders"
 @import "bases/alignment"
+@import "bases/overflow"
 
 html, body
   position: relative
   width: 100%
   height: 100%
+
+  +mobile
+    font-size: 14px
 
 html *, body *
   box-sizing: border-box

@@ -47,13 +47,13 @@ class Row extends React.Component {
         <aside data-role="game-id" className="column is-1 is-hidden-mobile">
           <p>{game.id}</p>
         </aside>
-        <aside data-role="game-status" className="column is-4">
+        <aside data-role="game-status" className="column">
           <StatusTag status={game.status}><p>{game.status}</p></StatusTag>
         </aside>
-        <aside data-role="game-creation" className="column">
+        <aside data-role="game-creation" className="column is-hidden-mobile">
           <p>{moment(game.created_at).fromNow()}</p>
         </aside>
-        <aside data-role="actions" className="align-center column is-3">
+        <aside data-role="actions" className="has-text-centered column is-one-quarter-mobile">
           <div className="display-inline-block">
             <GameMembershipMenu delegate={row.delegate} />
           </div>

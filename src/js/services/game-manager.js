@@ -3,6 +3,7 @@ import game_api from "charcoal/resources/games";
 import game_membership_api from "charcoal/resources/game-memberships";
 import history_api from "charcoal/resources/game-membership-history";
 import user_api from "charcoal/resources/users";
+import rounds_api from "charcoal/resources/game-rounds";
 import Evented from "charcoal/util/evented";
 
 class Manager extends Evented {
@@ -17,6 +18,13 @@ class Manager extends Evented {
     const { game } = this;
 
     return game.id;
+  }
+
+  get refresh_query() {
+    const { game } = this;
+    const { uuid, id } = game;
+
+    return uuid ? { uuid } : { id };
   }
 
   get members() {
@@ -37,16 +45,18 @@ class Manager extends Evented {
     await game_membership_api.create({ user_id, game_id });
   }
 
-  async refresh() {
-    const { game } = this;
-    const where = { id : game.id };
-    const [ updated_game ] = await game_api.query({ where });
+  async newRound() {
+    const { game_id } = this;
+    await rounds_api.create({ game_id });
+    this.trigger("updated");
+  }
 
+  async refresh() {
+    const { refresh_query : where } = this;
+    const [ updated_game ] = await game_api.query({ where });
     this.game = updated_game;
 
     const { game_id } = this;
-
-    await game_membership_api.query({ where : { game_id } });
 
     const [ memberships, history ] = await deferred.all(
       game_membership_api.query({ where : { game_id } }),

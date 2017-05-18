@@ -9,9 +9,9 @@ class InvitationsDelegate {
 
   columns() {
     return [
-      { name : i18n("user_id"), rel : "id" },
+      { name : i18n("user_id"), rel : "id", classes : [ "is-hidden-mobile" ] },
       { name : i18n("name"), rel : "user.name" },
-      { rel : "actions", classes : [ "is-2" ] }
+      { rel : "actions", classes : [ "is-one-quarter-mobile" ] }
     ];
   }
 
