@@ -1,0 +1,54 @@
+.hoctable__table
+  @extend .position-relative
+  @extend .padding-bottom-15
+
+.hoctable__table table
+  @extend .table
+
+.hoctable__table .hoctable__table-container table
+  @extend .is-bordered
+  @extend .is-striped
+  table-layout: fixed
+  width: 100%
+
+.hoctable__table-pagination .hoctable__paginatio
+  @extend .columns
+  @extend .is-mobile
+  @extend .align-items-center
+  @extend .is-gapless
+
+.hoctable__table-pagination .hoctable__pagination:last-child
+  @extend .margin-tb-0
+
+.hoctable__table .hoctable__pagination-info,
+.hoctable__table .hoctable__pagination-controls
+  @extend .column
+  @extend .padding-lr-0
+
+.hoctable__table .hoctable__pagination-controls
+  @extend .has-text-right
+
+.hoctable__table .hoctable__pagination-info
+  @extend .is-8
+
+.hoctable__table .hoctable__pagination-controls
+  @extend .is-pulled-right
+  
+.hoctable__table .hoctable__pagination-next,
+.hoctable__table .hoctable__pagination-previous
+  @extend .button
+  @extend .is-inline-block
+
+.hoctable__table .hoctable__pagination-next + .hoctable__pagination-previous,
+.hoctable__table .hoctable__pagination-previous + .hoctable__pagination-next
+  @extend .margin-left-5
+
+.hoctable__table-pagination
+  position: absolute
+  @extend .bottom-0
+  @extend .right-0
+  @extend .width-50
+
+.hoctable__grid-head-row
+  @extend .bordered
+  border-width: 1px 0

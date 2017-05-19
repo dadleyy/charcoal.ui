@@ -3,7 +3,7 @@ import React from "react";
 class Modal extends React.Component {
 
   render() {
-    const { body, title, close } = this.props;
+    const { body, title, signals } = this.props;
 
     return (
       <section className="modal is-active">
@@ -11,7 +11,7 @@ class Modal extends React.Component {
         <main className="modal-card">
           <header className="modal-card-head">
             <p className="modal-card-title">{title}</p>
-            <a className="button delete" onClick={close}></a>
+            <a className="button delete" onClick={signals.close}></a>
           </header>
           <section className="modal-card-body">{body}</section>
         </main>

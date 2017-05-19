@@ -17,7 +17,7 @@ export default class SingleGame extends React.Component {
     const { props } = this;
     const { resolution } = props;
     const { manager } = resolution;
-    const updates = manager.on("updated", this.forceUpdate, this);
+    const updates = manager.all(this.forceUpdate, this);
     this.subscriptions = { updates };
   }
 
@@ -44,10 +44,10 @@ export default class SingleGame extends React.Component {
         <section data-role="flash-messages" className="margin-bottom-5">{flash_messages}</section>
         <section data-role="game-controls" className="margin-bottom-5"><Controls manager={manager} /></section>
         <section className="columns margin-0">
-          <aside className="column margin-0 padding-0">
+          <aside className="column margin-0 padding-0 margin-bottom-10-mobile">
             <Scoreboard delegate={delegates.scoreboard} />
           </aside>
-          <aside className="column is-5 margin-left-10 padding-0 margin-left-0-mobile">
+          <aside className="column is-5 margin-left-10 padding-0 margin-left-0-mobile is-hidden-mobile">
             <Leaderboard delegate={delegates.leaderboard} />
           </aside>
         </section>

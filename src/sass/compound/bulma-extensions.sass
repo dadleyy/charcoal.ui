@@ -1,22 +1,17 @@
 .card-header.is-block
   @extend .is-block
 
+.icon
+  @extend .is-block
+  @extend .width-auto
+  @extend .height-auto
+
 .section
   @extend .padding-lr-2
 
 .columns, .columns:last-child
   @extend .margin-top-0
   @extend .margin-bottom-0
-
-.grid-row
-  @extend .columns
-  @extend .is-gapless
-  @extend .is-mobile
-  @extend .bordered-row
-
-.grid-row .column
-  @extend .padding-lr-8
-  @extend .padding-tb-3
 
 .columns.bordered-row
   @extend .bordered
@@ -25,3 +20,7 @@
 
 .columns.bordered-row:first-child
   border-width: 0 1px 1px 1px
+
+.modal-card
+  +touch
+    margin: 0 0

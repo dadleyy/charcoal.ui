@@ -1,0 +1,34 @@
+.hoctable__select-toggle
+  @extend .button
+  @extend .padding-right-14
+  @extend .position-relative
+
+.hoctable__select-toggle:after
+  @extend .position-absolute
+  @extend .right-4
+  @extend .top-13
+  @extend .icon
+  @extend .fa
+  @extend .fa-bars
+  content: $fa-var-bars
+
+.hoctable__select
+  @extend .box
+  @extend .is-paddingless
+  @extend .menu
+
+.hoctable__select-option
+  @extend .pointer
+  @extend .is-block
+  @extend .padding-lr-5
+  @extend .padding-tb-2
+  border-radius: $radius-small
+  color: $text
+
+  &:hover
+    background-color: $background
+    color: $link
+
+  &.is-active
+    background-color: $link
+    color: $link-invert

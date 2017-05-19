@@ -4,7 +4,19 @@ import game_membership_api from "charcoal/resources/game-memberships";
 import history_api from "charcoal/resources/game-membership-history";
 import user_api from "charcoal/resources/users";
 import rounds_api from "charcoal/resources/game-rounds";
-import Evented from "charcoal/util/evented";
+import Evented, { ALL_EVENT } from "charcoal/util/evented";
+import { PRESIDENT, VICE_PRESIDENT, ASSHOLE } from "charcoal/defs/round-positions";
+
+function positionColumn(position) {
+  switch (position) {
+  case PRESIDENT:
+    return "president_id";
+  case ASSHOLE:
+    return "asshole_id";
+  case VICE_PRESIDENT:
+    return "vice_president_id";
+  }
+}
 
 class Manager extends Evented {
 
@@ -43,12 +55,32 @@ class Manager extends Evented {
     const { game_id } = this;
     const { id : user_id } = new_user;
     await game_membership_api.create({ user_id, game_id });
+    await this.refresh();
+    this.trigger(ALL_EVENT);
   }
 
   async newRound() {
     const { game_id } = this;
     await rounds_api.create({ game_id });
-    this.trigger("updated");
+    await this.refresh();
+    this.trigger(ALL_EVENT);
+  }
+
+  async clearRound(round, position) {
+    const position_id = positionColumn(position);
+    const { id } = round;
+    await rounds_api.update({ id, [position_id] : null });
+    this.trigger(ALL_EVENT);
+  }
+
+  async record(updates) {
+    const { round, user, position } = updates;
+    const { id } = round;
+    const { id : user_id } = user;
+    const position_id = positionColumn(position);
+
+    await rounds_api.update({ id, [position_id] : user_id });
+    this.trigger(ALL_EVENT);
   }
 
   async refresh() {
@@ -70,9 +102,7 @@ class Manager extends Evented {
       if(user_ids.indexOf(user_id) === -1) user_ids.push(user_id);
     }
 
-    const user_requests = user_ids.map(id => user_api.query({ where : { id } }));
-    const user_responses = await deferred.all(...user_requests);
-    const users = user_responses.map(response => response[0]);
+    const users = await user_api.query({ where : { id : user_ids } });
 
     this.membership_store = { memberships, history, users };
   }

@@ -21,20 +21,16 @@ class Header extends React.Component {
     const user_menu = user ? <UserMenu /> : null;
 
     return (
-      <main className="hero">
-        <section className="hero-head">
-          <div className="container">
-            <nav className="nav">
-              <aside className="nav-left">
-                <a className="nav-item is-brand" href="/" title={i18n("charcoal")}>
-                  <img src="http://bulma.io/images/bulma-logo.png" alt="bulma-logo" />
-                </a>
-              </aside>
-              <aside className="nav-right nav-menu">{user_menu}</aside>
-            </nav>
-          </div>
-        </section>
-      </main>
+      <nav className="nav has-shadow">
+        <div className="container">
+          <aside className="nav-left">
+            <a className="nav-item is-brand" href="/" title={i18n("charcoal")}>
+              <img src="http://bulma.io/images/bulma-logo.png" alt="bulma-logo" />
+            </a>
+          </aside>
+          <aside className="nav-right nav-menu">{user_menu}</aside>
+        </div>
+      </nav>
     );
   }
 

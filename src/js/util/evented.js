@@ -1,9 +1,15 @@
 import utils from "hoctable/utils";
 
+export const ALL_EVENT = utils.uuid();
+
 class Evented {
 
   constructor() {
     this.pool = [ ];
+  }
+
+  all(handler, context) {
+    return this.on(ALL_EVENT, handler, context);
   }
 
   on(name, handler, context) {
@@ -32,7 +38,7 @@ class Evented {
     for(let i = 0, c = pool.length; i < c; i++) {
       const { name, handler, context } = pool[i];
 
-      if(name !== event) {
+      if(name !== event && event !== ALL_EVENT) {
         continue;
       }
 

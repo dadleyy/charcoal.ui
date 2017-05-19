@@ -39,7 +39,7 @@ class Dashboard extends React.Component {
                   </span>
                 </a>
               </header>
-              <section data-role="game-table" className="card-content">
+              <section data-role="game-table" className="card-content padding-0-touch">
                 <GameTable delegate={games_delegate} />
               </section>
             </div>

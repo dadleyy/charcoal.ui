@@ -3,8 +3,7 @@ import utils from "hoctable/utils";
 import i18n from "charcoal/services/i18n";
 import * as STATUSES from "charcoal/defs/statuses";
 import modals from "charcoal/services/modals";
-import InvitationTable from "charcoal/components/games/invitation-table";
-import InvitationsDelegate from "charcoal/delegates/game-invitations";
+import MembershipManagement from "charcoal/components/games/membership-management";
 
 function control(content) {
   const uuid = utils.uuid();
@@ -25,8 +24,7 @@ export default class Controls extends React.Component {
 
     const invite = () => {
       const title = i18n("invite_players");
-      const invitation_delegate = new InvitationsDelegate(manager);
-      const body = <InvitationTable delegate={invitation_delegate} />;
+      const body = <MembershipManagement manager={manager} />;
       this.modal_id = modals.open(body, title);
     };
 

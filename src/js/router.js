@@ -34,9 +34,6 @@ const router = {
       const ViewClass = isEsModule(ViewModule) ? ViewModule.default : ViewModule;
       const instance = React.createElement(ViewClass, { resolution });
 
-      // Remove oldest route from stack
-      stack.splice(1, 1);
-
       return ReactDOM.render(instance, view_mount);
     }
 
@@ -49,11 +46,12 @@ const router = {
         latest.resolution = await resolve.apply(latest, [ ...deps, previous ]);
       } catch (e) {
         const is_redirect = e instanceof Redirect || e.redirect_url;
-        console.warn(`unable to load ${path}: ${e}`);
 
         latest.resolution = { error : e };
 
         return is_redirect ? page(e.redirect_url) : render(ErrorView);
+      } finally {
+        stack.splice(1, 1);
       }
 
       const { resolution } = latest;
@@ -77,7 +75,7 @@ const router = {
       const query = querystring(page_context.querystring);
       const { params } = page_context;
 
-      stack.push({ page_context, query, params });
+      stack.unshift({ page_context, query, params, path });
 
       if(dependencies && dependencies.length) {
         return require(dependencies, inject, failed);

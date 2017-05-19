@@ -39,6 +39,10 @@ export const DEFAULT_ACTIONS = [{
   transforms : queryTransforms,
   flags : { exclude_template_params : true }
 }, {
+  name : "update",
+  method : "patch",
+  flags : { ajax_options : { dataType : "json" } }
+}, {
   name : "create",
   method : "post",
   flags : { ajax_options : { dataType : "json" } }

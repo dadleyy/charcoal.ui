@@ -4,6 +4,10 @@
   .padding-#{$i}
     padding: $amount + unquote("rem")
 
+    &-touch
+      +touch
+        padding: $amount + unquote("rem")
+
   .padding-lr-#{$i}
     padding-left: $amount + unquote("rem")
     padding-right: $amount + unquote("rem")

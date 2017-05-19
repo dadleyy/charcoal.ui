@@ -2,8 +2,10 @@ import React from "react";
 import { hoc } from "hoctable";
 import moment from "moment";
 import i18n from "charcoal/services/i18n";
+import { CircleIcon } from "charcoal/components/micro/icons";
 import StatusTag from "charcoal/components/micro/status-tag";
 import GameMembershipMenu from "charcoal/components/dashboard/membership-menu";
+import responsive from "charcoal/components/macro/responsive-content";
 
 const { Grid : grid } = hoc;
 
@@ -42,18 +44,29 @@ class Row extends React.Component {
 
     const { game } = row;
 
+    const status = responsive({
+      desktop : (
+        <StatusTag status={game.status}>
+          <span className="is-hidden-mobile">{game.id}:</span>
+          <span className="is-hidden-mobile">{game.status}</span>
+        </StatusTag>
+      ),
+      mobile : (<CircleIcon />)
+    });
+
+    const creation = responsive({
+      mobile : (<p>{moment(game.created_at).fromNow()}</p>),
+      desktop : (<p>{moment(game.created_at).fromNow()}</p>)
+    });
+
     return (
-      <main data-role="game-row" className="grid-row is-mobile">
-        <aside data-role="game-id" className="column is-1 is-hidden-mobile">
+      <main data-role="game-row" className="grid-row is-mobile" data-game-id={game.uuid}>
+        <aside data-role="game-id" className="column is-1 is-hidden-touch">
           <p>{game.id}</p>
         </aside>
-        <aside data-role="game-status" className="column">
-          <StatusTag status={game.status}><p>{game.status}</p></StatusTag>
-        </aside>
-        <aside data-role="game-creation" className="column is-hidden-mobile">
-          <p>{moment(game.created_at).fromNow()}</p>
-        </aside>
-        <aside data-role="actions" className="has-text-centered column is-one-quarter-mobile">
+        <aside data-role="game-status" className="column">{status}</aside>
+        <aside data-role="game-creation" className="column is-5">{creation}</aside>
+        <aside data-role="actions" className="has-text-centered column is-1-touch">
           <div className="display-inline-block">
             <GameMembershipMenu delegate={row.delegate} />
           </div>

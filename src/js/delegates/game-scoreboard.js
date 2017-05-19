@@ -1,5 +1,4 @@
 import rounds_api from "charcoal/resources/game-rounds";
-import i18n from "charcoal/services/i18n";
 
 class Delegate {
 
@@ -9,8 +8,10 @@ class Delegate {
 
   columns() {
     const columns = [
-      { name : i18n("round_no"), rel : "round", classes : [ "is-one-quarter" ] },
-      { name : i18n("results"), rel : "results" }
+      { rel : "round" },
+      { rel : "president", sortable : false },
+      { rel : "vice_president", sortable : false },
+      { rel : "asshole", sortable : false }
     ];
 
     return columns;
@@ -26,7 +27,7 @@ class Delegate {
     const sort_order = sorting && sorting.direction ? "asc" : "desc";
     const sort_on = sorting && sorting.rel === "round" ? "id" : "id";
 
-    const rounds = await rounds_api.query({ where, sort_order, sort_on });
+    const rounds = await rounds_api.query({ where, sort_order, sort_on, page, limit });
 
     const { total } = rounds.meta;
 
