@@ -13,7 +13,7 @@ const connect = require("connect-redis");
 const redis   = require("redis");
 const fs      = require("fs");
 const proxy   = require("express-http-proxy");
-const loc     = require("../locations");
+const project = require("../package.json");
 
 function btoa(str) {
   return new Buffer(str).toString("base64");
@@ -53,10 +53,12 @@ class Logger {
     .option("-p, --port <port>", "the port for express to listen on, defaults to 8080")
     .parse(process.argv);
 
+  const { build } = project.config;
+
   let port         = program.port || 8888;
   let app          = express();
-  let assets       = loc.dist.app;
-  let index        = path.join(loc.dist.app, "index.html");
+  let assets       = path.join(__dirname, "..", build.dist.app);
+  let index        = path.join(assets, "index.html");
   let i18n_root    = path.join(__dirname, '../config/locales');
 
   let client_id     = process.env["API_CLIENT_ID"];

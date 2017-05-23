@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target"    : "es5",
+    "module"    : "amd",
+    "baseUrl"   : "./src/js",
+    "sourceMap" : false,
+    "allowJs"   : true,
+    "jsx"       : "React",
+    "typeRoots" : [
+      "./bower_components/hoctable/typings"
+    ]
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "./node_modules/@types/**/*.d.ts",
+    "./bower_components/hoctable/typings/hoctable/index.d.ts"
+  ]
+}

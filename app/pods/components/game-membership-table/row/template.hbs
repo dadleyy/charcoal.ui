@@ -1,7 +1,0 @@
-<tr>
-  <td data-column="game_id" class="align-center">{{row.game.id}}</td>
-  <td data-column="status">{{row.game.status}}</td>
-  <td data-column="owner" class="ellipsis nowrap overflow-hidden"><b>{{row.owner.name}}</b></td>
-  <td data-column="created" class="ellipsis nowrap overflow-hidden">{{moment-format created 'MMM DD, YYYY'}}</td>
-  <td data-column="menu">{{game-membership-table/row/action-menu membership=row.membership game=row.game signals=row.signals}}</td>
-</tr>

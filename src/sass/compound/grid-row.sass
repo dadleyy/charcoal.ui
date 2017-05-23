@@ -1,0 +1,15 @@
+.grid-row
+  @extend .columns
+  @extend .is-gapless
+  @extend .is-mobile
+  @extend .bordered-row
+
+  +mobile
+    border-left-width: 0px
+    border-right-width: 0px
+    border-left-color: transparent
+    border-right-color: transparent
+
+.grid-row .column
+  @extend .padding-lr-8
+  @extend .padding-tb-3

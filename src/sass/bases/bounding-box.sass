@@ -1,0 +1,24 @@
+.width-auto
+  width: auto
+
+.height-auto
+  height: auto
+
+@for $i from 0 through 50
+  .height-#{$i}
+    height: ($i * 2) + unquote("%")
+
+  .width-#{$i}
+    width: ($i * 2) + unquote("%")
+
+  .right-#{$i}
+    right: ($i * 2) + unquote("%")
+
+  .left-#{$i}
+    left: ($i * 2) + unquote("%")
+
+  .bottom-#{$i}
+    bottom: ($i * 2) + unquote("%")
+
+  .top-#{$i}
+    top: ($i * 2) + unquote("%")

@@ -1,6 +1,0 @@
-{
-  "name": "charcoal",
-  "dependencies": {
-    "bases.scss": "^2.4.1"
-  }
-}

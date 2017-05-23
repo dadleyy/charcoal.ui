@@ -1,0 +1,29 @@
+@for $i from 0 through 40
+  $amount: $i * 0.20
+
+  .padding-#{$i}
+    padding: $amount + unquote("rem")
+
+    &-touch
+      +touch
+        padding: $amount + unquote("rem")
+
+  .padding-lr-#{$i}
+    padding-left: $amount + unquote("rem")
+    padding-right: $amount + unquote("rem")
+
+  .padding-tb-#{$i}
+    padding-top: $amount + unquote("rem")
+    padding-bottom: $amount + unquote("rem")
+
+  .padding-right-#{$i}
+    padding-right: $amount + unquote("rem")
+
+  .padding-left-#{$i}
+    padding-left: $amount + unquote("rem")
+
+  .padding-top-#{$i}
+    padding-top: $amount + unquote("rem")
+
+  .padding-bottom-#{$i}
+    padding-bottom: $amount + unquote("rem")
