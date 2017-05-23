@@ -1,3 +1,4 @@
-import single from "charcoal/routes/games/single";
+import single from "charcoal/routes/games/game/single";
+import members from "charcoal/routes/games/game/members";
 
-export default [ single ];
+export default [ single, members ];

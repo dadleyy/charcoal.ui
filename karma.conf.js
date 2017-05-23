@@ -11,9 +11,11 @@ module.exports = function(config) {
     return path.join(npm_root, lib_path);
   }
 
+  const source_processors = process.env["DISABLE_LINT"] ? ["babel"] : ["eslint", "babel"];
+
   let preprocessors = {
-    "src/**/*.js": ["eslint", "babel"],
-    "src/**/*.jsx": ["eslint", "babel"],
+    "src/**/*.js": source_processors,
+    "src/**/*.jsx": source_processors,
 
     "src/**/*.ts": ["typescript"],
     "src/**/*.tsx": ["typescript"],

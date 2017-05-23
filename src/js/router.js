@@ -2,6 +2,7 @@
 
 import React from "react";
 import ReactDOM from "react-dom";
+import utils from "hoctable/utils";
 
 import page from "page";
 import * as ACCESS_LEVELS from "charcoal/defs/route-access";
@@ -25,6 +26,7 @@ const router = {
 
   register(definition) {
     const { resolve, path, view, dependencies } = definition;
+    const uuid = utils.uuid();
 
     const stack = [ ];
 
@@ -34,12 +36,15 @@ const router = {
       const ViewClass = isEsModule(ViewModule) ? ViewModule.default : ViewModule;
       const instance = React.createElement(ViewClass, { resolution });
 
+      if(latest.uuid !== uuid) {
+        return;
+      }
+
       return ReactDOM.render(instance, view_mount);
     }
 
     async function inject(...resolved_dependencies) {
       const [ latest, previous ] = stack;
-
       const deps = resolved_dependencies.map(module => module.default);
 
       try {
@@ -65,9 +70,7 @@ const router = {
       require([ view ], render);
     }
 
-    function failed(err) {
-      console.warn(`error resolving route[${err}]`);
-
+    function failed() {
       return page("/login");
     }
 
@@ -75,7 +78,7 @@ const router = {
       const query = querystring(page_context.querystring);
       const { params } = page_context;
 
-      stack.unshift({ page_context, query, params, path });
+      stack.unshift({ uuid, page_context, query, params, path });
 
       if(dependencies && dependencies.length) {
         return require(dependencies, inject, failed);

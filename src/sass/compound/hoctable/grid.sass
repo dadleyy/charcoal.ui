@@ -43,12 +43,18 @@
   @extend .align-items-center
   border-width: 0 0 0 1px
 
+  +mobile
+    border-left-width: 0px
+
 .hoctable__grid-head-row > .hoctable__grid-header-cell
   @extend .padding-lr-8
   @extend .padding-tb-3
 
   &:last-child
     border-width: 0 1px
+
+    +mobile
+      border-right-width: 0px
 
 .hoctable__grid-head-row
   @extend .columns

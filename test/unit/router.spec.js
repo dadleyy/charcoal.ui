@@ -10,6 +10,7 @@ import page from "page";
 describe("router test suite", function() {
 
   let bag = { };
+  const ROUTING_DEBOUNCE = 50;
 
   beforeEach(ajax.install);
   afterEach(ajax.uninstall);
@@ -47,11 +48,13 @@ describe("router test suite", function() {
     router.register(login);
   });
 
-  function start() {
+  function start(done) {
     router.start(bag.page_options);
+    setTimeout(done, ROUTING_DEBOUNCE);
   }
 
   afterEach(function() {
+    page("/");
     router.stop();
   });
 
@@ -87,7 +90,7 @@ describe("router test suite", function() {
       beforeEach(function(done) {
         const { latest } = ajax.requests;
         latest.send({}, 422);
-        setTimeout(done, 300);
+        setTimeout(done, ROUTING_DEBOUNCE);
       });
 
       it("should have redirected to the login route", function() {
@@ -152,7 +155,7 @@ describe("router test suite", function() {
 
     beforeEach(function(done) {
       page("/guest-route");
-      setTimeout(done, 200);
+      setTimeout(done, ROUTING_DEBOUNCE);
     });
 
     it("should have rendered the error view", function() {
@@ -186,7 +189,7 @@ describe("router test suite", function() {
 
     beforeEach(function(done) {
       page("/guest-route");
-      setTimeout(done, 200);
+      setTimeout(done, ROUTING_DEBOUNCE);
     });
 
     it("should not attempt to prep the \"auth\" service", function() {

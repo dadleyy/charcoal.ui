@@ -34,4 +34,3 @@ const dependencies = [
 ];
 
 export default { resolve, view, path, access, dependencies };
-
